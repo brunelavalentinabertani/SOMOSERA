@@ -105,9 +105,16 @@ function getProductColors(product: Product): ProductColor[] {
     return Array.from(colors.values());
 }
 
+function getCardImage(product: Product, fallback: string) {
+    const variantImage = product.product_variants?.find((variant) => variant.image_url)?.image_url;
+    const colorImage = product.products_colors?.find((color) => color.image_url)?.image_url;
+
+    return variantImage ?? colorImage ?? product.image_url ?? fallback;
+}
+
 function RelatedCard({ product, index }: { product: Product; index: number }) {
     const variant = product.product_variants?.[0] ?? null;
-    const image = product.image_url || variant?.image_url || fallbackImages[index % fallbackImages.length];
+    const image = getCardImage(product, fallbackImages[index % fallbackImages.length]);
     const price = variant?.price_usd ?? product.price_usd;
 
     return (

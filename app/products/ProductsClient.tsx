@@ -73,6 +73,13 @@ function sortVariants(variants: Product["product_variants"]) {
   });
 }
 
+function getProductImage(product: Product, fallback: string) {
+  const variantImage = product.product_variants?.find((variant) => variant.image_url)?.image_url;
+  const colorImage = product.products_colors?.find((color) => color.image_url)?.image_url;
+
+  return variantImage ?? colorImage ?? product.image_url ?? fallback;
+}
+
 function ProductTile({
   product,
   index,
@@ -85,10 +92,7 @@ function ProductTile({
   const sortedVariants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
   const matchingVariant = sortedVariants[0] ?? null;
 
-  const image =
-    matchingVariant?.image_url ??
-    product.image_url ??
-    placeholderImages[index % placeholderImages.length];
+  const image = getProductImage(product, placeholderImages[index % placeholderImages.length]);
   const price = matchingVariant ? matchingVariant.price_usd : product.price_usd ?? null;
   const shouldConsult = price === null || price <= 0;
   const prices = !shouldConsult && settings?.usd_rate
