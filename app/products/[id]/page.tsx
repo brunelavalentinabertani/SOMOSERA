@@ -87,7 +87,16 @@ export default async function ProductPage({
     `)
     .eq("category", data.category)
     .neq("id", data.id)
-    .limit(5)
 
-  return <ProductDetail product={data} relatedProducts={relatedProducts ?? []} />
+  const relatedWithImages = (relatedProducts ?? [])
+    .filter((product) =>
+      Boolean(
+        product.image_url ||
+        product.product_variants?.some((variant) => variant.image_url) ||
+        product.products_colors?.some((color) => color.image_url),
+      ),
+    )
+    .slice(0, 5)
+
+  return <ProductDetail product={data} relatedProducts={relatedWithImages} />
 }

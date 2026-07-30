@@ -23,13 +23,6 @@ type Settings = {
     list_multiplier: number;
 };
 
-const fallbackImages = [
-    "/Iphone_HeroImage.jpeg",
-    "/Macbook_HeroImage.jpeg",
-    "/AirpodsMax_HeroImage.jpeg",
-    "/Applewatch_HeroImage.jpeg",
-];
-
 const detailBenefits = [
     { title: "Garantia Apple Oficial", text: "", Icon: ShieldCheck },
     { title: "Retiro en Palermo", text: "Retira gratis en nuestra tienda", Icon: Store },
@@ -364,22 +357,16 @@ export default function ProductDetail({
             </section>
 
             <section className="mx-auto max-w-[1420px] px-5 py-8 sm:px-8 lg:px-12 lg:py-10">
-                <div className="grid grid-cols-1 gap-8 border-t border-era-line py-8 lg:grid-cols-[390px_1fr] lg:gap-16">
-                    <div>
-                        <h2 className="text-[24px] font-black">Descripcion</h2>
-                        <p className="mt-6 whitespace-pre-line text-[14px] leading-6 text-era-text-muted">
-                            {product.description || "Producto original, sellado e importado. Consultanos para confirmar disponibilidad y configuracion."}
-                        </p>
-                        <ul className="mt-8 space-y-5 text-[13px] font-semibold text-era-text-muted">
-                            <li className="flex gap-3"><ShieldCheck size={18} /> Producto original y sellado.</li>
-                            <li className="flex gap-3"><Box size={18} /> Entrega con accesorios incluidos.</li>
-                            <li className="flex gap-3"><ShoppingBag size={18} /> Asesoramiento antes y despues de comprar.</li>
-                        </ul>
-                    </div>
-
-                    <div className="relative h-[240px] overflow-hidden rounded-[6px] sm:h-[360px]">
-                        <Image src={fallbackImages[0]} alt={product.name} fill className="object-cover" sizes="60vw" />
-                    </div>
+                <div className="max-w-[760px] border-t border-era-line py-8">
+                    <h2 className="text-[24px] font-black">Descripcion</h2>
+                    <p className="mt-6 whitespace-pre-line text-[14px] leading-6 text-era-text-muted">
+                        {product.description || "Producto original, sellado e importado. Consultanos para confirmar disponibilidad y configuracion."}
+                    </p>
+                    <ul className="mt-8 space-y-5 text-[13px] font-semibold text-era-text-muted">
+                        <li className="flex gap-3"><ShieldCheck size={18} /> Producto original y sellado.</li>
+                        <li className="flex gap-3"><Box size={18} /> Entrega con accesorios incluidos.</li>
+                        <li className="flex gap-3"><ShoppingBag size={18} /> Asesoramiento antes y despues de comprar.</li>
+                    </ul>
                 </div>
             </section>
 
@@ -428,11 +415,6 @@ export default function ProductDetail({
                         {relatedProducts.map((related) => (
                             <RelatedCard key={related.id} product={related} />
                         ))}
-                    </div>
-                    <div className="mt-7 flex justify-center gap-2">
-                        <span className="h-2 w-4 rounded-full bg-era-blue" />
-                        <span className="h-2 w-2 rounded-full bg-era-line" />
-                        <span className="h-2 w-2 rounded-full bg-era-line" />
                     </div>
                 </section>
             )}
