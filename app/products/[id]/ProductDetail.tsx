@@ -119,23 +119,29 @@ function getProductColors(product: Product): ProductColor[] {
     return Array.from(colors.values());
 }
 
-function getCardImage(product: Product, fallback: string) {
+function getCardImage(product: Product) {
     const variantImage = product.product_variants?.find((variant) => variant.image_url)?.image_url;
     const colorImage = product.products_colors?.find((color) => color.image_url)?.image_url;
 
-    return variantImage ?? colorImage ?? product.image_url ?? fallback;
+    return variantImage ?? colorImage ?? product.image_url ?? null;
 }
 
-function RelatedCard({ product, index }: { product: Product; index: number }) {
+function RelatedCard({ product }: { product: Product }) {
     const variant = product.product_variants?.[0] ?? null;
-    const image = getCardImage(product, fallbackImages[index % fallbackImages.length]);
+    const image = getCardImage(product);
     const price = variant?.price_usd ?? product.price_usd;
 
     return (
         <article className="relative rounded-[8px] border border-era-line bg-white p-5">
             <Link href={`/products/${product.id}`} className="block">
                 <div className="relative h-[190px]">
-                    <Image src={image} alt={product.name} fill className="object-contain" sizes="16vw" />
+                    {image ? (
+                        <Image src={image} alt={product.name} fill className="object-contain" sizes="16vw" />
+                    ) : (
+                        <span className="flex h-full items-center justify-center text-center text-[13px] font-semibold text-era-text-muted">
+                            Imagen no disponible
+                        </span>
+                    )}
                 </div>
                 <h3 className="mt-4 text-[14px] font-semibold">{product.name}</h3>
                 <p className="mt-2 text-[16px] font-black">
@@ -200,7 +206,7 @@ export default function ProductDetail({
         activeVariant?.image_url ??
         selectedColor?.image_url ??
         product.image_url ??
-        fallbackImages[0];
+        null;
 
     const basePriceUsd = activeVariant ? activeVariant.price_usd : product.price_usd ?? null;
     const shouldConsult = basePriceUsd === null || basePriceUsd <= 0;
@@ -232,7 +238,13 @@ export default function ProductDetail({
 
                     <div className="mt-6 grid grid-cols-1 gap-8 lg:mt-8 xl:grid-cols-[minmax(0,760px)_1fr] xl:gap-14">
                         <div className="relative flex min-h-[360px] items-center justify-center rounded-[8px] bg-white sm:min-h-[520px] xl:min-h-[700px]">
-                            <Image src={mainImage} alt={product.name} fill className="object-contain p-6 sm:p-10 xl:p-14" sizes="(max-width: 1279px) 100vw, 55vw" priority />
+                            {mainImage ? (
+                                <Image src={mainImage} alt={product.name} fill className="object-contain p-6 sm:p-10 xl:p-14" sizes="(max-width: 1279px) 100vw, 55vw" priority />
+                            ) : (
+                                <span className="px-6 text-center text-[15px] font-semibold text-era-text-muted">
+                                    Imagen no disponible
+                                </span>
+                            )}
                         </div>
 
                         <aside className="pt-2">
@@ -413,8 +425,8 @@ export default function ProductDetail({
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-6">
-                        {relatedProducts.map((related, index) => (
-                            <RelatedCard key={related.id} product={related} index={index} />
+                        {relatedProducts.map((related) => (
+                            <RelatedCard key={related.id} product={related} />
                         ))}
                     </div>
                     <div className="mt-7 flex justify-center gap-2">

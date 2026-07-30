@@ -62,8 +62,8 @@ export default function FeaturedProducts({
                                                 className="object-contain"
                                             />
                                         ) : (
-                                            <div className="flex h-full items-center justify-center text-sm text-gray-400">
-                                                Sin imagen
+                                            <div className="flex h-full items-center justify-center text-center text-sm text-gray-400">
+                                                Imagen no disponible
                                             </div>
                                         )}
                                     </div>

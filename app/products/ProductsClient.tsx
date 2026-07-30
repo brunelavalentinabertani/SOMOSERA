@@ -14,13 +14,6 @@ type Settings = {
   list_multiplier: number;
 };
 
-const placeholderImages = [
-  "/Iphone_HeroImage.jpeg",
-  "/Macbook_HeroImage.jpeg",
-  "/AirpodsMax_HeroImage.jpeg",
-  "/Applewatch_HeroImage.jpeg",
-];
-
 const PRODUCTS_PER_PAGE = 12;
 const mediaCategories = ["Fotografia", "Filmadoras"];
 const gamingCategories = ["Gaming", "Notebooks", "Consolas"];
@@ -73,26 +66,24 @@ function sortVariants(variants: Product["product_variants"]) {
   });
 }
 
-function getProductImage(product: Product, fallback: string) {
+function getProductImage(product: Product) {
   const variantImage = product.product_variants?.find((variant) => variant.image_url)?.image_url;
   const colorImage = product.products_colors?.find((color) => color.image_url)?.image_url;
 
-  return variantImage ?? colorImage ?? product.image_url ?? fallback;
+  return variantImage ?? colorImage ?? product.image_url ?? null;
 }
 
 function ProductTile({
   product,
-  index,
   settings,
 }: {
   product: Product;
-  index: number;
   settings: Settings | null;
 }) {
   const sortedVariants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
   const matchingVariant = sortedVariants[0] ?? null;
 
-  const image = getProductImage(product, placeholderImages[index % placeholderImages.length]);
+  const image = getProductImage(product);
   const price = matchingVariant ? matchingVariant.price_usd : product.price_usd ?? null;
   const shouldConsult = price === null || price <= 0;
   const prices = !shouldConsult && settings?.usd_rate
@@ -105,7 +96,13 @@ function ProductTile({
   return (
     <article className="relative flex min-h-[430px] flex-col rounded-[8px] border border-era-line bg-white p-4 sm:min-h-[500px] sm:p-5 lg:min-h-[520px] lg:p-6">
       <Link href={`/products/${product.id}`} className="relative block h-[150px] sm:h-[180px] lg:h-[190px]">
-        <Image src={image} alt={product.name} fill className="object-contain" sizes="18vw" />
+        {image ? (
+          <Image src={image} alt={product.name} fill className="object-contain" sizes="18vw" />
+        ) : (
+          <span className="flex h-full items-center justify-center text-center text-[13px] font-semibold text-era-text-muted">
+            Imagen no disponible
+          </span>
+        )}
       </Link>
 
       <div className="mt-6 flex flex-1 flex-col">
@@ -347,11 +344,10 @@ export default function ProductsClient({
         </div>
 
         <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 2xl:gap-5">
-          {paginatedProducts.map((product, index) => (
+          {paginatedProducts.map((product) => (
             <ProductTile
               key={product.id}
               product={product}
-              index={(safePage - 1) * PRODUCTS_PER_PAGE + index}
               settings={settings}
             />
           ))}

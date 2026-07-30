@@ -126,8 +126,8 @@ export function ProductCard({
                         className="object-contain"
                     />
                 ) : (
-                    <div className="h-full flex items-center justify-center text-gray-400 text-sm">
-                        Sin imagen
+                    <div className="h-full flex items-center justify-center text-center text-gray-400 text-sm">
+                        Imagen no disponible
                     </div>
                 )}
             </div>
