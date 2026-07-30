@@ -22,11 +22,13 @@ type Product = {
     price_usd?: number | null;
 };
 
-const assetImages = [
-    "/Iphone_HeroImage.jpeg",
-    "/Macbook_HeroImage.jpeg",
-    "/AirpodsMax_HeroImage.jpeg",
-    "/Applewatch_HeroImage.jpeg",
+const instagramPosts = [
+    { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DWH1b9GEUU4/" },
+    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DbJy9eLxkx5/" },
+    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/iphoneba.store/p/Da3rMUIEZT-/" },
+    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/iphoneba.store/reel/Dav9mQ_RKbu/" },
+    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/iphoneba.store/reel/Dad7tqWx9qu/" },
+    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DaTvpH9xr61/" },
 ];
 
 const categories = [
@@ -223,8 +225,20 @@ export default function EraHome({ products }: { products: Product[] }) {
                     </Link>
                 </div>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
-                    {assetImages.concat(assetImages.slice(0, 2)).map((src, index) => (
-                        <PhotoTile key={`${src}-${index}`} src={src} alt="Instagram ERA" className="h-[175px] rounded-[3px]" />
+                    {instagramPosts.map((post, index) => (
+                        <Link
+                            key={post.href}
+                            href={post.href}
+                            target="_blank"
+                            aria-label={`Abrir publicación ${index + 1} de @iphoneba.store`}
+                            className="group block"
+                        >
+                            <PhotoTile
+                                src={post.image}
+                                alt={`Publicación ${index + 1} de @iphoneba.store`}
+                                className="h-[175px] rounded-[3px] transition group-hover:opacity-85"
+                            />
+                        </Link>
                     ))}
                 </div>
             </section>
