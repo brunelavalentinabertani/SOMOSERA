@@ -14,8 +14,8 @@ const infoLinks = [
 export default function Footer() {
     return (
         <footer className="border-t border-era-line bg-era-white text-era-black select-none">
-            <div className="mx-auto max-w-[1420px] px-12 py-12">
-                <div className="grid grid-cols-[1.35fr_0.95fr_1fr_1fr] gap-16">
+            <div className="mx-auto max-w-[1420px] px-5 py-10 sm:px-8 lg:px-12 lg:py-12">
+                <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.35fr_0.95fr_1fr_1fr] lg:gap-16">
                     <div>
                         <Image
                             src="/era-logo-transparent.png"
@@ -92,7 +92,7 @@ export default function Footer() {
             </div>
 
             <div className="border-t border-era-line">
-                <div className="mx-auto flex h-14 max-w-[1420px] items-center justify-between px-12 text-[11px] text-era-text-muted">
+                <div className="mx-auto flex min-h-14 max-w-[1420px] flex-col items-start justify-center gap-1 px-5 py-3 text-[11px] text-era-text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
                     <p>2026 ERA. Todos los derechos reservados.</p>
                     <p>
                         Palermo, Buenos Aires <span className="ml-4 text-lg font-black text-era-orange">*</span>

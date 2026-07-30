@@ -183,19 +183,19 @@ export default async function ProductsPage({
       <EraHeader />
 
       <section className="border-t border-era-line">
-        <div className="mx-auto grid max-w-[1420px] grid-cols-[520px_1fr] px-12">
-          <div className="flex min-h-[420px] flex-col justify-center pr-12">
-            <p className="mb-12 text-[13px] text-era-text-muted">
+        <div className="mx-auto grid max-w-[1420px] grid-cols-1 px-5 sm:px-8 lg:px-12 xl:grid-cols-[520px_1fr]">
+          <div className="flex min-h-[330px] flex-col justify-center py-10 xl:min-h-[420px] xl:py-0 xl:pr-12">
+            <p className="mb-8 text-[13px] text-era-text-muted xl:mb-12">
               Inicio <span className="mx-3">›</span> {hero.title}
             </p>
-            <h1 className="text-[78px] font-black leading-none tracking-[-0.05em]">
+            <h1 className="text-[48px] font-black leading-none tracking-[-0.05em] sm:text-[64px] xl:text-[78px]">
               {hero.title}<span className="text-era-orange"> *</span>
             </h1>
-            <p className="mt-8 max-w-[430px] text-[24px] leading-[1.35] text-era-text-muted">
+            <p className="mt-6 max-w-[430px] text-[19px] leading-[1.35] text-era-text-muted sm:mt-8 sm:text-[24px]">
               {hero.description}
             </p>
 
-            <div className="mt-12 grid grid-cols-2 gap-10">
+            <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-10 xl:mt-12">
               <div className="flex items-center gap-4">
                 <Truck size={28} strokeWidth={1.7} />
                 <div>
@@ -212,7 +212,7 @@ export default async function ProductsPage({
             </div>
           </div>
 
-          <div className="relative min-h-[420px]">
+          <div className="relative min-h-[260px] sm:min-h-[360px] xl:min-h-[420px]">
             <Image
               src={hero.image}
               alt={hero.title}
@@ -225,9 +225,9 @@ export default async function ProductsPage({
       </section>
 
       <section className="border-y border-era-line">
-        <div className="mx-auto grid max-w-[1420px] grid-cols-5 px-12">
+        <div className="mx-auto grid max-w-[1420px] grid-cols-1 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-5 lg:px-12">
           {benefits.map(({ title, text, Icon }) => (
-            <div key={title} className="flex h-[86px] items-center gap-4">
+            <div key={title} className="flex min-h-[74px] items-center gap-4 border-b border-era-line last:border-b-0 sm:px-2 lg:h-[86px] lg:border-b-0">
               <Icon size={24} strokeWidth={1.7} />
               <div>
                 <p className="text-[12px] font-bold">{title}</p>

@@ -132,7 +132,7 @@ export function ProductCard({
                 )}
             </div>
 
-            <div className="mt-4 flex flex-col flex-1">
+            <div className="mt-4 flex flex-col flex-1 select-text">
                 <h3 className="text-sm md:text-lg font-semibold text-gray-900">
                     {product.name}
                 </h3>

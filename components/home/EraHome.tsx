@@ -104,18 +104,18 @@ export default function EraHome({ products }: { products: Product[] }) {
         <main className="min-h-screen bg-era-white text-era-black">
             <EraHeader />
 
-            <section className="mx-auto grid max-w-[1420px] grid-cols-[1fr_820px] gap-10 px-12 pb-5">
-                <div className="flex min-h-[455px] flex-col justify-center">
-                    <h1 className="max-w-[560px] text-[78px] font-black leading-[0.96] tracking-[-0.04em]">
+            <section className="mx-auto grid max-w-[1420px] grid-cols-1 gap-7 px-5 pb-5 sm:px-8 lg:px-12 xl:grid-cols-[1fr_minmax(520px,820px)] xl:gap-10">
+                <div className="flex min-h-[360px] flex-col justify-center py-10 xl:min-h-[455px] xl:py-0">
+                    <h1 className="max-w-[560px] text-[48px] font-black leading-[0.96] tracking-[-0.04em] sm:text-[64px] xl:text-[78px]">
                         Comprá Tranquilo<span className="text-era-orange"> *</span>
                     </h1>
-                    <p className="mt-8 max-w-[360px] text-[24px] leading-[1.28] text-era-text-muted">
+                    <p className="mt-6 max-w-[360px] text-[19px] leading-[1.28] text-era-text-muted sm:mt-8 sm:text-[24px]">
                         Tecnología importada, original y segura
                     </p>
-                    <div className="mt-8 flex gap-3">
+                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                         <Link
                             href="/products?brand=Apple&category=Iphones"
-                            className="flex h-12 items-center gap-4 rounded-[4px] bg-era-black px-8 text-[13px] font-bold text-white"
+                            className="flex h-12 items-center justify-center gap-4 rounded-[4px] bg-era-black px-6 text-[13px] font-bold text-white sm:justify-start sm:px-8"
                         >
                             Ver catálogo
                             <ArrowRight size={17} />
@@ -123,7 +123,7 @@ export default function EraHome({ products }: { products: Product[] }) {
                         <Link
                             href="https://wa.me/5491171254322"
                             target="_blank"
-                            className="flex h-12 items-center gap-3 rounded-[4px] border border-era-gray-niebla bg-white px-8 text-[13px] font-bold text-era-black"
+                            className="flex h-12 items-center justify-center gap-3 rounded-[4px] border border-era-gray-niebla bg-white px-6 text-[13px] font-bold text-era-black sm:justify-start sm:px-8"
                         >
                             <MessageCircle size={17} />
                             Hablar por WhatsApp
@@ -131,8 +131,8 @@ export default function EraHome({ products }: { products: Product[] }) {
                     </div>
                 </div>
 
-                <div className="grid h-[455px] grid-cols-[240px_340px_1fr] grid-rows-2 gap-1">
-                    <PhotoTile src="/Macbook_HeroImage.jpeg" alt="ERA Palermo" className="row-span-2" />
+                <div className="grid h-[300px] grid-cols-2 grid-rows-2 gap-1 sm:h-[400px] sm:grid-cols-[1fr_1.4fr_1fr] xl:h-[455px] xl:grid-cols-[240px_340px_1fr]">
+                    <PhotoTile src="/Macbook_HeroImage.jpeg" alt="ERA Palermo" className="row-span-2 hidden sm:block" />
                     <PhotoTile src={heroProducts[0]?.image_url || "/Iphone_HeroImage.jpeg"} alt="Producto ERA" className="row-span-2" />
                     <PhotoTile src="/Applewatch_HeroImage.jpeg" alt="Cliente ERA" />
                     <PhotoTile src="/AirpodsMax_HeroImage.jpeg" alt="Buenos Aires" />
@@ -140,9 +140,9 @@ export default function EraHome({ products }: { products: Product[] }) {
             </section>
 
             <section className="border-y border-era-line">
-                <div className="mx-auto grid max-w-[1420px] grid-cols-5 px-12">
+                <div className="mx-auto grid max-w-[1420px] grid-cols-1 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-5 lg:px-12">
                     {benefits.map(({ title, text, Icon }) => (
-                        <div key={title} className="flex h-[86px] items-center gap-4">
+                        <div key={title} className="flex min-h-[74px] items-center gap-4 border-b border-era-line last:border-b-0 sm:px-2 lg:h-[86px] lg:border-b-0">
                             <Icon size={24} strokeWidth={1.7} />
                             <div>
                                 <p className="text-[12px] font-bold">{title}</p>
@@ -153,7 +153,7 @@ export default function EraHome({ products }: { products: Product[] }) {
                 </div>
             </section>
 
-            <section className="mx-auto max-w-[1420px] px-12 py-8">
+            <section className="mx-auto max-w-[1420px] px-5 py-8 sm:px-8 lg:px-12">
                 <div className="mb-7 flex items-center justify-between">
                     <h2 className="text-[22px] font-black tracking-[-0.03em]">Explorá por categoría</h2>
                 </div>
@@ -163,7 +163,7 @@ export default function EraHome({ products }: { products: Product[] }) {
                         <Link
                             key={category.name}
                             href={category.href}
-                            className="relative h-[165px] min-w-[205px] overflow-hidden rounded-[4px] bg-era-line"
+                            className="relative h-[145px] min-w-[170px] overflow-hidden rounded-[4px] bg-era-line sm:h-[165px] sm:min-w-[205px]"
                         >
                             <Image src={category.image} alt={category.name} fill className="object-cover" sizes="14vw" />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
@@ -176,11 +176,11 @@ export default function EraHome({ products }: { products: Product[] }) {
             </section>
 
             <section className="border-y border-era-line">
-                <div className="mx-auto max-w-[1420px] px-12 py-9">
+                <div className="mx-auto max-w-[1420px] px-5 py-9 sm:px-8 lg:px-12">
                     <h2 className="mb-9 text-[22px] font-black tracking-[-0.03em]">¿Por qué elegir ERA?</h2>
-                    <div className="grid grid-cols-4 divide-x divide-era-line">
+                    <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-era-line">
                         {why.map(({ title, text, Icon }, index) => (
-                            <div key={title} className={`flex gap-6 ${index === 0 ? "pr-8" : "px-8"}`}>
+                            <div key={title} className={`flex gap-5 lg:gap-6 ${index === 0 ? "lg:pr-8" : "lg:px-8"}`}>
                                 <Icon
                                     size={42}
                                     strokeWidth={1.5}
@@ -196,10 +196,10 @@ export default function EraHome({ products }: { products: Product[] }) {
                 </div>
             </section>
 
-            <section className="mx-auto grid max-w-[1420px] grid-cols-[390px_1fr] gap-8 px-12 py-10">
+            <section className="mx-auto grid max-w-[1420px] grid-cols-1 gap-8 px-5 py-10 sm:px-8 lg:px-12 xl:grid-cols-[390px_1fr]">
                 <div className="flex flex-col justify-center">
                     <span className="text-[42px] font-black leading-none text-era-orange">*</span>
-                    <h2 className="mt-3 max-w-[340px] text-[42px] font-black leading-[0.98] tracking-[-0.04em]">
+                    <h2 className="mt-3 max-w-[340px] text-[34px] font-black leading-[0.98] tracking-[-0.04em] sm:text-[42px]">
                         Base en Palermo, Buenos Aires.
                     </h2>
                     <p className="mt-7 max-w-[305px] text-[13px] leading-5 text-era-text-muted">
@@ -207,7 +207,7 @@ export default function EraHome({ products }: { products: Product[] }) {
                     </p>
                 </div>
 
-                <div className="grid h-[300px] grid-cols-[1.2fr_0.9fr_1.25fr_0.8fr] gap-1">
+                <div className="grid h-[360px] grid-cols-2 gap-1 sm:h-[300px] sm:grid-cols-4 sm:[grid-template-columns:1.2fr_0.9fr_1.25fr_0.8fr]">
                     <PhotoTile src="/Macbook_HeroImage.jpeg" alt="Local ERA" />
                     <PhotoTile src="/Applewatch_HeroImage.jpeg" alt="Asesor ERA" />
                     <PhotoTile src="/Iphone_HeroImage.jpeg" alt="Cartel ERA" />
@@ -215,25 +215,25 @@ export default function EraHome({ products }: { products: Product[] }) {
                 </div>
             </section>
 
-            <section className="mx-auto max-w-[1420px] border-t border-era-line px-12 py-8">
+            <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-[22px] font-black tracking-[-0.03em]">@somosera.</h2>
                     <Link href="https://www.instagram.com/iphoneba.store/" target="_blank" className="flex items-center gap-2 text-[12px] text-era-text-muted">
                         Ver en Instagram <ArrowRight size={15} />
                     </Link>
                 </div>
-                <div className="grid grid-cols-6 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
                     {assetImages.concat(assetImages.slice(0, 2)).map((src, index) => (
                         <PhotoTile key={`${src}-${index}`} src={src} alt="Instagram ERA" className="h-[175px] rounded-[3px]" />
                     ))}
                 </div>
             </section>
 
-            <section className="mx-auto max-w-[1420px] border-t border-era-line px-12 py-8">
+            <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-[22px] font-black tracking-[-0.03em]">Preguntas frecuentes</h2>
                 </div>
-                <div className="columns-2 gap-7">
+                <div className="columns-1 gap-7 md:columns-2">
                     {faqs.map((faq) => {
                         const isOpen = openFaq === faq.question;
 

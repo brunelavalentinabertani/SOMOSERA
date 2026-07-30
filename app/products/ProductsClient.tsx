@@ -103,14 +103,14 @@ function ProductTile({
     : null;
 
   return (
-    <article className="relative flex min-h-[520px] flex-col rounded-[8px] border border-era-line bg-white p-6">
-      <Link href={`/products/${product.id}`} className="relative block h-[190px]">
+    <article className="relative flex min-h-[430px] flex-col rounded-[8px] border border-era-line bg-white p-4 sm:min-h-[500px] sm:p-5 lg:min-h-[520px] lg:p-6">
+      <Link href={`/products/${product.id}`} className="relative block h-[150px] sm:h-[180px] lg:h-[190px]">
         <Image src={image} alt={product.name} fill className="object-contain" sizes="18vw" />
       </Link>
 
       <div className="mt-6 flex flex-1 flex-col">
-        <div className="flex min-h-[230px] flex-col justify-start gap-3">
-          <h3 className="min-h-[92px] text-[16px] font-black leading-tight">{product.name}</h3>
+        <div className="flex min-h-[200px] flex-col justify-start gap-3 select-text sm:min-h-[230px]">
+          <h3 className="min-h-[78px] text-[14px] font-black leading-tight sm:min-h-[92px] sm:text-[16px]">{product.name}</h3>
 
           {shouldConsult ? (
             <p className="text-[16px] font-black">CONSULTAR</p>
@@ -258,10 +258,10 @@ export default function ProductsClient({
   };
 
   return (
-    <section className="mx-auto grid max-w-[1420px] grid-cols-[300px_1fr] gap-8 px-12 py-8">
+    <section className="mx-auto grid max-w-[1420px] grid-cols-1 gap-6 px-5 py-7 sm:px-8 lg:px-12 xl:grid-cols-[300px_1fr] xl:gap-8 xl:py-8">
       <aside className="space-y-6">
-        <div className="rounded-[8px] border border-era-line bg-era-white p-6">
-          {((brand && !category && categoryOptions.length > 0) || isMediaCategory || isGamingCategory) && (
+        <div className="rounded-[8px] border border-era-line bg-era-white p-5 sm:p-6">
+          {categoryOptions.length > 0 && (
             <div className="border-b border-era-line pb-6">
               <button
                 type="button"
@@ -291,7 +291,7 @@ export default function ProductsClient({
           )}
 
           {isMediaCategory || isGamingCategory ? (
-            <div className={(brand && !category && categoryOptions.length > 0) || isMediaCategory || isGamingCategory ? "pt-6" : ""}>
+            <div className={categoryOptions.length > 0 ? "pt-6" : ""}>
               <button
                 type="button"
                 onClick={() => setBrandFilterOpen((value) => !value)}
@@ -325,7 +325,7 @@ export default function ProductsClient({
             </div>
           ) : null}
         </div>
-        <div className="rounded-[8px] border border-era-line bg-white p-7">
+        <div className="hidden rounded-[8px] border border-era-line bg-white p-7 xl:block">
           <h3 className="text-[18px] font-black">Necesitas ayuda?</h3>
           <p className="mt-4 text-[13px] text-era-text-muted">
             Habla con nosotros por WhatsApp.
@@ -346,7 +346,7 @@ export default function ProductsClient({
           <p className="text-[14px] font-semibold">{filteredProducts.length} productos</p>
         </div>
 
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 2xl:gap-5">
           {paginatedProducts.map((product, index) => (
             <ProductTile
               key={product.id}

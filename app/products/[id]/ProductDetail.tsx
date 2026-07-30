@@ -87,12 +87,26 @@ function getUniqueVariantOptions(variants: Product["product_variants"]) {
     );
 }
 
+function isSelectableColor(name: string | null | undefined) {
+    if (!name?.trim()) return false;
+
+    const normalizedName = name
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim()
+        .toLowerCase();
+
+    return !["natural", "default", "sin color", "consultar"].includes(normalizedName);
+}
+
 function getProductColors(product: Product): ProductColor[] {
     const colors = new Map<string, ProductColor>();
 
-    product.products_colors?.forEach((color) => colors.set(color.name, color));
+    product.products_colors?.forEach((color) => {
+        if (isSelectableColor(color.name)) colors.set(color.name, color);
+    });
     product.product_variants?.forEach((variant) => {
-        if (!variant.color_name) return;
+        if (!isSelectableColor(variant.color_name)) return;
 
         colors.set(variant.color_name, {
             id: variant.color_name,
@@ -211,19 +225,19 @@ export default function ProductDetail({
             <EraHeader />
 
             <section className="border-t border-era-line">
-                <div className="mx-auto max-w-[1420px] px-12 py-8">
+                <div className="mx-auto max-w-[1420px] px-5 py-6 sm:px-8 lg:px-12 lg:py-8">
                     <p className="text-[13px] text-era-text-muted">
                         Inicio <span className="mx-3">/</span> {product.category} <span className="mx-3">/</span> {product.name}
                     </p>
 
-                    <div className="mt-8 grid grid-cols-[760px_1fr] gap-14">
-                        <div className="relative flex min-h-[700px] items-center justify-center rounded-[8px] bg-white">
-                            <Image src={mainImage} alt={product.name} fill className="object-contain p-14" sizes="55vw" priority />
+                    <div className="mt-6 grid grid-cols-1 gap-8 lg:mt-8 xl:grid-cols-[minmax(0,760px)_1fr] xl:gap-14">
+                        <div className="relative flex min-h-[360px] items-center justify-center rounded-[8px] bg-white sm:min-h-[520px] xl:min-h-[700px]">
+                            <Image src={mainImage} alt={product.name} fill className="object-contain p-6 sm:p-10 xl:p-14" sizes="(max-width: 1279px) 100vw, 55vw" priority />
                         </div>
 
                         <aside className="pt-2">
                             <p className="text-[14px] font-bold">{product.brand}</p>
-                            <h1 className="mt-4 text-[42px] font-black leading-tight tracking-[-0.04em]">
+                            <h1 className="mt-4 text-[32px] font-black leading-tight tracking-[-0.04em] sm:text-[38px] xl:text-[42px]">
                                 {product.name}
                             </h1>
                             <p className="mt-4 text-[14px] text-era-text-muted">
@@ -238,7 +252,7 @@ export default function ProductDetail({
                                         <p className="text-[14px] font-semibold">
                                             6 cuotas fijas de: ${formatPrice(prices.installment6)}
                                         </p>
-                                        <p className="text-[36px] font-black text-era-orange">
+                                        <p className="text-[28px] font-black leading-tight text-era-orange sm:text-[34px] xl:text-[36px]">
                                             ${formatPrice(prices.transferPrice)} en Transferencia
                                         </p>
                                         <p className="text-[16px] font-bold text-era-black">
@@ -253,7 +267,7 @@ export default function ProductDetail({
                             {variantOptions.length > 1 && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Version</p>
-                                    <div className="mt-4 grid grid-cols-4 gap-3">
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                                         {variantOptions.map((variant) => {
                                             const variantKey = getVariantKey(variant);
 
@@ -275,7 +289,7 @@ export default function ProductDetail({
                                 </div>
                             )}
 
-                            {colors.length > 0 && (
+                            {colors.length > 0 ? (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">
                                         Color: {selectedColor?.name ?? colors[0]?.name}
@@ -297,6 +311,10 @@ export default function ProductDetail({
                                         ))}
                                     </div>
                                 </div>
+                            ) : (
+                                <p className="mt-7 text-[13px] font-bold">
+                                    Consultar por colores
+                                </p>
                             )}
 
                             <button
@@ -320,9 +338,9 @@ export default function ProductDetail({
             </section>
 
             <section className="border-y border-era-line">
-                <div className="mx-auto grid max-w-[1420px] grid-cols-4 px-12">
+                <div className="mx-auto grid max-w-[1420px] grid-cols-1 px-5 sm:grid-cols-2 sm:px-8 lg:grid-cols-4 lg:px-12">
                     {detailBenefits.map(({ title, text, Icon }) => (
-                        <div key={title} className="flex h-[92px] items-center gap-4">
+                        <div key={title} className="flex min-h-[76px] items-center gap-4 border-b border-era-line last:border-b-0 sm:px-2 lg:h-[92px] lg:border-b-0">
                             <Icon size={25} strokeWidth={1.7} />
                             <div>
                                 <p className="text-[13px] font-bold">{title}</p>
@@ -333,8 +351,8 @@ export default function ProductDetail({
                 </div>
             </section>
 
-            <section className="mx-auto max-w-[1420px] px-12 py-10">
-                <div className="grid grid-cols-[390px_1fr] gap-16 border-t border-era-line py-8">
+            <section className="mx-auto max-w-[1420px] px-5 py-8 sm:px-8 lg:px-12 lg:py-10">
+                <div className="grid grid-cols-1 gap-8 border-t border-era-line py-8 lg:grid-cols-[390px_1fr] lg:gap-16">
                     <div>
                         <h2 className="text-[24px] font-black">Descripcion</h2>
                         <p className="mt-6 whitespace-pre-line text-[14px] leading-6 text-era-text-muted">
@@ -347,13 +365,13 @@ export default function ProductDetail({
                         </ul>
                     </div>
 
-                    <div className="relative h-[360px] overflow-hidden rounded-[6px]">
+                    <div className="relative h-[240px] overflow-hidden rounded-[6px] sm:h-[360px]">
                         <Image src={fallbackImages[0]} alt={product.name} fill className="object-cover" sizes="60vw" />
                     </div>
                 </div>
             </section>
 
-            <section className="mx-auto max-w-[1420px] border-t border-era-line px-12 py-9">
+            <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12 lg:py-9">
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-[24px] font-black">Preguntas frecuentes</h2>
                     <Link href="#" className="flex items-center gap-2 text-[12px] text-era-text-muted">
@@ -387,14 +405,14 @@ export default function ProductDetail({
             </section>
 
             {relatedProducts.length > 0 && (
-                <section className="mx-auto max-w-[1420px] border-t border-era-line px-12 py-9">
+                <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12 lg:py-9">
                     <div className="mb-6 flex items-center justify-between">
                         <h2 className="text-[24px] font-black">Tambien te puede interesar</h2>
                         <Link href={`/products?brand=${product.brand}&category=${product.category}`} className="text-[12px] text-era-text-muted">
                             Ver todos los {product.category}
                         </Link>
                     </div>
-                    <div className="grid grid-cols-5 gap-6">
+                    <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-6">
                         {relatedProducts.map((related, index) => (
                             <RelatedCard key={related.id} product={related} index={index} />
                         ))}

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { MessageCircle, Search } from "lucide-react";
+import { Menu, MessageCircle, Search, X } from "lucide-react";
 
 type SearchResult = {
     id: string;
@@ -71,7 +71,7 @@ function HeaderSearch() {
             </button>
 
             {open && (
-                <div className="absolute right-0 top-10 z-50 w-[340px] border border-era-line bg-white shadow-xl">
+                <div className="fixed inset-x-4 top-20 z-50 border border-era-line bg-white shadow-xl sm:absolute sm:inset-x-auto sm:right-0 sm:top-10 sm:w-[340px]">
                     <div className="relative">
                         <Search
                             size={17}
@@ -133,20 +133,22 @@ function HeaderSearch() {
 }
 
 export default function EraHeader() {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
-        <header className="mx-auto flex h-[86px] max-w-[1420px] items-center justify-between px-12">
-            <Link href="/" aria-label="ERA home">
+        <header className="relative z-50 mx-auto flex h-[72px] max-w-[1420px] items-center justify-between px-5 sm:px-8 lg:h-[86px] lg:px-12">
+            <Link href="/" aria-label="ERA home" onClick={() => setMobileMenuOpen(false)}>
                 <Image
                     src="/era-logo-transparent.png"
                     alt="ERA"
                     width={1219}
                     height={367}
                     priority
-                    className="h-auto w-[116px] object-contain"
+                    className="h-auto w-[96px] object-contain lg:w-[116px]"
                 />
             </Link>
 
-            <nav className="flex items-center gap-9 text-[13px] font-semibold">
+            <nav className="hidden items-center gap-5 text-[12px] font-semibold xl:flex 2xl:gap-9 2xl:text-[13px]">
                 {navItems.map((item) => (
                     <Link key={item.label} href={item.href} className="hover:text-era-blue">
                         {item.label}
@@ -154,17 +156,51 @@ export default function EraHeader() {
                 ))}
             </nav>
 
-            <div className="flex items-center gap-7">
+            <div className="flex items-center gap-4 lg:gap-7">
                 <HeaderSearch />
                 <Link
                     href="https://wa.me/5491171254322"
                     target="_blank"
-                    className="flex h-11 items-center gap-2 rounded-[4px] bg-era-black px-5 text-[13px] font-bold text-white"
+                    className="hidden h-11 items-center gap-2 rounded-[4px] bg-era-black px-5 text-[13px] font-bold text-white sm:flex"
                 >
                     <MessageCircle size={18} />
                     Escribinos
                 </Link>
+                <button
+                    type="button"
+                    aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                    aria-expanded={mobileMenuOpen}
+                    onClick={() => setMobileMenuOpen((value) => !value)}
+                    className="flex h-10 w-10 items-center justify-center xl:hidden"
+                >
+                    {mobileMenuOpen ? <X size={25} /> : <Menu size={25} />}
+                </button>
             </div>
+
+            {mobileMenuOpen && (
+                <div className="absolute inset-x-0 top-full border-y border-era-line bg-white px-5 py-5 shadow-lg sm:px-8 xl:hidden">
+                    <nav className="grid grid-cols-2 gap-x-6 gap-y-1 text-[14px] font-semibold sm:grid-cols-4">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.label}
+                                href={item.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="border-b border-era-line py-3 hover:text-era-blue"
+                            >
+                                {item.label}
+                            </Link>
+                        ))}
+                    </nav>
+                    <Link
+                        href="https://wa.me/5491171254322"
+                        target="_blank"
+                        className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-era-black text-[13px] font-bold text-white sm:hidden"
+                    >
+                        <MessageCircle size={18} />
+                        Escribinos
+                    </Link>
+                </div>
+            )}
         </header>
     );
 }

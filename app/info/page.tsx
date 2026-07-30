@@ -87,14 +87,14 @@ export default function InfoPage() {
       <EraHeader />
 
       <section className="border-t border-era-line">
-        <div className="mx-auto max-w-[1420px] px-12 py-16">
+        <div className="mx-auto max-w-[1420px] px-5 py-12 sm:px-8 lg:px-12 lg:py-16">
           <p className="text-[13px] text-era-text-muted">
             Inicio <span className="mx-3">/</span> Info
           </p>
-          <h1 className="mt-10 max-w-[760px] text-[76px] font-black leading-[0.95] tracking-[-0.05em]">
+          <h1 className="mt-8 max-w-[760px] text-[44px] font-black leading-[0.95] tracking-[-0.05em] sm:text-[60px] lg:mt-10 lg:text-[76px]">
             Info clara para comprar tranquilo<span className="text-era-orange"> *</span>
           </h1>
-          <p className="mt-8 max-w-[520px] text-[22px] leading-[1.35] text-era-text-muted">
+          <p className="mt-6 max-w-[520px] text-[18px] leading-[1.35] text-era-text-muted sm:mt-8 sm:text-[22px]">
             Envios, pagos, garantia y preguntas frecuentes, todo en un solo lugar.
           </p>
 
@@ -112,10 +112,10 @@ export default function InfoPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1420px] px-12">
+      <div className="mx-auto max-w-[1420px] px-5 sm:px-8 lg:px-12">
         {sections.map(({ id, title, Icon, items }) => (
           <section key={id} id={id} className="scroll-mt-24 border-t border-era-line py-12">
-            <div className="grid grid-cols-[310px_1fr] gap-16">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[310px_1fr] lg:gap-16">
               <div>
                 <Icon size={38} strokeWidth={1.5} />
                 <h2 className="mt-6 text-[34px] font-black leading-tight tracking-[-0.04em]">
@@ -123,7 +123,7 @@ export default function InfoPage() {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 xl:gap-6">
                 {items.map((item) => (
                   <article key={item.title} className="rounded-[8px] border border-era-line bg-white p-6">
                     <h3 className="text-[15px] font-black leading-tight">{item.title}</h3>
