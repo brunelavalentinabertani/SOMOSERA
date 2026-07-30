@@ -205,6 +205,10 @@ export default function ProductsClient({
       return groupedCategories.map((item) => [item, counts.get(item) ?? 0] as [string, number]);
     }
 
+    if (category && !brand) {
+      return [[category, products.length] as [string, number]];
+    }
+
     baseProducts.forEach((product) => {
       const productCategory = product.category?.trim();
       if (productCategory) {
@@ -213,7 +217,7 @@ export default function ProductsClient({
     });
 
     return sortCategoryOptions(Array.from(counts.entries()), brand);
-  }, [baseProducts, brand, isMediaCategory, isGamingCategory]);
+  }, [baseProducts, brand, category, isMediaCategory, isGamingCategory, products.length]);
 
   const brandOptions = useMemo(() => {
     const counts = new Map<string, number>();
