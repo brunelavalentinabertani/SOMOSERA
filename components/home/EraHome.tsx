@@ -131,10 +131,10 @@ export default function EraHome() {
                 </div>
 
                 <div className="grid h-[360px] grid-cols-2 grid-rows-2 gap-1 sm:h-[400px] sm:grid-cols-[1fr_1.35fr_1fr] xl:h-[455px] xl:grid-cols-[240px_340px_1fr]">
-                    <PhotoTile src="/home-macbook-blue.png" alt="MacBook azul" className="sm:row-span-2" />
-                    <PhotoTile src="/home-pocket-camera.png" alt="Cámara compacta" className="sm:row-span-2" />
-                    <PhotoTile src="/home-headphones-green.png" alt="Auriculares verdes" />
-                    <PhotoTile src="/home-imac-blue.png" alt="iMac azul" />
+                    <PhotoTile src="/home-macbook-blue-v2.png" alt="MacBook azul" className="sm:row-span-2" />
+                    <PhotoTile src="/home-pocket-camera-v2.png" alt="Cámara compacta" className="sm:row-span-2" />
+                    <PhotoTile src="/home-headphones-green-v2.png" alt="Auriculares verdes" />
+                    <PhotoTile src="/home-imac-blue-v2.png" alt="iMac azul" />
                 </div>
             </section>
 
