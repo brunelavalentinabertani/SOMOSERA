@@ -75,6 +75,11 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
     description: "Equipos de video y produccion profesional, listos para sumar al catalogo.",
     image: "/Iphone_HeroImage.jpeg",
   },
+  "Foto/Video": {
+    title: "Foto/Video",
+    description: "Camaras, filmadoras y accesorios para crear contenido con calidad profesional.",
+    image: "/Iphone_HeroImage.jpeg",
+  },
   Gaming: {
     title: "Gaming",
     description: "Consolas, notebooks y accesorios gaming importados.",
@@ -111,8 +116,7 @@ export default async function ProductsPage({
 }) {
   const params = await searchParams;
   const brand = params.brand?.trim() || null;
-  const rawCategory = params.category?.trim() || null;
-  const category = normalize(rawCategory) === "foto/video" ? "Fotografia" : rawCategory;
+  const category = params.category?.trim() || null;
   const model = params.model?.trim() || null;
 
   if (!brand && !category) {
@@ -150,7 +154,8 @@ export default async function ProductsPage({
     .order("created_at", { ascending: false });
 
   const allProducts = products ?? [];
-  const isMediaCategory = isCategoryInGroup(category, mediaCategories);
+  const isMediaCategory =
+    normalize(category) === "foto/video" || isCategoryInGroup(category, mediaCategories);
   const isGamingCategory = isCategoryInGroup(category, gamingCategories);
   const contextProducts = allProducts.filter((product) => {
     const brandMatches = !brand || normalize(product.brand) === normalize(brand);

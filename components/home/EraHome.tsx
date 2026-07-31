@@ -42,7 +42,7 @@ const categories = [
     { name: "Samsung", href: "/products?brand=Samsung", image: "/Iphone_HeroImage.jpeg" },
     { name: "Xiaomi", href: "/products?brand=Xiaomi", image: "/Iphone_HeroImage.jpeg" },
     { name: "Motorola", href: "/products?brand=Motorola&category=Celulares", image: "/Iphone_HeroImage.jpeg" },
-    { name: "Foto/Video", href: "/products?category=Fotografia", image: "/Macbook_HeroImage.jpeg" },
+    { name: "Foto/Video", href: "/products?category=Foto%2FVideo", image: "/Macbook_HeroImage.jpeg" },
     { name: "Gaming", href: "/products?category=Gaming", image: "/Macbook_HeroImage.jpeg" },
     { name: "Notebooks", href: "/products?category=Notebooks", image: "/Macbook_HeroImage.jpeg" },
     { name: "Consolas", href: "/products?category=Consolas", image: "/AirpodsMax_HeroImage.jpeg" },

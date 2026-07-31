@@ -17,7 +17,7 @@ const navItems = [
     { label: "Samsung", href: "/products?brand=Samsung" },
     { label: "Xiaomi", href: "/products?brand=Xiaomi" },
     { label: "Motorola", href: "/products?brand=Motorola&category=Celulares" },
-    { label: "Foto/Video", href: "/products?category=Fotografia" },
+    { label: "Foto/Video", href: "/products?category=Foto%2FVideo" },
     { label: "Gaming", href: "/products?category=Gaming" },
     { label: "Nosotros", href: "/nosotros" },
 ];

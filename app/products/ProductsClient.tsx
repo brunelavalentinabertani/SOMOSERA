@@ -156,7 +156,8 @@ export default function ProductsClient({
   const [settings, setSettings] = useState<Settings | null>(null);
   const [categoryFilterOpen, setCategoryFilterOpen] = useState(true);
   const [brandFilterOpen, setBrandFilterOpen] = useState(true);
-  const isMediaCategory = isCategoryInGroup(category, mediaCategories);
+  const isMediaCategory =
+    category?.toLowerCase() === "foto/video" || isCategoryInGroup(category, mediaCategories);
   const isGamingCategory = isCategoryInGroup(category, gamingCategories);
 
   useEffect(() => {
