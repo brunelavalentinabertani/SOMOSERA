@@ -25,19 +25,19 @@ const instagramPosts = [
 
 const categories = [
     { name: "iPhone", href: "/products?brand=Apple&category=Iphones", image: "/Iphone_HeroImage.jpeg" },
-    { name: "MacBook", href: "/products?brand=Apple&category=Macbooks", image: "/Macbook_HeroImage.jpeg" },
-    { name: "iPad", href: "/products?brand=Apple&category=Ipads", image: "/Applewatch_HeroImage.jpeg" },
+    { name: "MacBook", href: "/products?brand=Apple&category=Macbooks", image: "/categories/macbook-v2.png" },
+    { name: "iPad", href: "/products?brand=Apple&category=Ipads", image: "/categories/ipad-v2.png" },
     { name: "Apple Watch", href: "/products?brand=Apple&category=Applewatch", image: "/Applewatch_HeroImage.jpeg" },
-    { name: "iMac", href: "/products?brand=Apple&category=Imacs", image: "/Macbook_HeroImage.jpeg" },
+    { name: "iMac", href: "/products?brand=Apple&category=Imacs", image: "/categories/imac-v2.png" },
     { name: "Accesorios", href: "/products?category=Accesorios", image: "/AirpodsMax_HeroImage.jpeg" },
-    { name: "Kindle", href: "/products?category=Kindle", image: "/Iphone_HeroImage.jpeg" },
-    { name: "Samsung", href: "/products?brand=Samsung", image: "/Iphone_HeroImage.jpeg" },
-    { name: "Xiaomi", href: "/products?brand=Xiaomi", image: "/Iphone_HeroImage.jpeg" },
-    { name: "Motorola", href: "/products?brand=Motorola&category=Celulares", image: "/Iphone_HeroImage.jpeg" },
-    { name: "Foto/Video", href: "/products?category=Foto%2FVideo", image: "/Macbook_HeroImage.jpeg" },
-    { name: "Gaming", href: "/products?category=Gaming", image: "/Macbook_HeroImage.jpeg" },
+    { name: "Kindle", href: "/products?category=Kindle", image: "/categories/kindle-v2.png" },
+    { name: "Samsung", href: "/products?brand=Samsung", image: "/categories/samsung-v2.png" },
+    { name: "Xiaomi", href: "/products?brand=Xiaomi", image: "/categories/xiaomi-v2.png" },
+    { name: "Motorola", href: "/products?brand=Motorola&category=Celulares", image: "/categories/motorola-v2.png" },
+    { name: "Foto/Video", href: "/products?category=Foto%2FVideo", image: "/categories/foto-video-v2.png" },
+    { name: "Gaming", href: "/products?category=Gaming", image: "/categories/gaming-v2.png" },
     { name: "Notebooks", href: "/products?category=Notebooks", image: "/Macbook_HeroImage.jpeg" },
-    { name: "Consolas", href: "/products?category=Consolas", image: "/AirpodsMax_HeroImage.jpeg" },
+    { name: "Consolas", href: "/products?category=Consolas", image: "/categories/consolas-v2.png" },
 ];
 
 const benefits = [
