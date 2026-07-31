@@ -14,14 +14,6 @@ import {
 } from "lucide-react";
 import EraHeader from "../layout/EraHeader";
 
-type Product = {
-    id: string;
-    name: string;
-    category?: string | null;
-    image_url?: string | null;
-    price_usd?: number | null;
-};
-
 const instagramPosts = [
     { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DWH1b9GEUU4/" },
     { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DbJy9eLxkx5/" },
@@ -86,20 +78,27 @@ function PhotoTile({
     src,
     alt,
     className = "",
+    contain = false,
 }: {
     src: string;
     alt: string;
     className?: string;
+    contain?: boolean;
 }) {
     return (
-        <div className={`relative overflow-hidden bg-era-line ${className}`}>
-            <Image src={src} alt={alt} fill className="object-cover" sizes="30vw" />
+        <div className={`relative overflow-hidden bg-[#f3ece4] ${className}`}>
+            <Image
+                src={src}
+                alt={alt}
+                fill
+                className={contain ? "object-contain" : "object-cover"}
+                sizes="30vw"
+            />
         </div>
     );
 }
 
-export default function EraHome({ products }: { products: Product[] }) {
-    const heroProducts = products.slice(0, 2);
+export default function EraHome() {
     const [openFaq, setOpenFaq] = useState<string | null>(null);
 
     return (
@@ -133,11 +132,11 @@ export default function EraHome({ products }: { products: Product[] }) {
                     </div>
                 </div>
 
-                <div className="grid h-[300px] grid-cols-2 grid-rows-2 gap-1 sm:h-[400px] sm:grid-cols-[1fr_1.4fr_1fr] xl:h-[455px] xl:grid-cols-[240px_340px_1fr]">
-                    <PhotoTile src="/Macbook_HeroImage.jpeg" alt="ERA Palermo" className="row-span-2 hidden sm:block" />
-                    <PhotoTile src={heroProducts[0]?.image_url || "/Iphone_HeroImage.jpeg"} alt="Producto ERA" className="row-span-2" />
-                    <PhotoTile src="/Applewatch_HeroImage.jpeg" alt="Cliente ERA" />
-                    <PhotoTile src="/AirpodsMax_HeroImage.jpeg" alt="Buenos Aires" />
+                <div className="grid h-[360px] grid-cols-2 grid-rows-2 gap-1 sm:h-[400px] sm:grid-cols-[1fr_1.35fr_1fr] xl:h-[455px] xl:grid-cols-[240px_340px_1fr]">
+                    <PhotoTile src="/home-macbook-blue.png" alt="MacBook azul" className="sm:row-span-2" contain />
+                    <PhotoTile src="/home-pocket-camera.png" alt="Cámara compacta" className="sm:row-span-2" contain />
+                    <PhotoTile src="/home-headphones-green.png" alt="Auriculares verdes" />
+                    <PhotoTile src="/home-imac-blue.png" alt="iMac azul" />
                 </div>
             </section>
 
