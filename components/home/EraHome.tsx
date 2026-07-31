@@ -25,7 +25,7 @@ const instagramPosts = [
 
 const categories = [
     { name: "iPhone", href: "/products?brand=Apple&category=Iphones", image: "/Iphone_HeroImage.jpeg" },
-    { name: "MacBook", href: "/products?brand=Apple&category=Macbooks", image: "/categories/macbook-v2.png" },
+    { name: "MacBook", href: "/products?brand=Apple&category=Macbooks", image: "/Macbook_HeroImage.jpeg" },
     { name: "iPad", href: "/products?brand=Apple&category=Ipads", image: "/categories/ipad-v2.png" },
     { name: "Apple Watch", href: "/products?brand=Apple&category=Applewatch", image: "/Applewatch_HeroImage.jpeg" },
     { name: "iMac", href: "/products?brand=Apple&category=Imacs", image: "/categories/imac-v2.png" },
@@ -36,7 +36,7 @@ const categories = [
     { name: "Motorola", href: "/products?brand=Motorola&category=Celulares", image: "/categories/motorola-v2.png" },
     { name: "Foto/Video", href: "/products?category=Foto%2FVideo", image: "/categories/foto-video-v2.png" },
     { name: "Gaming", href: "/products?category=Gaming", image: "/categories/gaming-v2.png" },
-    { name: "Notebooks", href: "/products?category=Notebooks", image: "/Macbook_HeroImage.jpeg" },
+    { name: "Notebooks", href: "/products?category=Notebooks", image: "/categories/macbook-v2.png" },
     { name: "Consolas", href: "/products?category=Consolas", image: "/categories/consolas-v2.png" },
 ];
 
