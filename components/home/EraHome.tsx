@@ -207,10 +207,10 @@ export default function EraHome() {
                 </div>
 
                 <div className="grid h-[360px] grid-cols-2 gap-1 sm:h-[300px] sm:grid-cols-4 sm:[grid-template-columns:1.2fr_0.9fr_1.25fr_0.8fr]">
-                    <PhotoTile src="/Macbook_HeroImage.jpeg" alt="Local ERA" />
-                    <PhotoTile src="/Applewatch_HeroImage.jpeg" alt="Asesor ERA" />
-                    <PhotoTile src="/Iphone_HeroImage.jpeg" alt="Cartel ERA" />
-                    <PhotoTile src="/AirpodsMax_HeroImage.jpeg" alt="Café ERA" />
+                    <PhotoTile src="/palermo/buenos-aires-1.png" alt="Monumento de los Españoles en Palermo" />
+                    <PhotoTile src="/palermo/buenos-aires-2.png" alt="Puesto de flores de Buenos Aires" />
+                    <PhotoTile src="/palermo/buenos-aires-3.png" alt="Jardín Botánico de Buenos Aires" />
+                    <PhotoTile src="/palermo/buenos-aires-4.png" alt="Planetario Galileo Galilei en Palermo" />
                 </div>
             </section>
 
