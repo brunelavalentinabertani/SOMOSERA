@@ -5,6 +5,8 @@ import { supabase } from "../../lib/supabaseClient";
 import EraHeader from "../../components/layout/EraHeader";
 import ProductsClient from "./ProductsClient";
 
+export const dynamic = "force-dynamic";
+
 type ProductsSearchParams = {
   brand?: string;
   category?: string;
