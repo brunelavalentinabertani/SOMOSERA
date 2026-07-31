@@ -43,7 +43,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Ipads: {
     title: "iPad",
     description: "Pantallas versatiles para crear, mirar, estudiar y llevar todo con vos.",
-    image: "/Applewatch_HeroImage.jpeg",
+    image: "/categories/ipad-v2.png",
   },
   Applewatch: {
     title: "Apple Watch",
@@ -53,12 +53,22 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Imacs: {
     title: "iMac",
     description: "Equipos de escritorio Apple para trabajar, crear y estudiar con potencia.",
-    image: "/Macbook_HeroImage.jpeg",
+    image: "/categories/imac-v2.png",
   },
   Samsung: {
     title: "Samsung",
     description: "Celulares, tablets, relojes y accesorios Samsung importados y originales.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/samsung-v2.png",
+  },
+  Xiaomi: {
+    title: "Xiaomi",
+    description: "Celulares y tablets Xiaomi importados, originales y listos para acompañarte.",
+    image: "/categories/xiaomi-v2.png",
+  },
+  Motorola: {
+    title: "Motorola",
+    description: "Celulares Motorola originales con tecnología y diseño para todos los días.",
+    image: "/categories/motorola-v2.png",
   },
   Accesorios: {
     title: "Accesorios",
@@ -68,37 +78,42 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Fotografia: {
     title: "Fotografia",
     description: "Camaras, lentes y accesorios para crear contenido con calidad profesional.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/foto-video-v2.png",
   },
   Filmadoras: {
     title: "Filmadoras",
     description: "Equipos de video y produccion profesional, listos para sumar al catalogo.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/foto-video-v2.png",
   },
   "Foto/Video": {
     title: "Foto/Video",
     description: "Camaras, filmadoras y accesorios para crear contenido con calidad profesional.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/foto-video-v2.png",
   },
   Gaming: {
     title: "Gaming",
     description: "Consolas, notebooks y accesorios gaming importados.",
-    image: "/Macbook_HeroImage.jpeg",
+    image: "/categories/gaming-v2.png",
   },
   Notebooks: {
     title: "Notebooks",
     description: "Notebooks gamer con placas dedicadas, pantallas rapidas y configuraciones listas para jugar.",
-    image: "/Macbook_HeroImage.jpeg",
+    image: "/categories/macbook-v2.png",
   },
   Consolas: {
     title: "Consolas",
     description: "PlayStation, Nintendo, Xbox, realidad virtual y accesorios para jugar con confianza.",
-    image: "/AirpodsMax_HeroImage.jpeg",
+    image: "/categories/consolas-v2.png",
   },
   Kindle: {
     title: "Kindle",
     description: "Lectores Kindle para leer comodo, viajar liviano y llevar tu biblioteca siempre encima.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/kindle-v2.png",
+  },
+  Tablets: {
+    title: "Tablets",
+    description: "Tablets versátiles para estudiar, trabajar, crear y disfrutar contenido.",
+    image: "/categories/ipad-v2.png",
   },
 };
 function normalize(value?: string | null) {
@@ -181,7 +196,8 @@ export default async function ProductsPage({
     return true;
   });
 
-  const heroKey = category ?? brand ?? "Productos";
+  const brandHeroKey = ["Samsung", "Xiaomi", "Motorola"].includes(brand ?? "") ? brand : null;
+  const heroKey = brandHeroKey ?? category ?? brand ?? "Productos";
   const hero = heroCopy[heroKey] ?? {
     title: category ?? brand ?? "Productos",
     description: "Productos originales, importados y sellados.",
