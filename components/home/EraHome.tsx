@@ -201,9 +201,6 @@ export default function EraHome() {
                     <h2 className="mt-3 max-w-[340px] text-[34px] font-black leading-[0.98] tracking-[-0.04em] sm:text-[42px]">
                         Base en Palermo, Buenos Aires.
                     </h2>
-                    <p className="mt-7 max-w-[305px] text-[13px] leading-5 text-era-text-muted">
-                        Somos de acá. Conocemos lo que vendemos porque lo usamos. Todas las marcas en un mismo lugar.
-                    </p>
                 </div>
 
                 <div className="grid h-[360px] grid-cols-2 gap-1 sm:h-[300px] sm:grid-cols-4 sm:[grid-template-columns:1.2fr_0.9fr_1.25fr_0.8fr]">
