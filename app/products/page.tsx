@@ -28,17 +28,17 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Apple: {
     title: "Apple",
     description: "iPhone, iPad, Mac, Apple Watch y accesorios originales para tu ecosistema.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/iphone-v3.png",
   },
   Iphones: {
     title: "iPhone",
     description: "iPhone originales, importados. Tecnologia que te acompana, todos los dias.",
-    image: "/Iphone_HeroImage.jpeg",
+    image: "/categories/iphone-v3.png",
   },
   Macbooks: {
     title: "MacBook",
     description: "Potencia, diseno y portabilidad para trabajar, crear y estudiar con confianza.",
-    image: "/Macbook_HeroImage.jpeg",
+    image: "/categories/macbook-v3.png",
   },
   Ipads: {
     title: "iPad",
@@ -48,7 +48,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Applewatch: {
     title: "Apple Watch",
     description: "Relojes Apple originales para entrenar, organizarte y estar conectado.",
-    image: "/Applewatch_HeroImage.jpeg",
+    image: "/categories/apple-watch-v3.png",
   },
   Imacs: {
     title: "iMac",
@@ -60,10 +60,30 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
     description: "Celulares, tablets, relojes y accesorios Samsung importados y originales.",
     image: "/categories/samsung-v2.png",
   },
+  "Samsung:Auriculares": {
+    title: "Auriculares",
+    description: "Auriculares Samsung originales para disfrutar tu música con comodidad y gran sonido.",
+    image: "/categories/samsung-auriculares-v3.png",
+  },
+  "Samsung:Relojes": {
+    title: "Relojes",
+    description: "Relojes Samsung originales para entrenar, organizarte y mantenerte conectado.",
+    image: "/categories/samsung-relojes-v3.png",
+  },
+  "Samsung:Tablets": {
+    title: "Tablets",
+    description: "Tablets Samsung originales para trabajar, estudiar y disfrutar tu contenido.",
+    image: "/categories/samsung-tablets-v3.png",
+  },
   Xiaomi: {
     title: "Xiaomi",
     description: "Celulares y tablets Xiaomi importados, originales y listos para acompañarte.",
     image: "/categories/xiaomi-v2.png",
+  },
+  "Xiaomi:Tablets": {
+    title: "Tablets",
+    description: "Tablets Xiaomi originales para trabajar, estudiar y disfrutar tu contenido.",
+    image: "/categories/xiaomi-tablets-v3.png",
   },
   Motorola: {
     title: "Motorola",
@@ -73,7 +93,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Accesorios: {
     title: "Accesorios",
     description: "Cargadores, cables y accesorios originales para completar tu setup.",
-    image: "/AirpodsMax_HeroImage.jpeg",
+    image: "/categories/accesorios-v3.png",
   },
   Fotografia: {
     title: "Fotografia",
@@ -197,7 +217,10 @@ export default async function ProductsPage({
   });
 
   const brandHeroKey = ["Samsung", "Xiaomi", "Motorola"].includes(brand ?? "") ? brand : null;
-  const heroKey = brandHeroKey ?? category ?? brand ?? "Productos";
+  const scopedHeroKey = brand && category ? `${brand}:${category}` : null;
+  const heroKey = scopedHeroKey && heroCopy[scopedHeroKey]
+    ? scopedHeroKey
+    : brandHeroKey ?? category ?? brand ?? "Productos";
   const hero = heroCopy[heroKey] ?? {
     title: category ?? brand ?? "Productos",
     description: "Productos originales, importados y sellados.",
