@@ -267,7 +267,7 @@ export default async function ProductsPage({
               alt={hero.title}
               fill
               priority
-              className={hero.image.includes("-v3.png") ? "object-contain" : "object-cover"}
+              className="object-cover"
             />
           </div>
         </div>
