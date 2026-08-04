@@ -2,6 +2,9 @@ import { supabase } from "../../../lib/supabaseClient"
 import { notFound } from "next/navigation"
 import ProductDetail from "./ProductDetail"
 import { Product } from "@/types/product"
+
+export const dynamic = "force-dynamic"
+
 export async function generateStaticParams() {
   const { data } = await supabase
     .from("products")
