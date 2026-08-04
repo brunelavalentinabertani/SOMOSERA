@@ -154,7 +154,7 @@ function getCardImage(product: Product) {
 function RelatedCard({ product }: { product: Product }) {
     const variant = product.product_variants?.[0] ?? null;
     const image = getCardImage(product);
-    const price = variant?.price_usd ?? product.price_usd;
+    const price = variant ? variant.price_usd : product.price_usd;
 
     return (
         <article className="relative rounded-[8px] border border-era-line bg-white p-5">
