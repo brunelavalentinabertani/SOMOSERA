@@ -18,10 +18,10 @@ export default function AdminPage() {
                 <header className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-semibold text-neutral-900 select-none">
-                            Panel de administraciÃ³n
+                            Panel de administración
                         </h1>
                         <p className="text-sm text-neutral-700 select-none">
-                            GestiÃ³n de productos y contenido
+                            Gestión de productos y contenido
                         </p>
                     </div>
 
@@ -57,7 +57,7 @@ export default function AdminPage() {
                                     Nuevo producto
                                 </CardTitle>
                                 <CardDescription className="text-neutral-700">
-                                    Agregar un producto al catÃ¡logo
+                                    Agregar un producto al catálogo
                                 </CardDescription>
                             </CardHeader>
 

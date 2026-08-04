@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ERA",
-  description: "Tecnologia importada, original y segura.",
+  description: "Tecnología importada, original y segura.",
 };
 
 export default function RootLayout({

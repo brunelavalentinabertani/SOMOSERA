@@ -21,6 +21,7 @@ const gamingFilterCategories = ["Notebooks", "Consolas"];
 const appleCategoryOrder = ["Ipads", "Iphones", "Macbooks", "Applewatch", "Accesorios", "Imacs"];
 const categoryLabels: Record<string, string> = {
   Applewatch: "Apple Watch",
+  Fotografia: "Fotografía",
   Imacs: "iMacs",
   Ipads: "iPads",
   Iphones: "iPhone",
@@ -270,7 +271,7 @@ export default function ProductsClient({
                 onClick={() => setCategoryFilterOpen((value) => !value)}
                 className="flex w-full items-center justify-between text-[14px] font-black"
               >
-                <span><span className="text-era-orange">*</span> Categoria</span>
+                <span><span className="text-era-orange">*</span> Categoría</span>
                 <ChevronDown size={18} className={`transition ${categoryFilterOpen ? "rotate-180" : ""}`} />
               </button>
               {categoryFilterOpen && (
@@ -328,7 +329,7 @@ export default function ProductsClient({
           ) : null}
         </div>
         <div className="hidden rounded-[8px] border border-era-line bg-white p-7 xl:block">
-          <h3 className="text-[18px] font-black">Necesitas ayuda?</h3>
+          <h3 className="text-[18px] font-black">¿Necesitás ayuda?</h3>
           <p className="mt-4 text-[13px] text-era-text-muted">
             Habla con nosotros por WhatsApp.
           </p>

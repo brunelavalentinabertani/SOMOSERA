@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 
 export function ImageInput() {
     const inputRef = useRef<HTMLInputElement>(null)
-    const [fileName, setFileName] = useState("NingÃºn archivo seleccionado")
+    const [fileName, setFileName] = useState("Ningún archivo seleccionado")
 
     return (
         <div className="space-y-2">
@@ -34,7 +34,7 @@ export function ImageInput() {
                 className="hidden"
                 onChange={(e) => {
                     setFileName(
-                        e.target.files?.[0]?.name ?? "NingÃºn archivo seleccionado"
+                        e.target.files?.[0]?.name ?? "Ningún archivo seleccionado"
                     )
                 }}
             />
@@ -132,7 +132,7 @@ export default function NewProductClient() {
                         Nuevo producto
                     </CardTitle>
                     <CardDescription className="text-neutral-600">
-                        CompletÃ¡ la informaciÃ³n para agregar un producto al catÃ¡logo
+                        Completá la información para agregar un producto al catálogo
                     </CardDescription>
                 </CardHeader>
 
@@ -149,7 +149,7 @@ export default function NewProductClient() {
                         </div>
 
                         <div className="space-y-1 text-gray-800">
-                            <Label className="font-bold">DescripciÃ³n</Label>
+                            <Label className="font-bold">Descripción</Label>
                             <Textarea name="description" rows={3} required />
                         </div>
 
@@ -165,7 +165,7 @@ export default function NewProductClient() {
                             </div>
 
                             <div className="space-y-1">
-                                <Label className="font-bold">Valor del dÃ³lar</Label>
+                                <Label className="font-bold">Valor del dólar</Label>
                                 <Input
                                     name="usd_rate"
                                     type="number"
@@ -182,7 +182,7 @@ export default function NewProductClient() {
                             </div>
 
                             <div className="space-y-1 ">
-                                <Label className="font-bold">CategorÃ­a</Label>
+                                <Label className="font-bold">Categoría</Label>
                                 <Input name="category" required />
                             </div>
                         </div>

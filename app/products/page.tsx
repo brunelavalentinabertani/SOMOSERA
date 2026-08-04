@@ -18,10 +18,10 @@ const gamingCategories = ["Gaming", "Notebooks", "Consolas"];
 
 const benefits = [
   { title: "Original", text: "Productos 100% originales", Icon: ShieldCheck },
-  { title: "Sellado", text: "En caja cerrada de fabrica", Icon: Package },
-  { title: "Garantia Apple Oficial", text: "", Icon: Star },
-  { title: "Atencion real", text: "De personas, no bots", Icon: Users },
-  { title: "Envios a todo el pais", text: "Rapido y seguro por Correo Andreani", Icon: Truck },
+  { title: "Sellado", text: "En caja cerrada de fábrica", Icon: Package },
+  { title: "Garantía Apple Oficial", text: "", Icon: Star },
+  { title: "Atención real", text: "De personas, no bots", Icon: Users },
+  { title: "Envíos a todo el país", text: "Rápido y seguro por Correo Andreani", Icon: Truck },
 ];
 
 const heroCopy: Record<string, { title: string; description: string; image: string }> = {
@@ -32,12 +32,12 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   },
   Iphones: {
     title: "iPhone",
-    description: "iPhone originales, importados. Tecnologia que te acompana, todos los dias.",
+    description: "iPhone originales, importados. Tecnología que te acompaña, todos los días.",
     image: "/categories/iphone-v4.png",
   },
   Macbooks: {
     title: "MacBook",
-    description: "Potencia, diseno y portabilidad para trabajar, crear y estudiar con confianza.",
+    description: "Potencia, diseño y portabilidad para trabajar, crear y estudiar con confianza.",
     image: "/categories/macbook-v4.png",
   },
   Ipads: {
@@ -96,18 +96,18 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
     image: "/categories/accesorios-v4.png",
   },
   Fotografia: {
-    title: "Fotografia",
-    description: "Camaras, lentes y accesorios para crear contenido con calidad profesional.",
+    title: "Fotografía",
+    description: "Cámaras, lentes y accesorios para crear contenido con calidad profesional.",
     image: "/categories/foto-video-v2.png",
   },
   Filmadoras: {
     title: "Filmadoras",
-    description: "Equipos de video y produccion profesional, listos para sumar al catalogo.",
+    description: "Equipos de video y producción profesional, listos para sumar al catálogo.",
     image: "/categories/foto-video-v2.png",
   },
   "Foto/Video": {
     title: "Foto/Video",
-    description: "Camaras, filmadoras y accesorios para crear contenido con calidad profesional.",
+    description: "Cámaras, filmadoras y accesorios para crear contenido con calidad profesional.",
     image: "/categories/foto-video-v2.png",
   },
   Gaming: {
@@ -117,7 +117,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   },
   Notebooks: {
     title: "Notebooks",
-    description: "Notebooks gamer con placas dedicadas, pantallas rapidas y configuraciones listas para jugar.",
+    description: "Notebooks gamer con placas dedicadas, pantallas rápidas y configuraciones listas para jugar.",
     image: "/categories/macbook-v2.png",
   },
   Consolas: {
@@ -127,7 +127,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   },
   Kindle: {
     title: "Kindle",
-    description: "Lectores Kindle para leer comodo, viajar liviano y llevar tu biblioteca siempre encima.",
+    description: "Lectores Kindle para leer cómodo, viajar liviano y llevar tu biblioteca siempre encima.",
     image: "/categories/kindle-v2.png",
   },
   Tablets: {
@@ -249,13 +249,13 @@ export default async function ProductsPage({
                 <Truck size={28} strokeWidth={1.7} />
                 <div>
                   <p className="text-[14px] font-bold">Envíos a todo el país</p>
-                  <p className="text-[12px] text-era-text-muted">Rapido y seguro por Correo Andreani</p>
+                  <p className="text-[12px] text-era-text-muted">Rápido y seguro por Correo Andreani</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
                 <ShieldCheck size={28} strokeWidth={1.7} />
                 <div>
-                  <p className="text-[14px] font-bold">Garantia Apple Oficial</p>
+                  <p className="text-[14px] font-bold">Garantía Apple Oficial</p>
                 </div>
               </div>
             </div>

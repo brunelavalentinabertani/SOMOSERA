@@ -22,15 +22,15 @@ const heroImages = [
 
 const history = [
   ["01", "Empezamos con una idea", "Sin pensar en el resultado"],
-  ["02", "Crecimos con ustedes", "Clientes de todo el pais nos eligen cada dia"],
+  ["02", "Crecimos con ustedes", "Clientes de todo el país nos eligen cada día"],
   ["03", "Nos transformamos", "Y ahora somos la nueva era."],
 ];
 
 const steps = [
-  { number: "01", title: "Te escuchamos", text: "Entendemos lo que necesitas.", Icon: MessageCircle },
+  { number: "01", title: "Te escuchamos", text: "Entendemos lo que necesitás.", Icon: MessageCircle },
   { number: "02", title: "Te asesoramos", text: "Te ayudamos a elegir lo mejor para vos.", Icon: Package },
   { number: "03", title: "Lo preparamos", text: "Revisamos y enviamos con cuidado.", Icon: CheckCircle2 },
-  { number: "04", title: "Lo recibis", text: "En tu casa, en todo el pais.", Icon: Truck },
+  { number: "04", title: "Lo recibís", text: "En tu casa, en todo el país.", Icon: Truck },
 ];
 
 function Photo({
@@ -134,7 +134,7 @@ export default function NosotrosPage() {
             </h2>
             <h3 className="mt-10 text-[28px] font-black xl:mt-20 xl:text-[30px]">Somos Brune y Gian</h3>
             <p className="mt-6 max-w-[320px] text-[13px] leading-6 text-era-text-muted">
-              Una pareja que nunca se queda quieta, tiene mil ideas y siempre va por mas. Creamos ERA desde la necesidad de construir una marca que represente quienes somos y lo que queremos transmitir. Incentivando que todos nuestros clientes se sientan parte de la nueva ERA.
+              Una pareja que nunca se queda quieta, tiene mil ideas y siempre va por más. Creamos ERA desde la necesidad de construir una marca que represente quiénes somos y lo que queremos transmitir. Incentivando que todos nuestros clientes se sientan parte de la nueva ERA.
             </p>
             <Link
               href={instagramHref}
@@ -151,7 +151,7 @@ export default function NosotrosPage() {
       <section className="border-b border-era-line">
         <div className="mx-auto grid max-w-[1420px] grid-cols-1 gap-9 px-5 py-10 sm:px-8 lg:px-12 xl:grid-cols-[260px_1fr] xl:gap-14">
           <h2 className="text-[22px] font-black">
-            Como se vive ERA <span className="text-era-orange">*</span>
+            Cómo se vive ERA <span className="text-era-orange">*</span>
           </h2>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
             {steps.map(({ number, title, text, Icon }) => (
@@ -179,7 +179,7 @@ export default function NosotrosPage() {
             sizes="90vw"
           />
           <div className="relative z-10 flex min-h-[280px] flex-col justify-center px-6 py-8 text-white sm:min-h-[230px] sm:px-12">
-            <p className="text-[13px]">¿Tenes dudas?</p>
+            <p className="text-[13px]">¿Tenés dudas?</p>
             <h2 className="mt-3 text-[26px] font-black sm:text-[32px]">
               Escribinos por WhatsApp.<span className="text-era-orange"> *</span>
             </h2>

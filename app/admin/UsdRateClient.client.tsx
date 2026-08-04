@@ -71,7 +71,7 @@ export default function UsdRateCard() {
         <Card className="select-none border-neutral-200 bg-white">
             <CardHeader>
                 <CardTitle className="text-neutral-900">
-                    ConfiguraciÃ³n de precios
+                    Configuración de precios
                 </CardTitle>
                 <CardDescription className="text-neutral-700">
                     Estos valores afectan a todos los productos
@@ -81,7 +81,7 @@ export default function UsdRateCard() {
             <CardContent className="space-y-4">
                 {/* USD RATE */}
                 <div>
-                    <label className="text-sm font-medium">Valor del dÃ³lar</label>
+                    <label className="text-sm font-medium">Valor del dólar</label>
                     <input
                         value={usdInput}
                         onChange={(e) => setUsdInput(e.target.value)}

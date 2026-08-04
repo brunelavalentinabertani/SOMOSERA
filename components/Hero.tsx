@@ -82,7 +82,7 @@ export default function Hero() {
                                         </h1>
 
                                         <p className="mt-4 text-lg text-gray-200">
-                                            TecnologÃ­a premium con financiaciÃ³n exclusiva
+                                            Tecnología premium con financiación exclusiva
                                         </p>
 
 
@@ -132,7 +132,7 @@ export default function Hero() {
 
                 </div>
 
-                {/* ===== DESKTOP (como lo querÃ­as) ===== */}
+                {/* ===== DESKTOP (como lo querías) ===== */}
                 <div className="hidden md:block absolute top-0 left-0 z-20 w-full">
                     <Navbar />
                     <div className="absolute top-6 right-10 w-72">

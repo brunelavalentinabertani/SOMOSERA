@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Instagram, MessageCircle } from "lucide-react";
 
-const message = encodeURIComponent("Hola! Quiero informacion sobre sus productos.");
+const message = encodeURIComponent("¡Hola! Quiero información sobre sus productos.");
 
 const infoLinks = [
     { label: "Preguntas frecuentes", href: "/info#preguntas-frecuentes" },
-    { label: "Envios y retiros", href: "/info#envios-retiros" },
+    { label: "Envíos y retiros", href: "/info#envios-retiros" },
     { label: "Formas de pago", href: "/info#formas-de-pago" },
-    { label: "Garantia", href: "/info#garantia" },
+    { label: "Garantía", href: "/info#garantia" },
 ];
 
 export default function Footer() {
@@ -68,7 +68,7 @@ export default function Footer() {
                                 <dd>+54 9 11 7125-4322</dd>
                             </div>
                             <div>
-                                <dt className="font-bold text-era-black">Ubicacion</dt>
+                                <dt className="font-bold text-era-black">Ubicación</dt>
                                 <dd>Palermo, Buenos Aires</dd>
                             </div>
                         </dl>

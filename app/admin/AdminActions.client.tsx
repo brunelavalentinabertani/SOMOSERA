@@ -9,7 +9,7 @@ export default function AdminActions() {
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
-        router.push("/login") // o "/" si querÃ©s
+        router.push("/login") // o "/" si querés
     }
 
     return (
@@ -19,7 +19,7 @@ export default function AdminActions() {
                 className="bg-red-600
                 text-white px-4 py-2 rounded select-none"
             >
-                Cerrar sesiÃ³n
+                Cerrar sesión
             </button>
 
             <a

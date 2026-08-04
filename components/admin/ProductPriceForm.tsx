@@ -60,7 +60,7 @@ export default function ProductPriceForm({
         {showUsdRate && (
           <div>
             <label className="block text-sm mb-1">
-              Valor del dÃ³lar
+              Valor del dólar
             </label>
             <input
               type="number"

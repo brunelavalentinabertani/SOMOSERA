@@ -15,7 +15,7 @@ export default async function LoginPage() {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // Si ya estÃ¡ logueado, no ve el login
+  // Si ya está logueado, no ve el login
   if (session) {
     redirect('/admin')
   }
@@ -29,7 +29,7 @@ export default async function LoginPage() {
             Iphone BA - Admin
           </CardTitle>
           <p className="text-sm text-neutral-500 select-none">
-            IngresÃ¡ tus credenciales
+            Ingresá tus credenciales
           </p>
         </CardHeader>
         <CardContent>

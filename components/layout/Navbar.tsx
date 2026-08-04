@@ -69,13 +69,13 @@ export default function Navbar() {
                 <div className="ml-auto md:hidden z-50">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <button className="md:hidden">Menu</button>
+                            <button className="md:hidden">Menú</button>
                         </SheetTrigger>
 
                         <SheetContent side="right">
                             <SheetHeader>
                                 <SheetTitle className="sr-only">
-                                    MenÃº de navegaciÃ³n
+                                    Menú de navegación
                                 </SheetTitle>
                             </SheetHeader>
 

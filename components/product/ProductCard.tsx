@@ -206,7 +206,7 @@ export function ProductCard({
 
                 {screens.length > 0 && (
                     <div className="mb-1">
-                        <p className="text-sm mb-2 font-medium">TamaÃ±o</p>
+                        <p className="text-sm mb-2 font-medium">Tamaño</p>
                         <div className="flex gap-3">
                             {screens.map((screen) => (
                                 <button
@@ -253,7 +253,7 @@ export function ProductCard({
             {isAvailable ? (
                 <Link href={`/products/${product.id}`} className="mt-4">
                     <button className=" w-full rounded-xl bg-black text-white py-2 md:py-3 text-sm md:text-base hover:bg-gray-800 transition">
-                        Ver mÃ¡s
+                        Ver más
                     </button>
                 </Link>
             ) : (

@@ -24,10 +24,10 @@ type Settings = {
 };
 
 const detailBenefits = [
-    { title: "Garantia Apple Oficial", text: "", Icon: ShieldCheck },
-    { title: "Retiro en Palermo", text: "Retira gratis en nuestra tienda", Icon: Store },
-    { title: "Envios a todo el pais", text: "Rapido y seguro por Correo Andreani", Icon: Truck },
-    { title: "Paga tranquilo", text: "Transferencia, tarjetas y mas", Icon: CreditCard },
+    { title: "Garantía Apple Oficial", text: "", Icon: ShieldCheck },
+    { title: "Retiro en Palermo", text: "Retirá gratis en nuestra tienda", Icon: Store },
+    { title: "Envíos a todo el país", text: "Rápido y seguro por Correo Andreani", Icon: Truck },
+    { title: "Pagá tranquilo", text: "Transferencia, tarjetas y más", Icon: CreditCard },
 ];
 
 const faqs = [
@@ -36,16 +36,16 @@ const faqs = [
         answer: "Todos nuestros equipos son originales y sellados.",
     },
     {
-        question: "¿Hacen envios a todo el pais?",
-        answer: "Si, hacemos envios mediante Correo Andreani a todo el pais.",
+        question: "¿Hacen envíos a todo el país?",
+        answer: "Sí, hacemos envíos mediante Correo Andreani a todo el país.",
     },
     {
-        question: "¿Tienen garantia?",
-        answer: "Todos los equipos Apple tienen garantia oficial por 12 meses. Los demas equipos tienen garantia de 3 meses con nosotros mismos.",
+        question: "¿Tienen garantía?",
+        answer: "Todos los equipos Apple tienen garantía oficial por 12 meses. Los demás equipos tienen garantía de 3 meses con nosotros mismos.",
     },
     {
-        question: "¿Como puedo pagar?",
-        answer: "Nuestros metodos de pago son USD o ARS. Tambien podes abonar en 6 cuotas fijas.",
+        question: "¿Cómo puedo pagar?",
+        answer: "Nuestros métodos de pago son USD o ARS. También podés abonar en 6 cuotas fijas.",
     },
 ];
 
@@ -301,7 +301,7 @@ export default function ProductDetail({
         let message = `Hola! Quiero consultar por ${product.name}`;
         if (activeVariant) message += `, ${formatVariantOption(activeVariant)}`;
         if (selectedColor) message += `, color ${selectedColor.name}`;
-        message += `. ¿Esta disponible?`;
+        message += `. ¿Está disponible?`;
 
         window.open(`https://wa.me/5491171254322?text=${encodeURIComponent(message)}`, "_blank");
     };
@@ -485,7 +485,7 @@ export default function ProductDetail({
                                 Respondemos al instante
                             </p>
                             <p className="mt-2 text-[13px] text-era-text-muted">
-                                ¿Tenes dudas? Escribinos y te asesoramos.
+                                ¿Tenés dudas? Escribinos y te asesoramos.
                             </p>
                         </aside>
                     </div>
@@ -508,14 +508,14 @@ export default function ProductDetail({
 
             <section className="mx-auto max-w-[1420px] px-5 py-8 sm:px-8 lg:px-12 lg:py-10">
                 <div className="max-w-[760px] border-t border-era-line py-8">
-                    <h2 className="text-[24px] font-black">Descripcion</h2>
+                    <h2 className="text-[24px] font-black">Descripción</h2>
                     <p className="mt-6 whitespace-pre-line text-[14px] leading-6 text-era-text-muted">
-                        {product.description || "Producto original, sellado e importado. Consultanos para confirmar disponibilidad y configuracion."}
+                        {product.description || "Producto original, sellado e importado. Consultanos para confirmar disponibilidad y configuración."}
                     </p>
                     <ul className="mt-8 space-y-5 text-[13px] font-semibold text-era-text-muted">
                         <li className="flex gap-3"><ShieldCheck size={18} /> Producto original y sellado.</li>
                         <li className="flex gap-3"><Box size={18} /> Entrega con accesorios incluidos.</li>
-                        <li className="flex gap-3"><ShoppingBag size={18} /> Asesoramiento antes y despues de comprar.</li>
+                        <li className="flex gap-3"><ShoppingBag size={18} /> Asesoramiento antes y después de comprar.</li>
                     </ul>
                 </div>
             </section>
@@ -556,7 +556,7 @@ export default function ProductDetail({
             {relatedProducts.length > 0 && (
                 <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12 lg:py-9">
                     <div className="mb-6 flex items-center justify-between">
-                        <h2 className="text-[24px] font-black">Tambien te puede interesar</h2>
+                        <h2 className="text-[24px] font-black">También te puede interesar</h2>
                         <Link href={`/products?brand=${product.brand}&category=${product.category}`} className="text-[12px] text-era-text-muted">
                             Ver todos los {product.category}
                         </Link>

@@ -43,7 +43,7 @@ const categories = [
 const benefits = [
     { title: "Original", text: "Productos 100% originales", Icon: ShieldCheck },
     { title: "Sellado", text: "En caja cerrada de fábrica", Icon: Package },
-    { title: "Garantia Apple Oficial", text: "", Icon: ShieldCheck },
+    { title: "Garantía Apple Oficial", text: "", Icon: ShieldCheck },
     { title: "Atención real", text: "De personas, no bots", Icon: Users },
     { title: "Envíos a todo el país", text: "Rápido y seguro por Correo Andreani", Icon: Truck },
 ];
