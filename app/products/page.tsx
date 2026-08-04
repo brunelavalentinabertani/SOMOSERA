@@ -28,17 +28,17 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Apple: {
     title: "Apple",
     description: "iPhone, iPad, Mac, Apple Watch y accesorios originales para tu ecosistema.",
-    image: "/categories/iphone-v3.png",
+    image: "/categories/iphone-v4.png",
   },
   Iphones: {
     title: "iPhone",
     description: "iPhone originales, importados. Tecnologia que te acompana, todos los dias.",
-    image: "/categories/iphone-v3.png",
+    image: "/categories/iphone-v4.png",
   },
   Macbooks: {
     title: "MacBook",
     description: "Potencia, diseno y portabilidad para trabajar, crear y estudiar con confianza.",
-    image: "/categories/macbook-v3.png",
+    image: "/categories/macbook-v4.png",
   },
   Ipads: {
     title: "iPad",
@@ -48,7 +48,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Applewatch: {
     title: "Apple Watch",
     description: "Relojes Apple originales para entrenar, organizarte y estar conectado.",
-    image: "/categories/apple-watch-v3.png",
+    image: "/categories/apple-watch-v4.png",
   },
   Imacs: {
     title: "iMac",
@@ -63,17 +63,17 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   "Samsung:Auriculares": {
     title: "Auriculares",
     description: "Auriculares Samsung originales para disfrutar tu música con comodidad y gran sonido.",
-    image: "/categories/samsung-auriculares-v3.png",
+    image: "/categories/samsung-auriculares-v4.png",
   },
   "Samsung:Relojes": {
     title: "Relojes",
     description: "Relojes Samsung originales para entrenar, organizarte y mantenerte conectado.",
-    image: "/categories/samsung-relojes-v3.png",
+    image: "/categories/samsung-relojes-v4.png",
   },
   "Samsung:Tablets": {
     title: "Tablets",
     description: "Tablets Samsung originales para trabajar, estudiar y disfrutar tu contenido.",
-    image: "/categories/samsung-tablets-v3.png",
+    image: "/categories/samsung-tablets-v4.png",
   },
   Xiaomi: {
     title: "Xiaomi",
@@ -83,7 +83,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   "Xiaomi:Tablets": {
     title: "Tablets",
     description: "Tablets Xiaomi originales para trabajar, estudiar y disfrutar tu contenido.",
-    image: "/categories/xiaomi-tablets-v3.png",
+    image: "/categories/xiaomi-tablets-v4.png",
   },
   Motorola: {
     title: "Motorola",
@@ -93,7 +93,7 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Accesorios: {
     title: "Accesorios",
     description: "Cargadores, cables y accesorios originales para completar tu setup.",
-    image: "/categories/accesorios-v3.png",
+    image: "/categories/accesorios-v4.png",
   },
   Fotografia: {
     title: "Fotografia",

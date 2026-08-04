@@ -68,6 +68,8 @@ function matchesVariantKey(variant: Product["product_variants"][number], key: st
 
 function sortVariants(variants: Product["product_variants"]) {
     return [...variants].sort((a, b) => {
+        const screenDiff = (a.screen_inches ?? 0) - (b.screen_inches ?? 0);
+        if (screenDiff !== 0) return screenDiff;
         const storageDiff = (a.storage_gb ?? 0) - (b.storage_gb ?? 0);
         if (storageDiff !== 0) return storageDiff;
         return (a.ram_gb ?? 0) - (b.ram_gb ?? 0);
@@ -156,6 +158,10 @@ export default function ProductDetail({
     const [settings, setSettings] = useState<Settings | null>(null);
     const variants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
     const variantOptions = useMemo(() => getUniqueVariantOptions(product.product_variants ?? []), [product.product_variants]);
+    const screenOptions = useMemo(
+        () => Array.from(new Set(variants.map((variant) => variant.screen_inches).filter((screen): screen is number => typeof screen === "number"))),
+        [variants],
+    );
     const defaultVariant = variants[0] ?? null;
     const colors = useMemo(() => getProductColors(product), [product]);
     const [selectedVariantKey, setSelectedVariantKey] = useState<string | null>(
@@ -194,6 +200,19 @@ export default function ProductDetail({
             : null) ??
         variants.find((variant) => matchesVariantKey(variant, selectedVariantKey)) ??
         defaultVariant;
+    const selectedScreen = activeVariant?.screen_inches ?? screenOptions[0] ?? null;
+    const visibleVariantOptions = screenOptions.length > 1
+        ? variantOptions.filter((variant) => variant.screen_inches === selectedScreen)
+        : variantOptions;
+
+    const selectScreen = (screen: number) => {
+        const currentStorage = activeVariant?.storage_gb ?? null;
+        const nextVariant =
+            variants.find((variant) => variant.screen_inches === screen && variant.storage_gb === currentStorage) ??
+            variants.find((variant) => variant.screen_inches === screen);
+
+        if (nextVariant) setSelectedVariantKey(getVariantKey(nextVariant));
+    };
 
     const mainImage =
         activeVariant?.image_url ??
@@ -269,11 +288,32 @@ export default function ProductDetail({
                                 )}
                             </div>
 
-                            {variantOptions.length > 1 && (
+                            {screenOptions.length > 1 && (
                                 <div className="mt-7">
-                                    <p className="text-[13px] font-bold">Version</p>
+                                    <p className="text-[13px] font-bold">Pulgadas</p>
                                     <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                                        {variantOptions.map((variant) => {
+                                        {screenOptions.map((screen) => (
+                                            <button
+                                                key={screen}
+                                                type="button"
+                                                onClick={() => selectScreen(screen)}
+                                                className={`h-11 rounded-[5px] border text-[13px] font-semibold ${selectedScreen === screen
+                                                    ? "border-era-blue bg-white text-era-black"
+                                                    : "border-era-line bg-era-white text-era-black"
+                                                    }`}
+                                            >
+                                                {screen}&quot;
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {visibleVariantOptions.length > 1 && (
+                                <div className="mt-7">
+                                    <p className="text-[13px] font-bold">Almacenamiento</p>
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                        {visibleVariantOptions.map((variant) => {
                                             const variantKey = getVariantKey(variant);
 
                                             return (

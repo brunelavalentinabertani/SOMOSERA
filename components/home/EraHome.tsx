@@ -24,12 +24,12 @@ const instagramPosts = [
 ];
 
 const categories = [
-    { name: "iPhone", href: "/products?brand=Apple&category=Iphones", image: "/categories/iphone-v3.png" },
-    { name: "MacBook", href: "/products?brand=Apple&category=Macbooks", image: "/categories/macbook-v3.png" },
+    { name: "iPhone", href: "/products?brand=Apple&category=Iphones", image: "/categories/iphone-v4.png" },
+    { name: "MacBook", href: "/products?brand=Apple&category=Macbooks", image: "/categories/macbook-v4.png" },
     { name: "iPad", href: "/products?brand=Apple&category=Ipads", image: "/categories/ipad-v2.png" },
-    { name: "Apple Watch", href: "/products?brand=Apple&category=Applewatch", image: "/categories/apple-watch-v3.png" },
+    { name: "Apple Watch", href: "/products?brand=Apple&category=Applewatch", image: "/categories/apple-watch-v4.png" },
     { name: "iMac", href: "/products?brand=Apple&category=Imacs", image: "/categories/imac-v2.png" },
-    { name: "Accesorios", href: "/products?category=Accesorios", image: "/categories/accesorios-v3.png" },
+    { name: "Accesorios", href: "/products?category=Accesorios", image: "/categories/accesorios-v4.png" },
     { name: "Kindle", href: "/products?category=Kindle", image: "/categories/kindle-v2.png" },
     { name: "Samsung", href: "/products?brand=Samsung", image: "/categories/samsung-v2.png" },
     { name: "Xiaomi", href: "/products?brand=Xiaomi", image: "/categories/xiaomi-v2.png" },
