@@ -419,7 +419,7 @@ export default function ProductDetail({
                                 </div>
                             )}
 
-                            {variantsForSelection.length > 0 && (variantsForSelection.length > 1 || chipOptions.length > 1) && (
+                            {variantsForSelection.length > 0 && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Almacenamiento</p>
                                     <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
