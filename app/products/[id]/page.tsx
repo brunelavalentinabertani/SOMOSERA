@@ -2,6 +2,7 @@ import { supabase } from "../../../lib/supabaseClient"
 import { notFound } from "next/navigation"
 import ProductDetail from "./ProductDetail"
 import { Product } from "@/types/product"
+import { isProductHidden } from "../../../lib/catalogVisibility"
 
 export const dynamic = "force-dynamic"
 
@@ -10,7 +11,7 @@ export async function generateStaticParams() {
     .from("products")
     .select("id")
 
-  return (data ?? []).map((product) => ({
+  return (data ?? []).filter((product) => !isProductHidden(product)).map((product) => ({
     id: product.id,
   }))
 }
@@ -56,7 +57,7 @@ export default async function ProductPage({
     .eq("id", id)
     .single<Product>()
 
-  if (error || !data) {
+  if (error || !data || isProductHidden(data)) {
     return notFound()
   }
 
@@ -92,6 +93,7 @@ export default async function ProductPage({
     .neq("id", data.id)
 
   const relatedWithImages = (relatedProducts ?? [])
+    .filter((product) => !isProductHidden(product))
     .filter((product) =>
       Boolean(
         product.image_url ||

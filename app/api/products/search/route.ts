@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "../../../../lib/supabaseClient";
+import { isProductHidden } from "../../../../lib/catalogVisibility";
 
 const SEARCH_LIMIT = 6;
 
@@ -20,13 +21,13 @@ export async function GET(request: Request) {
       .from("products")
       .select("id, name, category")
       .or(`name.ilike.%${query}%,category.ilike.%${query}%`)
-      .limit(SEARCH_LIMIT);
+      .limit(SEARCH_LIMIT + 2);
 
     if (error) {
       return NextResponse.json([]);
     }
 
-    return NextResponse.json(data ?? []);
+    return NextResponse.json((data ?? []).filter((product) => !isProductHidden(product)).slice(0, SEARCH_LIMIT));
   } catch {
     return NextResponse.json([]);
   }

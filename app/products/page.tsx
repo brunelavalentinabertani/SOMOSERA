@@ -4,6 +4,7 @@ import { Package, ShieldCheck, Star, Truck, Users } from "lucide-react";
 import { supabase } from "../../lib/supabaseClient";
 import EraHeader from "../../components/layout/EraHeader";
 import ProductsClient from "./ProductsClient";
+import { isProductHidden } from "../../lib/catalogVisibility";
 
 export const dynamic = "force-dynamic";
 
@@ -188,7 +189,7 @@ export default async function ProductsPage({
     `)
     .order("created_at", { ascending: false });
 
-  const allProducts = products ?? [];
+  const allProducts = (products ?? []).filter((product) => !isProductHidden(product));
   const isMediaCategory =
     normalize(category) === "foto/video" || isCategoryInGroup(category, mediaCategories);
   const isGamingCategory = isCategoryInGroup(category, gamingCategories);

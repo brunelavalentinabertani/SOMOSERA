@@ -249,6 +249,7 @@ export default function ProductDetail({
         (selectedRam === null || variant.ram_gb === selectedRam),
     );
     const visibleStorageVariants = variantsForSelection.filter((variant) => variant.storage_gb > 0);
+    const fixedStorageGb = product.id === "ed4ca9cf-fefd-4d2d-abee-33b63904bfa6" ? 256 : null;
     const visibleScreenOptions = Array.from(new Set(
         variants
             .filter((variant) =>
@@ -501,6 +502,21 @@ export default function ProductDetail({
                                                 </button>
                                             );
                                         })}
+                                    </div>
+                                </div>
+                            )}
+
+                            {visibleStorageVariants.length === 0 && fixedStorageGb !== null && (
+                                <div className="mt-7">
+                                    <p className="text-[13px] font-bold">Almacenamiento</p>
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                        <button
+                                            type="button"
+                                            aria-pressed="true"
+                                            className="h-11 rounded-[5px] border border-era-blue bg-white text-[13px] font-semibold text-era-black"
+                                        >
+                                            {formatStorage(fixedStorageGb)}
+                                        </button>
                                     </div>
                                 </div>
                             )}
