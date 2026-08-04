@@ -79,7 +79,7 @@ function matchesVariantKey(variant: Product["product_variants"][number], key: st
 }
 
 function sortVariants(variants: Product["product_variants"]) {
-    const chipOrder = ["M5", "M5 Pro", "M5 Max"];
+    const chipOrder = ["M4", "M4 Pro", "M4 Max", "M5", "M5 Pro", "M5 Max"];
 
     return [...variants].sort((a, b) => {
         const chipDiff = chipOrder.indexOf(getVariantChip(a) ?? "") - chipOrder.indexOf(getVariantChip(b) ?? "");
@@ -398,7 +398,7 @@ export default function ProductDetail({
                                 </div>
                             )}
 
-                            {visibleRamOptions.length > 1 && (
+                            {visibleRamOptions.length > 0 && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Memoria RAM</p>
                                     <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
