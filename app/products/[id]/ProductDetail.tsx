@@ -25,7 +25,7 @@ type Settings = {
 
 const detailBenefits = [
     { title: "Garantía Apple Oficial", text: "", Icon: ShieldCheck },
-    { title: "Retiro en Palermo", text: "Retirá gratis en nuestra tienda", Icon: Store },
+    { title: "Retiro en Palermo", text: "", Icon: Store },
     { title: "Envíos a todo el país", text: "Rápido y seguro por Correo Andreani", Icon: Truck },
     { title: "Pagá tranquilo", text: "Transferencia, tarjetas y más", Icon: CreditCard },
 ];
@@ -560,7 +560,7 @@ export default function ProductDetail({
                             <Icon size={25} strokeWidth={1.7} />
                             <div>
                                 <p className="text-[13px] font-bold">{title}</p>
-                                <p className="text-[12px] text-era-text-muted">{text}</p>
+                                {text && <p className="text-[12px] text-era-text-muted">{text}</p>}
                             </div>
                         </div>
                     ))}
