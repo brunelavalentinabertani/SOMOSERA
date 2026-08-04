@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ERA",
+  title: "Somos Era",
   description: "Tecnología importada, original y segura.",
 };
 
