@@ -56,11 +56,15 @@ function formatStorage(storage: number) {
 function formatVariantOption(variant: Product["product_variants"][number]) {
     const details = [];
     const chip = getVariantChip(variant);
+    const edition = getVariantEdition(variant);
 
+    if (edition) details.push(`versión ${edition}`);
     if (chip) details.push(`chip ${chip}`);
     if (typeof variant.screen_inches === "number") details.push(`${variant.screen_inches}\"`);
     if (typeof variant.ram_gb === "number") details.push(`${variant.ram_gb} GB RAM`);
-    if (typeof variant.storage_gb === "number") details.push(formatStorage(variant.storage_gb));
+    if (typeof variant.storage_gb === "number" && variant.storage_gb > 0) {
+        details.push(formatStorage(variant.storage_gb));
+    }
 
     return details.join(", ");
 }
@@ -70,8 +74,13 @@ function getVariantChip(variant: Product["product_variants"][number]) {
     return name?.toLowerCase().startsWith("chip ") ? name.slice(5) : null;
 }
 
+function getVariantEdition(variant: Product["product_variants"][number]) {
+    const name = variant.color_name?.trim();
+    return name?.toLowerCase().startsWith("versión ") ? name.slice(8) : null;
+}
+
 function getVariantKey(variant: Product["product_variants"][number]) {
-    return [getVariantChip(variant) ?? "", variant.storage_gb ?? "", variant.ram_gb ?? "", variant.screen_inches ?? ""].join("-");
+    return [getVariantEdition(variant) ?? "", getVariantChip(variant) ?? "", variant.storage_gb ?? "", variant.ram_gb ?? "", variant.screen_inches ?? ""].join("-");
 }
 
 function matchesVariantKey(variant: Product["product_variants"][number], key: string | null) {
@@ -80,8 +89,11 @@ function matchesVariantKey(variant: Product["product_variants"][number], key: st
 
 function sortVariants(variants: Product["product_variants"]) {
     const chipOrder = ["M4", "M4 Pro", "M4 Max", "M5", "M5 Pro", "M5 Max"];
+    const editionOrder = ["HK", "USA"];
 
     return [...variants].sort((a, b) => {
+        const editionDiff = editionOrder.indexOf(getVariantEdition(a) ?? "") - editionOrder.indexOf(getVariantEdition(b) ?? "");
+        if (editionDiff !== 0) return editionDiff;
         const chipDiff = chipOrder.indexOf(getVariantChip(a) ?? "") - chipOrder.indexOf(getVariantChip(b) ?? "");
         if (chipDiff !== 0) return chipDiff;
         const screenDiff = (a.screen_inches ?? 0) - (b.screen_inches ?? 0);
@@ -101,6 +113,7 @@ function getUniqueVariantOptions(variants: Product["product_variants"]) {
 function isSelectableColor(name: string | null | undefined) {
     if (!name?.trim()) return false;
     if (name.trim().toLowerCase().startsWith("chip ")) return false;
+    if (name.trim().toLowerCase().startsWith("versión ")) return false;
 
     const normalizedName = name
         .normalize("NFD")
@@ -175,6 +188,10 @@ export default function ProductDetail({
     const [settings, setSettings] = useState<Settings | null>(null);
     const variants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
     const variantOptions = useMemo(() => getUniqueVariantOptions(product.product_variants ?? []), [product.product_variants]);
+    const editionOptions = useMemo(
+        () => Array.from(new Set(variants.map(getVariantEdition).filter((edition): edition is string => Boolean(edition)))),
+        [variants],
+    );
     const chipOptions = useMemo(
         () => Array.from(new Set(variants.map(getVariantChip).filter((chip): chip is string => Boolean(chip)))),
         [variants],
@@ -222,22 +239,29 @@ export default function ProductDetail({
         variants.find((variant) => matchesVariantKey(variant, selectedVariantKey)) ??
         defaultVariant;
     const selectedChip = activeVariant ? getVariantChip(activeVariant) : chipOptions[0] ?? null;
+    const selectedEdition = activeVariant ? getVariantEdition(activeVariant) : editionOptions[0] ?? null;
     const selectedScreen = activeVariant?.screen_inches ?? screenOptions[0] ?? null;
     const selectedRam = activeVariant?.ram_gb ?? null;
     const variantsForSelection = variantOptions.filter((variant) =>
+        (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
         (!selectedChip || getVariantChip(variant) === selectedChip) &&
         (selectedScreen === null || variant.screen_inches === selectedScreen) &&
         (selectedRam === null || variant.ram_gb === selectedRam),
     );
+    const visibleStorageVariants = variantsForSelection.filter((variant) => variant.storage_gb > 0);
     const visibleScreenOptions = Array.from(new Set(
         variants
-            .filter((variant) => !selectedChip || getVariantChip(variant) === selectedChip)
+            .filter((variant) =>
+                (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
+                (!selectedChip || getVariantChip(variant) === selectedChip),
+            )
             .map((variant) => variant.screen_inches)
             .filter((screen): screen is number => typeof screen === "number"),
     ));
     const visibleRamOptions = Array.from(new Set(
         variants
             .filter((variant) =>
+                (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
                 (!selectedChip || getVariantChip(variant) === selectedChip) &&
                 (selectedScreen === null || variant.screen_inches === selectedScreen),
             )
@@ -245,9 +269,22 @@ export default function ProductDetail({
             .filter((ram): ram is number => typeof ram === "number"),
     ));
 
+    const selectEdition = (edition: string) => {
+        const nextVariant =
+            variants.find((variant) =>
+                getVariantEdition(variant) === edition &&
+                variant.screen_inches === selectedScreen &&
+                variant.ram_gb === selectedRam &&
+                variant.storage_gb === activeVariant?.storage_gb,
+            ) ?? variants.find((variant) => getVariantEdition(variant) === edition);
+
+        if (nextVariant) setSelectedVariantKey(getVariantKey(nextVariant));
+    };
+
     const selectChip = (chip: string) => {
         const nextVariant =
             variants.find((variant) =>
+                (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
                 getVariantChip(variant) === chip &&
                 variant.screen_inches === selectedScreen &&
                 variant.ram_gb === selectedRam &&
@@ -260,11 +297,13 @@ export default function ProductDetail({
     const selectScreen = (screen: number) => {
         const nextVariant =
             variants.find((variant) =>
+                (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
                 (!selectedChip || getVariantChip(variant) === selectedChip) &&
                 variant.screen_inches === screen &&
                 variant.ram_gb === selectedRam &&
                 variant.storage_gb === activeVariant?.storage_gb,
             ) ?? variants.find((variant) =>
+                (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
                 (!selectedChip || getVariantChip(variant) === selectedChip) && variant.screen_inches === screen,
             );
 
@@ -273,6 +312,7 @@ export default function ProductDetail({
 
     const selectRam = (ram: number) => {
         const nextVariant = variants.find((variant) =>
+            (!selectedEdition || getVariantEdition(variant) === selectedEdition) &&
             (!selectedChip || getVariantChip(variant) === selectedChip) &&
             (selectedScreen === null || variant.screen_inches === selectedScreen) &&
             variant.ram_gb === ram &&
@@ -356,6 +396,27 @@ export default function ProductDetail({
                                 )}
                             </div>
 
+                            {editionOptions.length > 1 && (
+                                <div className="mt-7">
+                                    <p className="text-[13px] font-bold">Versión</p>
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                        {editionOptions.map((edition) => (
+                                            <button
+                                                key={edition}
+                                                type="button"
+                                                onClick={() => selectEdition(edition)}
+                                                className={`h-11 rounded-[5px] border text-[13px] font-semibold ${selectedEdition === edition
+                                                    ? "border-era-blue bg-white text-era-black"
+                                                    : "border-era-line bg-era-white text-era-black"
+                                                    }`}
+                                            >
+                                                {edition}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
                             {chipOptions.length > 1 && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Chip</p>
@@ -419,11 +480,11 @@ export default function ProductDetail({
                                 </div>
                             )}
 
-                            {variantsForSelection.length > 0 && (
+                            {visibleStorageVariants.length > 0 && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Almacenamiento</p>
                                     <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                                        {variantsForSelection.map((variant) => {
+                                        {visibleStorageVariants.map((variant) => {
                                             const variantKey = getVariantKey(variant);
 
                                             return (
