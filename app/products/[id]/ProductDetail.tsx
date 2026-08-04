@@ -54,12 +54,24 @@ function formatStorage(storage: number) {
 }
 
 function formatVariantOption(variant: Product["product_variants"][number]) {
-    const storage = typeof variant.storage_gb === "number" ? formatStorage(variant.storage_gb) : "Consultar";
-    return typeof variant.ram_gb === "number" ? `${variant.ram_gb}/${storage}` : storage;
+    const details = [];
+    const chip = getVariantChip(variant);
+
+    if (chip) details.push(`chip ${chip}`);
+    if (typeof variant.screen_inches === "number") details.push(`${variant.screen_inches}\"`);
+    if (typeof variant.ram_gb === "number") details.push(`${variant.ram_gb} GB RAM`);
+    if (typeof variant.storage_gb === "number") details.push(formatStorage(variant.storage_gb));
+
+    return details.join(", ");
+}
+
+function getVariantChip(variant: Product["product_variants"][number]) {
+    const name = variant.color_name?.trim();
+    return name?.toLowerCase().startsWith("chip ") ? name.slice(5) : null;
 }
 
 function getVariantKey(variant: Product["product_variants"][number]) {
-    return [variant.storage_gb ?? "", variant.ram_gb ?? "", variant.screen_inches ?? ""].join("-");
+    return [getVariantChip(variant) ?? "", variant.storage_gb ?? "", variant.ram_gb ?? "", variant.screen_inches ?? ""].join("-");
 }
 
 function matchesVariantKey(variant: Product["product_variants"][number], key: string | null) {
@@ -67,7 +79,11 @@ function matchesVariantKey(variant: Product["product_variants"][number], key: st
 }
 
 function sortVariants(variants: Product["product_variants"]) {
+    const chipOrder = ["M5", "M5 Pro", "M5 Max"];
+
     return [...variants].sort((a, b) => {
+        const chipDiff = chipOrder.indexOf(getVariantChip(a) ?? "") - chipOrder.indexOf(getVariantChip(b) ?? "");
+        if (chipDiff !== 0) return chipDiff;
         const screenDiff = (a.screen_inches ?? 0) - (b.screen_inches ?? 0);
         if (screenDiff !== 0) return screenDiff;
         const storageDiff = (a.storage_gb ?? 0) - (b.storage_gb ?? 0);
@@ -84,6 +100,7 @@ function getUniqueVariantOptions(variants: Product["product_variants"]) {
 
 function isSelectableColor(name: string | null | undefined) {
     if (!name?.trim()) return false;
+    if (name.trim().toLowerCase().startsWith("chip ")) return false;
 
     const normalizedName = name
         .normalize("NFD")
@@ -158,6 +175,10 @@ export default function ProductDetail({
     const [settings, setSettings] = useState<Settings | null>(null);
     const variants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
     const variantOptions = useMemo(() => getUniqueVariantOptions(product.product_variants ?? []), [product.product_variants]);
+    const chipOptions = useMemo(
+        () => Array.from(new Set(variants.map(getVariantChip).filter((chip): chip is string => Boolean(chip)))),
+        [variants],
+    );
     const screenOptions = useMemo(
         () => Array.from(new Set(variants.map((variant) => variant.screen_inches).filter((screen): screen is number => typeof screen === "number"))),
         [variants],
@@ -200,16 +221,63 @@ export default function ProductDetail({
             : null) ??
         variants.find((variant) => matchesVariantKey(variant, selectedVariantKey)) ??
         defaultVariant;
+    const selectedChip = activeVariant ? getVariantChip(activeVariant) : chipOptions[0] ?? null;
     const selectedScreen = activeVariant?.screen_inches ?? screenOptions[0] ?? null;
-    const visibleVariantOptions = screenOptions.length > 1
-        ? variantOptions.filter((variant) => variant.screen_inches === selectedScreen)
-        : variantOptions;
+    const selectedRam = activeVariant?.ram_gb ?? null;
+    const variantsForSelection = variantOptions.filter((variant) =>
+        (!selectedChip || getVariantChip(variant) === selectedChip) &&
+        (selectedScreen === null || variant.screen_inches === selectedScreen) &&
+        (selectedRam === null || variant.ram_gb === selectedRam),
+    );
+    const visibleScreenOptions = Array.from(new Set(
+        variants
+            .filter((variant) => !selectedChip || getVariantChip(variant) === selectedChip)
+            .map((variant) => variant.screen_inches)
+            .filter((screen): screen is number => typeof screen === "number"),
+    ));
+    const visibleRamOptions = Array.from(new Set(
+        variants
+            .filter((variant) =>
+                (!selectedChip || getVariantChip(variant) === selectedChip) &&
+                (selectedScreen === null || variant.screen_inches === selectedScreen),
+            )
+            .map((variant) => variant.ram_gb)
+            .filter((ram): ram is number => typeof ram === "number"),
+    ));
+
+    const selectChip = (chip: string) => {
+        const nextVariant =
+            variants.find((variant) =>
+                getVariantChip(variant) === chip &&
+                variant.screen_inches === selectedScreen &&
+                variant.ram_gb === selectedRam &&
+                variant.storage_gb === activeVariant?.storage_gb,
+            ) ?? variants.find((variant) => getVariantChip(variant) === chip);
+
+        if (nextVariant) setSelectedVariantKey(getVariantKey(nextVariant));
+    };
 
     const selectScreen = (screen: number) => {
-        const currentStorage = activeVariant?.storage_gb ?? null;
         const nextVariant =
-            variants.find((variant) => variant.screen_inches === screen && variant.storage_gb === currentStorage) ??
-            variants.find((variant) => variant.screen_inches === screen);
+            variants.find((variant) =>
+                (!selectedChip || getVariantChip(variant) === selectedChip) &&
+                variant.screen_inches === screen &&
+                variant.ram_gb === selectedRam &&
+                variant.storage_gb === activeVariant?.storage_gb,
+            ) ?? variants.find((variant) =>
+                (!selectedChip || getVariantChip(variant) === selectedChip) && variant.screen_inches === screen,
+            );
+
+        if (nextVariant) setSelectedVariantKey(getVariantKey(nextVariant));
+    };
+
+    const selectRam = (ram: number) => {
+        const nextVariant = variants.find((variant) =>
+            (!selectedChip || getVariantChip(variant) === selectedChip) &&
+            (selectedScreen === null || variant.screen_inches === selectedScreen) &&
+            variant.ram_gb === ram &&
+            variant.storage_gb === activeVariant?.storage_gb,
+        );
 
         if (nextVariant) setSelectedVariantKey(getVariantKey(nextVariant));
     };
@@ -288,11 +356,32 @@ export default function ProductDetail({
                                 )}
                             </div>
 
-                            {screenOptions.length > 1 && (
+                            {chipOptions.length > 1 && (
+                                <div className="mt-7">
+                                    <p className="text-[13px] font-bold">Chip</p>
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                                        {chipOptions.map((chip) => (
+                                            <button
+                                                key={chip}
+                                                type="button"
+                                                onClick={() => selectChip(chip)}
+                                                className={`h-11 rounded-[5px] border text-[13px] font-semibold ${selectedChip === chip
+                                                    ? "border-era-blue bg-white text-era-black"
+                                                    : "border-era-line bg-era-white text-era-black"
+                                                    }`}
+                                            >
+                                                {chip}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {visibleScreenOptions.length > 1 && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Pulgadas</p>
                                     <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                                        {screenOptions.map((screen) => (
+                                        {visibleScreenOptions.map((screen) => (
                                             <button
                                                 key={screen}
                                                 type="button"
@@ -309,11 +398,32 @@ export default function ProductDetail({
                                 </div>
                             )}
 
-                            {visibleVariantOptions.length > 1 && (
+                            {visibleRamOptions.length > 1 && (
+                                <div className="mt-7">
+                                    <p className="text-[13px] font-bold">Memoria RAM</p>
+                                    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                                        {visibleRamOptions.map((ram) => (
+                                            <button
+                                                key={ram}
+                                                type="button"
+                                                onClick={() => selectRam(ram)}
+                                                className={`h-11 rounded-[5px] border text-[13px] font-semibold ${selectedRam === ram
+                                                    ? "border-era-blue bg-white text-era-black"
+                                                    : "border-era-line bg-era-white text-era-black"
+                                                    }`}
+                                            >
+                                                {ram} GB
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {variantsForSelection.length > 0 && (variantsForSelection.length > 1 || chipOptions.length > 1) && (
                                 <div className="mt-7">
                                     <p className="text-[13px] font-bold">Almacenamiento</p>
                                     <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                                        {visibleVariantOptions.map((variant) => {
+                                        {variantsForSelection.map((variant) => {
                                             const variantKey = getVariantKey(variant);
 
                                             return (
@@ -326,7 +436,7 @@ export default function ProductDetail({
                                                         : "border-era-line bg-era-white text-era-black"
                                                         }`}
                                                 >
-                                                    {formatVariantOption(variant)}
+                                                    {formatStorage(variant.storage_gb)}
                                                 </button>
                                             );
                                         })}
