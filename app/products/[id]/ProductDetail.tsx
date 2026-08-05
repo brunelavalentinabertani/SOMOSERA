@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
-    Box,
     CreditCard,
     MessageCircle,
     ShieldCheck,
@@ -591,7 +590,6 @@ export default function ProductDetail({
                     </p>
                     <ul className="mt-8 space-y-5 text-[13px] font-semibold text-era-text-muted">
                         <li className="flex gap-3"><ShieldCheck size={18} /> Producto original y sellado.</li>
-                        <li className="flex gap-3"><Box size={18} /> Entrega con accesorios incluidos.</li>
                         <li className="flex gap-3"><ShoppingBag size={18} /> Asesoramiento antes y después de comprar.</li>
                     </ul>
                 </div>

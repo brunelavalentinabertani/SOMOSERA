@@ -10,7 +10,7 @@ import {
 import EraHeader from "../../components/layout/EraHeader";
 
 const whatsappHref = "https://wa.me/5491171254322";
-const instagramHref = "https://www.instagram.com/iphoneba.store/";
+const instagramHref = "https://www.instagram.com/_somosera";
 
 const heroImages = [
   { src: "/about/hero-man.png", alt: "Retrato ERA Palermo", className: "col-span-2 row-span-2" },
@@ -108,9 +108,9 @@ export default function NosotrosPage() {
               <span className="text-[12px] font-bold text-era-orange">*</span>
             </div>
             <div>
-              <p className="text-[28px] font-black leading-none">11 mil</p>
+              <p className="text-[28px] font-black leading-none">10,9 mil</p>
               <p className="mt-2 text-[12px] font-semibold text-era-text-muted">seguidores</p>
-              <p className="mt-3 text-[13px] font-bold">@somosera.</p>
+              <p className="mt-3 text-[13px] font-bold">@_somosera</p>
             </div>
           </Link>
         </div>
@@ -142,7 +142,7 @@ export default function NosotrosPage() {
               className="mt-10 flex items-center gap-3 text-[13px] font-bold xl:mt-14"
             >
               <Instagram size={18} />
-              @somosera.
+              @_somosera
             </Link>
           </div>
         </div>

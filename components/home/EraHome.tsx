@@ -15,12 +15,12 @@ import {
 import EraHeader from "../layout/EraHeader";
 
 const instagramPosts = [
-    { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DWH1b9GEUU4/" },
-    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DbJy9eLxkx5/" },
-    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/iphoneba.store/p/Da3rMUIEZT-/" },
-    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/iphoneba.store/reel/Dav9mQ_RKbu/" },
-    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/iphoneba.store/reel/Dad7tqWx9qu/" },
-    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/iphoneba.store/reel/DaTvpH9xr61/" },
+    { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/_somosera" },
+    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/_somosera" },
+    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/_somosera" },
+    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/_somosera" },
+    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/_somosera" },
+    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/_somosera" },
 ];
 
 const categories = [
@@ -213,8 +213,8 @@ export default function EraHome() {
 
             <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12">
                 <div className="mb-6 flex items-center justify-between">
-                    <h2 className="text-[22px] font-black tracking-[-0.03em]">@somosera.</h2>
-                    <Link href="https://www.instagram.com/iphoneba.store/" target="_blank" className="flex items-center gap-2 text-[12px] text-era-text-muted">
+                    <h2 className="text-[22px] font-black tracking-[-0.03em]">@_somosera</h2>
+                    <Link href="https://www.instagram.com/_somosera" target="_blank" className="flex items-center gap-2 text-[12px] text-era-text-muted">
                         Ver en Instagram <ArrowRight size={15} />
                     </Link>
                 </div>
@@ -224,12 +224,12 @@ export default function EraHome() {
                             key={post.href}
                             href={post.href}
                             target="_blank"
-                            aria-label={`Abrir publicación ${index + 1} de @iphoneba.store`}
+                            aria-label={`Abrir publicación ${index + 1} de @_somosera`}
                             className="group block"
                         >
                             <PhotoTile
                                 src={post.image}
-                                alt={`Publicación ${index + 1} de @iphoneba.store`}
+                                alt={`Publicación ${index + 1} de @_somosera`}
                                 className="h-[175px] rounded-[3px] transition group-hover:opacity-85"
                             />
                         </Link>

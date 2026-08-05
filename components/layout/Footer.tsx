@@ -29,7 +29,7 @@ export default function Footer() {
                         </p>
                         <div className="mt-7 flex gap-5 text-era-black">
                             <Link
-                                href="https://www.instagram.com/iphoneba.store/"
+                                href="https://www.instagram.com/_somosera"
                                 target="_blank"
                                 aria-label="Instagram somosera"
                                 className="cursor-pointer"
