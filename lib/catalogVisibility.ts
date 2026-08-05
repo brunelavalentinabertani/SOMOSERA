@@ -34,6 +34,7 @@ const hiddenProductIds = new Set([
   "e1963ba0-1a5c-4098-922e-b7aebdbdb2f3", // Nikon Z8 Body
   "d9263c3c-fa3b-47c6-8d8f-ba9d4ba6cdc9", // Nikon ZF Body
   "ce7b85c4-9545-4863-8e14-3d2cd8a5357a", // Nikon ZR 6K Cinema
+  "ae3bec6f-14ed-43bb-a241-bb5bc80265ec", // Batería Nikon EN-EL18D 3300 MAH
 ]);
 
 export function isProductHidden(product: { id: string }) {

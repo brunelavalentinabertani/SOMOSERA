@@ -195,15 +195,14 @@ export default async function ProductsPage({
     .order("created_at", { ascending: false });
 
   const allProducts = (products ?? []).filter((product) => !isProductHidden(product));
-  const isMediaCategory =
-    normalize(category) === "foto/video" || isCategoryInGroup(category, mediaCategories);
-  const isGamingCategory = isCategoryInGroup(category, gamingCategories);
+  const isMediaLanding = normalize(category) === "foto/video";
+  const isGamingLanding = normalize(category) === "gaming";
   const contextProducts = allProducts.filter((product) => {
     const brandMatches = !brand || normalize(product.brand) === normalize(brand);
     const categoryMatches = !category || (
-      isMediaCategory
+      isMediaLanding
         ? isCategoryInGroup(product.category, mediaCategories)
-        : isGamingCategory && normalize(category) === "gaming"
+        : isGamingLanding
         ? isCategoryInGroup(product.category, gamingCategories)
         : normalize(product.category) === normalize(category)
     );
