@@ -20,6 +20,20 @@ const hiddenProductIds = new Set([
   "dbc75608-15c5-4959-9cd5-2c02014b84ff", // Canon EOS RP Body
   "137a085f-7705-481d-988e-9e26fb138f01", // Batería SmallRig LP-E6NH Kit 2 baterías + cargador
   "2dcf4d9f-9261-425e-8bb1-18c40aa0751b", // Mount Adapter Control Ring EF-EOS R
+  "998648d6-60c4-4036-93c8-1a8198717363", // Nikon Coolpix P950
+  "0c36a8be-84e1-4cd8-965b-90601838362e", // Nikon D7500 Kit 18-140
+  "22112d8e-d0a9-4e41-961d-43724d04427c", // Nikon D850 Body
+  "55907a5f-c370-4d3b-a059-0141970398f5", // Nikon D850 Kit 24-120
+  "cd97254e-7fdd-4319-bcd3-4730366029f7", // Nikon Z30 Kit 16-50
+  "9dcdda08-37c3-4078-a43e-76932186b2d1", // Nikon Z30 Kit 16-50 / 50-250 VR II
+  "81e9ef26-9bd1-4335-aeeb-63a754c7a9ad", // Nikon Z30 Kit 18-140 VR
+  "3bf0435b-c49c-40bd-a150-6cf6a74b6c04", // Nikon Z5 II Kit 24-50 Español
+  "44c306e8-8baf-457e-93a0-d283ee918037", // Nikon Z5 II Kit 24-70 Español
+  "558e0fa2-a932-4249-a56c-c3fd48aad175", // Nikon Z6 II Body Español
+  "38b7f7a6-40c7-4462-99e7-b91fc3df271e", // Nikon Z7 II Body Español
+  "e1963ba0-1a5c-4098-922e-b7aebdbdb2f3", // Nikon Z8 Body
+  "d9263c3c-fa3b-47c6-8d8f-ba9d4ba6cdc9", // Nikon ZF Body
+  "ce7b85c4-9545-4863-8e14-3d2cd8a5357a", // Nikon ZR 6K Cinema
 ]);
 
 export function isProductHidden(product: { id: string }) {
