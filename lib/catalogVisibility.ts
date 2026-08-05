@@ -35,6 +35,13 @@ const hiddenProductIds = new Set([
   "d9263c3c-fa3b-47c6-8d8f-ba9d4ba6cdc9", // Nikon ZF Body
   "ce7b85c4-9545-4863-8e14-3d2cd8a5357a", // Nikon ZR 6K Cinema
   "ae3bec6f-14ed-43bb-a241-bb5bc80265ec", // Batería Nikon EN-EL18D 3300 MAH
+  "e2c52501-bb78-455e-a8a1-ab84544a83dc", // Sony Alfa 7 V Kit (Body + FE 28-70)
+  "07335d33-b6e5-4fd7-8433-0fd38a26bbd1", // Alfa 7R IV Body
+  "9cf3d926-76b4-4a58-a341-336e6d6af780", // ZV- E10 Body
+  "a89ec9e2-9aae-41ea-b85d-e83afd6a2a9b", // Bateria SmallRig USB-C FW-50, 2 baterias + cargador
+  "89fbc011-9a9e-42c5-96d0-dfdde4675293", // ASUS ROG STRIX G815L9-IS96 RTX 5070
+  "2e47a81f-6258-48c4-b3b3-3524a76436b6", // JOYSTICK PS5 BLUE/SILVER/BLACK/ WHITE
+  "8b280c45-feda-494d-907a-cdf34a4dd9ef", // Sony VR2 Horizon Bundle
 ]);
 
 export function isProductHidden(product: { id: string }) {
