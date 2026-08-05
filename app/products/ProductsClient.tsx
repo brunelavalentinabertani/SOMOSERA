@@ -15,7 +15,7 @@ type Settings = {
 };
 
 const PRODUCTS_PER_PAGE = 12;
-const mediaCategories = ["Fotografia", "Filmadoras"];
+const mediaCategories = ["Fotografia", "Filmadoras", "Drones"];
 const gamingCategories = ["Gaming", "Notebooks", "Consolas"];
 const gamingFilterCategories = ["Notebooks", "Consolas"];
 const appleCategoryOrder = ["Ipads", "Iphones", "Macbooks", "Applewatch", "Accesorios", "Imacs"];

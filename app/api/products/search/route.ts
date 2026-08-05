@@ -5,7 +5,11 @@ import { isProductHidden } from "../../../../lib/catalogVisibility";
 const SEARCH_LIMIT = 6;
 
 function normalizeSearchTerm(value: string | null) {
-  return value?.trim().replace(/[%,]/g, "") ?? "";
+  return (value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
 }
 
 export async function GET(request: Request) {
@@ -20,14 +24,20 @@ export async function GET(request: Request) {
     const { data, error } = await supabase
       .from("products")
       .select("id, name, category")
-      .or(`name.ilike.%${query}%,category.ilike.%${query}%`)
-      .limit(SEARCH_LIMIT + 2);
+      .limit(1000);
 
     if (error) {
       return NextResponse.json([]);
     }
 
-    return NextResponse.json((data ?? []).filter((product) => !isProductHidden(product)).slice(0, SEARCH_LIMIT));
+    return NextResponse.json(
+      (data ?? [])
+        .filter((product) => !isProductHidden(product))
+        .filter((product) =>
+          normalizeSearchTerm(`${product.name} ${product.category}`).includes(query),
+        )
+        .slice(0, SEARCH_LIMIT),
+    );
   } catch {
     return NextResponse.json([]);
   }

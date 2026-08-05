@@ -14,7 +14,7 @@ type ProductsSearchParams = {
   model?: string;
 };
 
-const mediaCategories = ["Fotografia", "Filmadoras"];
+const mediaCategories = ["Fotografia", "Filmadoras", "Drones"];
 const gamingCategories = ["Gaming", "Notebooks", "Consolas"];
 
 const benefits = [
@@ -104,6 +104,11 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
   Filmadoras: {
     title: "Filmadoras",
     description: "Equipos de video y producción profesional, listos para sumar al catálogo.",
+    image: "/categories/foto-video-v2.png",
+  },
+  Drones: {
+    title: "Drones",
+    description: "Drones y accesorios para capturar contenido desde una nueva perspectiva.",
     image: "/categories/foto-video-v2.png",
   },
   "Foto/Video": {
