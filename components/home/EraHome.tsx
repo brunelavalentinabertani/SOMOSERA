@@ -13,6 +13,7 @@ import {
     Users,
 } from "lucide-react";
 import EraHeader from "../layout/EraHeader";
+import LaunchPopup from "./LaunchPopup";
 
 const instagramPosts = [
     { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/_somosera/p/DbolQFmkYQx/" },
@@ -101,6 +102,7 @@ export default function EraHome() {
 
     return (
         <main className="min-h-screen bg-era-white text-era-black">
+            <LaunchPopup />
             <EraHeader />
 
             <section className="mx-auto grid max-w-[1420px] grid-cols-1 gap-7 px-5 pb-5 sm:px-8 lg:px-12 xl:grid-cols-[1fr_minmax(520px,820px)] xl:gap-10">
