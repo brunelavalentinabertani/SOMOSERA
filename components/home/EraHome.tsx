@@ -17,11 +17,11 @@ import LaunchPopup from "./LaunchPopup";
 
 const instagramPosts = [
     { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/_somosera/p/DbolQFmkYQx/" },
-    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/_somosera/reel/DbJy9eLxkx5/" },
-    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/_somosera/p/Da3rMUIEZT-/" },
-    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/_somosera/reel/Dav9mQ_RKbu/" },
-    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/_somosera/reel/Dad7tqWx9qu/" },
-    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/_somosera/reel/DaTvpH9xr61/" },
+    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/_somosera/p/Db9MT0ZEWMV/" },
+    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/_somosera/reel/Db6neOSxCwo/" },
+    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/_somosera/reel/Db4CBMQxIdP/" },
+    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/_somosera/p/DbwQJEwkckN/" },
+    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/_somosera/reel/DbJy9eLxkx5/" },
 ];
 
 const categories = [
