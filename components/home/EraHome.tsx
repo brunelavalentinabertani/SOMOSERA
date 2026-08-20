@@ -16,12 +16,12 @@ import EraHeader from "../layout/EraHeader";
 import LaunchPopup from "./LaunchPopup";
 
 const instagramPosts = [
-    { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/_somosera/p/DbolQFmkYQx/" },
-    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/_somosera/p/Db9MT0ZEWMV/" },
-    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/_somosera/reel/Db6neOSxCwo/" },
-    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/_somosera/reel/Db4CBMQxIdP/" },
-    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/_somosera/p/DbwQJEwkckN/" },
-    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/_somosera/reel/DbJy9eLxkx5/" },
+    { image: "/instagram/post-1.jpg", href: "https://www.instagram.com/_somosera/reel/DcRyqhuRRm7/" },
+    { image: "/instagram/post-2.jpg", href: "https://www.instagram.com/_somosera/p/DcMkdrXkXDn/" },
+    { image: "/instagram/post-3.jpg", href: "https://www.instagram.com/_somosera/reel/DcCQpE8RrYZ/" },
+    { image: "/instagram/post-4.jpg", href: "https://www.instagram.com/_somosera/p/Db9MT0ZEWMV/" },
+    { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/_somosera/reel/Db6neOSxCwo/" },
+    { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/_somosera/reel/Db4CBMQxIdP/" },
 ];
 
 const categories = [
