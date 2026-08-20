@@ -150,6 +150,34 @@ function getCardImage(product: Product) {
     return variantImage ?? colorImage ?? product.image_url ?? null;
 }
 
+const photographyAccessoryTerms = [
+    "ADAPTADOR",
+    "ADAPTER",
+    "BATERIA",
+    "BATTERY",
+    "CARGADOR",
+    "CONTROL REMOTO",
+    "FILTRO",
+    "FLASH",
+    "GRIP",
+    "MEMORIA",
+    "MEMORY CARD",
+    "MIC ",
+    "MICROPHONE",
+    "SHOTGUN",
+];
+
+function isPhotographyCamera(product: Product) {
+    if (product.category?.toLowerCase() !== "fotografia") return false;
+
+    const normalizedName = product.name
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .toUpperCase();
+
+    return !photographyAccessoryTerms.some((term) => normalizedName.includes(term));
+}
+
 function RelatedCard({ product }: { product: Product }) {
     const variant = product.product_variants?.[0] ?? null;
     const image = getCardImage(product);
@@ -206,6 +234,8 @@ export default function ProductDetail({
     );
     const [selectedColor, setSelectedColor] = useState<ProductColor | null>(colors[0] ?? null);
     const [openFaq, setOpenFaq] = useState<string | null>(null);
+    const isCamera = isPhotographyCamera(product);
+    const lensWhatsappHref = `https://wa.me/5491171254322?text=${encodeURIComponent(`Hola! Quiero consultar por lentes para ${product.name}.`)}`;
 
     useEffect(() => {
         let active = true;
@@ -588,6 +618,17 @@ export default function ProductDetail({
                     <p className="mt-6 whitespace-pre-line text-[14px] leading-6 text-era-text-muted">
                         {product.description || "Producto original, sellado e importado. Consultanos para confirmar disponibilidad y configuración."}
                     </p>
+                    {isCamera && (
+                        <a
+                            href={lensWhatsappHref}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-5 inline-flex items-center gap-2 text-[14px] font-bold text-era-orange hover:text-era-blue"
+                        >
+                            <MessageCircle size={18} />
+                            Tenemos variedad de lentes, consultanos por WhatsApp
+                        </a>
+                    )}
                     <ul className="mt-8 space-y-5 text-[13px] font-semibold text-era-text-muted">
                         <li className="flex gap-3"><ShieldCheck size={18} /> Producto original y sellado.</li>
                         <li className="flex gap-3"><ShoppingBag size={18} /> Asesoramiento antes y después de comprar.</li>
