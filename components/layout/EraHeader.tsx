@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { productPath } from "../../lib/seo";
 import { useEffect, useState } from "react";
 import { Menu, MessageCircle, Search, X } from "lucide-react";
 
@@ -112,7 +113,7 @@ function HeaderSearch() {
                             {results.map((product) => (
                                 <Link
                                     key={product.id}
-                                    href={`/products/${product.id}`}
+                                    href={productPath(product)}
                                     onClick={() => setOpen(false)}
                                     className="block border-b border-era-line px-4 py-3 text-[13px] transition hover:bg-era-white"
                                 >

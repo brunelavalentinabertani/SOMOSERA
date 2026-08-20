@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { CreditCard, HelpCircle, ShieldCheck, Truck } from "lucide-react";
 import EraHeader from "../../components/layout/EraHeader";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Envíos, pagos y garantía",
+  description: "Información sobre envíos, retiro en Palermo, formas de pago, garantía y preguntas frecuentes de Somos Era.",
+  alternates: { canonical: "/info" },
+  openGraph: { url: "/info" },
+};
 
 const sections = [
   {

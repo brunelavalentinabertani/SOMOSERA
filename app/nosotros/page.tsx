@@ -8,16 +8,24 @@ import {
   Truck,
 } from "lucide-react";
 import EraHeader from "../../components/layout/EraHeader";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nosotros",
+  description: "Conocé Somos Era, nuestra historia y cómo te acompañamos para comprar tecnología original de forma clara y segura.",
+  alternates: { canonical: "/nosotros" },
+  openGraph: { url: "/nosotros" },
+};
 
 const whatsappHref = "https://wa.me/5491171254322";
 const instagramHref = "https://www.instagram.com/_somosera";
 
 const heroImages = [
-  { src: "/about/hero-man.png", alt: "Retrato ERA Palermo", className: "col-span-2 row-span-2" },
-  { src: "/about/portrait-subway.png", alt: "ERA en Buenos Aires", className: "" },
-  { src: "/about/phone-wall.png", alt: "Consulta por WhatsApp", className: "" },
-  { src: "/about/beanie.png", alt: "ERA estilo urbano", className: "" },
-  { src: "/about/top-view.png", alt: "ERA Palermo calle", className: "" },
+  { src: "/about/hero-man.webp", alt: "Retrato ERA Palermo", className: "col-span-2 row-span-2" },
+  { src: "/about/portrait-subway.webp", alt: "ERA en Buenos Aires", className: "" },
+  { src: "/about/phone-wall.webp", alt: "Consulta por WhatsApp", className: "" },
+  { src: "/about/beanie.webp", alt: "ERA estilo urbano", className: "" },
+  { src: "/about/top-view.webp", alt: "ERA Palermo calle", className: "" },
 ];
 
 const history = [
@@ -120,7 +128,7 @@ export default function NosotrosPage() {
         <div className="mx-auto grid max-w-[1420px] grid-cols-1 px-5 py-10 sm:px-8 lg:px-12 xl:grid-cols-[1fr_390px]">
           <div className="relative h-[300px] overflow-hidden bg-era-line sm:h-[420px]">
             <Image
-              src="/about/brune-gian.png"
+              src="/about/brune-gian.webp"
               alt="Brune y Gian"
               fill
               className="object-cover"
@@ -171,7 +179,7 @@ export default function NosotrosPage() {
       <section className="mx-auto max-w-[1420px] px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
         <div className="relative min-h-[280px] overflow-hidden rounded-[8px] bg-era-black sm:min-h-[230px]">
           <Image
-            src="/about/whatsapp-banner-v2.png"
+            src="/about/whatsapp-banner-v2.webp"
             alt="Escribinos por WhatsApp"
             fill
             className="object-cover opacity-70"

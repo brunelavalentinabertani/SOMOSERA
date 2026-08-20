@@ -2,10 +2,11 @@
 
 import { Search } from "lucide-react"
 import Link from "next/link"
+import { productPath } from "../lib/seo"
 import { useEffect, useState } from "react"
 
 type Product = {
-    id: number
+    id: string
     name: string
     category: string
 }
@@ -96,7 +97,7 @@ export default function SearchBar() {
                     {results.map((product) => (
                         <Link
                             key={product.id}
-                            href={`/products/${product.id}`}
+                            href={productPath(product)}
                             className="
                 block px-4 py-2 text-sm
                 hover:bg-gray-100

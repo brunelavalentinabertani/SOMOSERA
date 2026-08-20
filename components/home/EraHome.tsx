@@ -133,10 +133,10 @@ export default function EraHome() {
                 </div>
 
                 <div className="grid h-[360px] grid-cols-2 grid-rows-2 gap-1 sm:h-[400px] sm:grid-cols-[1fr_1.35fr_1fr] xl:h-[455px] xl:grid-cols-[240px_340px_1fr]">
-                    <PhotoTile src="/home-macbook-blue-v2.png" alt="MacBook azul" className="sm:row-span-2" />
-                    <PhotoTile src="/home-pocket-camera-v2.png" alt="Cámara compacta" className="sm:row-span-2" />
-                    <PhotoTile src="/home-headphones-green-v2.png" alt="Auriculares verdes" />
-                    <PhotoTile src="/home-imac-blue-v2.png" alt="iMac azul" />
+                    <PhotoTile src="/home-macbook-blue-v2.webp" alt="MacBook azul" className="sm:row-span-2" />
+                    <PhotoTile src="/home-pocket-camera-v2.webp" alt="Cámara compacta" className="sm:row-span-2" />
+                    <PhotoTile src="/home-headphones-green-v2.webp" alt="Auriculares verdes" />
+                    <PhotoTile src="/home-imac-blue-v2.webp" alt="iMac azul" />
                 </div>
             </section>
 
@@ -206,10 +206,10 @@ export default function EraHome() {
                 </div>
 
                 <div className="grid h-[360px] grid-cols-2 gap-1 sm:h-[300px] sm:grid-cols-4 sm:[grid-template-columns:1.2fr_0.9fr_1.25fr_0.8fr]">
-                    <PhotoTile src="/palermo/buenos-aires-1.png" alt="Monumento de los Españoles en Palermo" />
-                    <PhotoTile src="/palermo/buenos-aires-2.png" alt="Puesto de flores de Buenos Aires" />
-                    <PhotoTile src="/palermo/buenos-aires-3.png" alt="Jardín Botánico de Buenos Aires" />
-                    <PhotoTile src="/palermo/buenos-aires-4.png" alt="Planetario Galileo Galilei en Palermo" />
+                    <PhotoTile src="/palermo/buenos-aires-1.webp" alt="Monumento de los Españoles en Palermo" />
+                    <PhotoTile src="/palermo/buenos-aires-2.webp" alt="Puesto de flores de Buenos Aires" />
+                    <PhotoTile src="/palermo/buenos-aires-3.webp" alt="Jardín Botánico de Buenos Aires" />
+                    <PhotoTile src="/palermo/buenos-aires-4.webp" alt="Planetario Galileo Galilei en Palermo" />
                 </div>
             </section>
 

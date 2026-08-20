@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { productPath } from "../../lib/seo";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronDown, MessageCircle } from "lucide-react";
 import { Product } from "@/types/product";
@@ -96,7 +97,7 @@ function ProductTile({
 
   return (
     <article className="relative flex min-h-[430px] flex-col rounded-[8px] border border-era-line bg-white p-4 sm:min-h-[500px] sm:p-5 lg:min-h-[520px] lg:p-6">
-      <Link href={`/products/${product.id}`} className="relative block h-[150px] sm:h-[180px] lg:h-[190px]">
+      <Link href={productPath(product)} className="relative block h-[150px] sm:h-[180px] lg:h-[190px]">
         {image ? (
           <Image src={image} alt={product.name} fill className="object-contain" sizes="18vw" />
         ) : (
@@ -129,7 +130,7 @@ function ProductTile({
           )}
         </div>
         <Link
-          href={`/products/${product.id}`}
+          href={productPath(product)}
           className="mt-auto flex h-10 items-center justify-center rounded-[4px] border border-era-gray-niebla text-[12px] font-bold transition hover:border-era-black"
         >
           Ver detalle

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { productPath } from "../../../lib/seo";
 import { useEffect, useMemo, useState } from "react";
 import {
     CreditCard,
@@ -185,7 +186,7 @@ function RelatedCard({ product }: { product: Product }) {
 
     return (
         <article className="relative rounded-[8px] border border-era-line bg-white p-5">
-            <Link href={`/products/${product.id}`} className="block">
+            <Link href={productPath(product)} className="block">
                 <div className="relative h-[190px]">
                     {image ? (
                         <Image src={image} alt={product.name} fill className="object-contain" sizes="16vw" />

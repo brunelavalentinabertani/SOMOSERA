@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Product, ProductColor } from "@/types/product";
 import { calculatePrices } from "../../lib/pricing";
 import { formatPrice } from "../../lib/formatPrices";
+import { productPath } from "../../lib/seo";
 
 function getDefaultProductOptions(product: Product) {
     const hasVariantColors = product.product_variants.some((variant) => !!variant.color_name);
@@ -251,7 +252,7 @@ export function ProductCard({
             </div>
 
             {isAvailable ? (
-                <Link href={`/products/${product.id}`} className="mt-4">
+                <Link href={productPath(product)} className="mt-4">
                     <button className=" w-full rounded-xl bg-black text-white py-2 md:py-3 text-sm md:text-base hover:bg-gray-800 transition">
                         Ver más
                     </button>

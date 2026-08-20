@@ -1,10 +1,12 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Package, ShieldCheck, Star, Truck, Users } from "lucide-react";
 import { supabase } from "../../lib/supabaseClient";
 import EraHeader from "../../components/layout/EraHeader";
 import ProductsClient from "./ProductsClient";
 import { isProductHidden } from "../../lib/catalogVisibility";
+import { absoluteUrl, seoDescription } from "../../lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -142,6 +144,58 @@ const heroCopy: Record<string, { title: string; description: string; image: stri
     image: "/categories/ipad-v2.png",
   },
 };
+
+function getHero(brand: string | null, category: string | null) {
+  const brandHeroKey = ["Samsung", "Xiaomi", "Motorola"].includes(brand ?? "") ? brand : null;
+  const scopedHeroKey = brand && category ? `${brand}:${category}` : null;
+  const heroKey = scopedHeroKey && heroCopy[scopedHeroKey]
+    ? scopedHeroKey
+    : brandHeroKey ?? category ?? brand ?? "Productos";
+
+  return heroCopy[heroKey] ?? {
+    title: category ?? brand ?? "Productos",
+    description: "Productos originales, importados y sellados.",
+    image: "/Iphone_HeroImage.jpeg",
+  };
+}
+
+function categoryCanonical(brand: string | null, category: string | null) {
+  const params = new URLSearchParams();
+  if (brand) params.set("brand", brand);
+  if (category) params.set("category", category);
+  return `/products?${params.toString()}`;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<ProductsSearchParams>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const brand = params.brand?.trim() || null;
+  const category = params.category?.trim() || null;
+
+  if (!brand && !category) {
+    return { robots: { index: false, follow: true } };
+  }
+
+  const hero = getHero(brand, category);
+  const title = `${hero.title} originales en Argentina`;
+  const description = seoDescription(
+    hero.description,
+    `Encontrá ${hero.title} originales con envíos a todo el país y retiro en Palermo.`,
+  );
+  const canonical = categoryCanonical(brand, category);
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: { title, description, url: canonical, images: [hero.image] },
+    twitter: { title, description, images: [hero.image] },
+  };
+}
+
 function normalize(value?: string | null) {
   return (value ?? "").trim().toLowerCase();
 }
@@ -221,19 +275,24 @@ export default async function ProductsPage({
     return true;
   });
 
-  const brandHeroKey = ["Samsung", "Xiaomi", "Motorola"].includes(brand ?? "") ? brand : null;
-  const scopedHeroKey = brand && category ? `${brand}:${category}` : null;
-  const heroKey = scopedHeroKey && heroCopy[scopedHeroKey]
-    ? scopedHeroKey
-    : brandHeroKey ?? category ?? brand ?? "Productos";
-  const hero = heroCopy[heroKey] ?? {
-    title: category ?? brand ?? "Productos",
-    description: "Productos originales, importados y sellados.",
-    image: "/Iphone_HeroImage.jpeg",
-  };
+  const hero = getHero(brand, category);
+  const canonical = categoryCanonical(brand, category);
 
   return (
     <main className="min-h-screen bg-era-white text-era-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Inicio", item: absoluteUrl("/") },
+              { "@type": "ListItem", position: 2, name: hero.title, item: absoluteUrl(canonical) },
+            ],
+          }),
+        }}
+      />
       <EraHeader />
 
       <section className="border-t border-era-line">
