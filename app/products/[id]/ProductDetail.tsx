@@ -171,6 +171,9 @@ const photographyAccessoryTerms = [
 function isPhotographyCamera(product: Product) {
     if (product.category?.toLowerCase() !== "fotografia") return false;
 
+    const brand = product.brand?.trim().toLowerCase();
+    if (!brand || !["sony", "nikon", "canon"].includes(brand)) return false;
+
     const normalizedName = product.name
         .normalize("NFD")
         .replace(/\p{Diacritic}/gu, "")
@@ -579,8 +582,8 @@ export default function ProductDetail({
                             )}
 
                             {isCamera && (
-                                <p className="mt-2 text-[13px] font-bold">
-                                    Tenemos variedad de lentes, consultanos por WhatsApp
+                                <p className="mt-2 text-[13px] font-bold text-era-orange">
+                                    * Tenemos variedad de lentes, consultanos por WhatsApp
                                 </p>
                             )}
 
