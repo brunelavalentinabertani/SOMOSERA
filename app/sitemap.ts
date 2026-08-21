@@ -18,6 +18,10 @@ const categoryUrls = [
   "/products?category=Kindle",
 ];
 
+function xmlSafeUrl(path: string) {
+  return absoluteUrl(path).replaceAll("&", "&amp;");
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await supabase.from("products").select("id, name");
   const products = (data ?? []).filter((product) => !isProductHidden(product));
@@ -27,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/nosotros"), priority: 0.6, changeFrequency: "monthly" },
     { url: absoluteUrl("/info"), priority: 0.6, changeFrequency: "monthly" },
     ...categoryUrls.map((url) => ({
-      url: absoluteUrl(url),
+      url: xmlSafeUrl(url),
       priority: 0.8,
       changeFrequency: "daily" as const,
     })),
