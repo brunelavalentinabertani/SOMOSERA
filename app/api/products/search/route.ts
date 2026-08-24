@@ -14,6 +14,19 @@ function normalizeSearchTerm(value: string | null) {
     .replace(/\s+/g, " ");
 }
 
+function getSearchScore(searchableText: string, query: string) {
+  const terms = Array.from(new Set(query.split(" ").filter(Boolean)));
+  const matchedTerms = terms.filter((term) => searchableText.includes(term));
+
+  if (matchedTerms.length === 0) {
+    return 0;
+  }
+
+  // Keep complete phrase matches first, then favor products matching more
+  // individual words from the search (for example, "nikon z50").
+  return (searchableText.includes(query) ? terms.length + 1 : 0) + matchedTerms.length;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = normalizeSearchTerm(searchParams.get("q"));
@@ -35,10 +48,17 @@ export async function GET(request: Request) {
     return NextResponse.json(
       (data ?? [])
         .filter((product) => !isProductHidden(product))
-        .filter((product) =>
-          normalizeSearchTerm(`${product.name} ${product.category}`).includes(query),
-        )
-        .slice(0, SEARCH_LIMIT),
+        .map((product) => ({
+          product,
+          score: getSearchScore(
+            normalizeSearchTerm(`${product.name} ${product.category}`),
+            query,
+          ),
+        }))
+        .filter(({ score }) => score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, SEARCH_LIMIT)
+        .map(({ product }) => product),
     );
   } catch {
     return NextResponse.json([]);
