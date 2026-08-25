@@ -28,7 +28,7 @@
 }
 
 .announcement-ticker-track {
-  animation: announcementTicker 18s linear infinite;
+  animation: announcementTicker 28s linear infinite;
   will-change: transform;
 }
 

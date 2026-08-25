@@ -389,7 +389,7 @@ export default function ProductDetail({
 
     const handleBuy = () => {
         let message = discountApplied
-            ? `Hola! ¡Tengo mi código de descuento! 🌟 Quiero consultar por ${product.name}`
+            ? `Hola! ¡Tengo mi código de descuento! 🚀 Quiero consultar por ${product.name}`
             : `Hola! Quiero consultar por ${product.name}`;
         if (activeVariant) message += `, ${formatVariantOption(activeVariant)}`;
         if (selectedColor) message += `, color ${selectedColor.name}`;
@@ -442,11 +442,6 @@ export default function ProductDetail({
                                         <p className="text-[16px] font-bold text-era-black">
                                             USD {basePriceUsd} en un pago
                                         </p>
-                                        {discountApplied && (
-                                            <p className="text-[12px] font-semibold text-era-success">
-                                                Código aplicado: USD {regularBasePriceUsd} - USD {DISCOUNT_USD}
-                                            </p>
-                                        )}
                                     </div>
                                 ) : (
                                     <p className="text-[36px] font-black">USD {basePriceUsd}</p>
