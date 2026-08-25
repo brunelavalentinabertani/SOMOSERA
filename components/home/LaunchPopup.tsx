@@ -64,7 +64,7 @@ export default function LaunchPopup() {
           type="button"
           onClick={() => setIsOpen(false)}
           aria-label="Cerrar novedad"
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-era-black shadow-sm transition hover:bg-era-black hover:text-white"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-era-black shadow-sm transition hover:bg-era-black hover:text-white"
         >
           <X size={19} />
         </button>

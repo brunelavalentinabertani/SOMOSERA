@@ -388,14 +388,20 @@ export default function ProductDetail({
     };
 
     const handleBuy = () => {
+        const rocketEmoji = String.fromCodePoint(0x1f680);
         let message = discountApplied
-            ? `Hola! ¡Tengo mi código de descuento! 🚀 Quiero consultar por ${product.name}`
+            ? `Hola! ¡Tengo mi código de descuento! ${rocketEmoji} Quiero consultar por ${product.name}`
             : `Hola! Quiero consultar por ${product.name}`;
         if (activeVariant) message += `, ${formatVariantOption(activeVariant)}`;
         if (selectedColor) message += `, color ${selectedColor.name}`;
         message += `. ¿Está disponible?`;
 
-        window.open(`https://wa.me/5491171254322?text=${encodeURIComponent(message)}`, "_blank");
+        const whatsappParams = new URLSearchParams({
+            phone: "5491171254322",
+            text: message,
+        });
+
+        window.open(`https://api.whatsapp.com/send?${whatsappParams.toString()}`, "_blank");
     };
 
     return (

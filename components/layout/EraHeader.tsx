@@ -95,7 +95,7 @@ function HeaderSearch() {
                 type="button"
                 aria-label="Buscar productos"
                 onClick={() => setOpen((value) => !value)}
-                className=" "
+                className="cursor-pointer"
             >
                 <Search size={24} strokeWidth={1.8} />
             </button>
