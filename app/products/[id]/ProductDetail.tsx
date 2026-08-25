@@ -16,6 +16,7 @@ import { Product, ProductColor } from "@/types/product";
 import EraHeader from "../../../components/layout/EraHeader";
 import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
+import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 
 type Settings = {
     usd_rate: number;
@@ -239,6 +240,7 @@ export default function ProductDetail({
     const [selectedColor, setSelectedColor] = useState<ProductColor | null>(colors[0] ?? null);
     const [openFaq, setOpenFaq] = useState<string | null>(null);
     const isCamera = isPhotographyCamera(product);
+    const acceptsDiscountCode = isDiscountEligibleProduct(product);
 
     useEffect(() => {
         let active = true;
@@ -428,6 +430,22 @@ export default function ProductDetail({
                                     <p className="text-[36px] font-black">USD {basePriceUsd}</p>
                                 )}
                             </div>
+
+                            {acceptsDiscountCode && (
+                                <div className="mt-7">
+                                    <label htmlFor="discount-code" className="text-[13px] font-bold">
+                                        Código de descuento
+                                    </label>
+                                    <input
+                                        id="discount-code"
+                                        name="discount-code"
+                                        type="text"
+                                        autoComplete="off"
+                                        placeholder="Código de descuento"
+                                        className="mt-3 h-12 w-full rounded-[5px] border border-era-gray-niebla bg-white px-4 text-[14px] outline-none transition placeholder:text-era-text-muted focus:border-era-blue"
+                                    />
+                                </div>
+                            )}
 
                             {editionOptions.length > 1 && (
                                 <div className="mt-7">

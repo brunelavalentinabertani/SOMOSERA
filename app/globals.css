@@ -18,6 +18,24 @@
   animation: fadeIn 0.3s ease-in-out forwards;
 }
 
+@keyframes announcementTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.announcement-ticker-track {
+  animation: announcementTicker 18s linear infinite;
+  will-change: transform;
+}
+
+.announcement-ticker:hover .announcement-ticker-track {
+  animation-play-state: paused;
+}
+
 @theme inline {
   --color-era-black: var(--era-black);
   --color-era-white: var(--era-white);

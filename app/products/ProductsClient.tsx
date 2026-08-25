@@ -9,7 +9,7 @@ import { Product } from "@/types/product";
 import { calculatePrices } from "../../lib/pricing";
 import { formatPrice } from "../../lib/formatPrices";
 
-type Settings = {
+export type Settings = {
   usd_rate: number;
   transfer_multiplier: number;
   list_multiplier: number;
@@ -75,7 +75,7 @@ function getProductImage(product: Product) {
   return variantImage ?? colorImage ?? product.image_url ?? null;
 }
 
-function ProductTile({
+export function ProductTile({
   product,
   settings,
 }: {
