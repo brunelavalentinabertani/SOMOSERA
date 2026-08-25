@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { productPath } from "../../../lib/seo";
-import { useEffect, useMemo, useState } from "react";
+import { type FormEvent, useEffect, useMemo, useState } from "react";
 import {
     CreditCard,
     MessageCircle,
@@ -17,6 +17,9 @@ import EraHeader from "../../../components/layout/EraHeader";
 import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
+
+const DISCOUNT_CODE = "SOMOSERA25";
+const DISCOUNT_USD = 25;
 
 type Settings = {
     usd_rate: number;
@@ -239,6 +242,8 @@ export default function ProductDetail({
     );
     const [selectedColor, setSelectedColor] = useState<ProductColor | null>(colors[0] ?? null);
     const [openFaq, setOpenFaq] = useState<string | null>(null);
+    const [discountCode, setDiscountCode] = useState("");
+    const [discountStatus, setDiscountStatus] = useState<"idle" | "applied" | "invalid">("idle");
     const isCamera = isPhotographyCamera(product);
     const acceptsDiscountCode = isDiscountEligibleProduct(product);
 
@@ -363,17 +368,29 @@ export default function ProductDetail({
         product.image_url ??
         null;
 
-    const basePriceUsd = activeVariant ? activeVariant.price_usd : product.price_usd ?? null;
-    const shouldConsult = basePriceUsd === null || basePriceUsd <= 0;
+    const regularBasePriceUsd = activeVariant ? activeVariant.price_usd : product.price_usd ?? null;
+    const shouldConsult = regularBasePriceUsd === null || regularBasePriceUsd <= 0;
+    const discountApplied = acceptsDiscountCode && discountStatus === "applied" && !shouldConsult;
+    const basePriceUsd = discountApplied && regularBasePriceUsd !== null
+        ? Math.max(regularBasePriceUsd - DISCOUNT_USD, 0)
+        : regularBasePriceUsd;
     const prices = !shouldConsult && settings?.usd_rate
-        ? calculatePrices(basePriceUsd, settings.usd_rate, {
+        ? calculatePrices(basePriceUsd!, settings.usd_rate, {
             transferMultiplier: settings.transfer_multiplier,
             listMultiplier: settings.list_multiplier,
         })
         : null;
 
+    const handleApplyDiscount = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const isValid = !shouldConsult && discountCode.trim().toUpperCase() === DISCOUNT_CODE;
+        setDiscountStatus(isValid ? "applied" : "invalid");
+    };
+
     const handleBuy = () => {
-        let message = `Hola! Quiero consultar por ${product.name}`;
+        let message = discountApplied
+            ? `Hola! ¡Tengo mi código de descuento! 🌟 Quiero consultar por ${product.name}`
+            : `Hola! Quiero consultar por ${product.name}`;
         if (activeVariant) message += `, ${formatVariantOption(activeVariant)}`;
         if (selectedColor) message += `, color ${selectedColor.name}`;
         message += `. ¿Está disponible?`;
@@ -425,6 +442,11 @@ export default function ProductDetail({
                                         <p className="text-[16px] font-bold text-era-black">
                                             USD {basePriceUsd} en un pago
                                         </p>
+                                        {discountApplied && (
+                                            <p className="text-[12px] font-semibold text-era-success">
+                                                Código aplicado: USD {regularBasePriceUsd} - USD {DISCOUNT_USD}
+                                            </p>
+                                        )}
                                     </div>
                                 ) : (
                                     <p className="text-[36px] font-black">USD {basePriceUsd}</p>
@@ -436,14 +458,35 @@ export default function ProductDetail({
                                     <label htmlFor="discount-code" className="text-[13px] font-bold">
                                         Código de descuento
                                     </label>
-                                    <input
-                                        id="discount-code"
-                                        name="discount-code"
-                                        type="text"
-                                        autoComplete="off"
-                                        placeholder="Código de descuento"
-                                        className="mt-3 h-12 w-full rounded-[5px] border border-era-gray-niebla bg-white px-4 text-[14px] outline-none transition placeholder:text-era-text-muted focus:border-era-blue"
-                                    />
+                                    <form onSubmit={handleApplyDiscount} className="mt-3 flex gap-2">
+                                        <input
+                                            id="discount-code"
+                                            name="discount-code"
+                                            type="text"
+                                            autoComplete="off"
+                                            value={discountCode}
+                                            onChange={(event) => {
+                                                setDiscountCode(event.target.value);
+                                                if (discountStatus !== "idle") setDiscountStatus("idle");
+                                            }}
+                                            placeholder="Código de descuento"
+                                            className="h-12 min-w-0 flex-1 rounded-[5px] border border-era-gray-niebla bg-white px-4 text-[14px] outline-none transition placeholder:text-era-text-muted focus:border-era-blue"
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="h-12 cursor-pointer rounded-[5px] bg-era-black px-5 text-[13px] font-bold text-white transition hover:bg-era-blue"
+                                        >
+                                            Aplicar
+                                        </button>
+                                    </form>
+                                    <div aria-live="polite" className="mt-2 min-h-5 text-[12px] font-semibold">
+                                        {discountStatus === "applied" && (
+                                            <p className="text-era-success">¡Código aplicado! Ahorrás USD {DISCOUNT_USD}.</p>
+                                        )}
+                                        {discountStatus === "invalid" && (
+                                            <p className="text-era-orange">El código ingresado no es válido.</p>
+                                        )}
+                                    </div>
                                 </div>
                             )}
 
