@@ -7,14 +7,14 @@ import { MessageCircle, X } from "lucide-react";
 const launchProducts = [
   {
     name: "Samsung Z Fold 8 Ultra",
-    price: 2145,
+    price: 2095,
     ram: 12,
     storage: 512,
     image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/catalog/aac7c7fa-7a11-4800-854e-23852e09b5dd.avif",
   },
   {
     name: "Samsung Z Fold 8",
-    price: 1850,
+    price: 1800,
     ram: 12,
     storage: 512,
     image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/catalog/054af828-5d1e-4dea-ae70-dece342225fb.jpg",
