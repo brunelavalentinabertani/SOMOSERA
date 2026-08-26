@@ -28,7 +28,7 @@ const tickerItems = Array.from({ length: 8 }, (_, index) => (
         key={index}
         className="flex shrink-0 items-center gap-8 px-4 sm:gap-12 sm:px-6"
     >
-        <span>TENES UN CODIGO DE DESCUENTO? INGRESÁ ACA!</span>
+        <span>TENÉS UN CÓDIGO DE DESCUENTO? INGRESÁ ACÁ!</span>
         <span aria-hidden="true" className="text-white/50">•</span>
     </span>
 ));
