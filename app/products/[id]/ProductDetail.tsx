@@ -18,8 +18,14 @@ import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 
-const DISCOUNT_CODE = "SOMOSERA25";
+const DISCOUNT_CODES = ["GABI25", "HEYBACO25"] as const;
 const DISCOUNT_USD = 25;
+
+type DiscountCode = (typeof DISCOUNT_CODES)[number];
+
+function isDiscountCode(value: string): value is DiscountCode {
+    return (DISCOUNT_CODES as readonly string[]).includes(value);
+}
 
 type Settings = {
     usd_rate: number;
@@ -244,6 +250,7 @@ export default function ProductDetail({
     const [openFaq, setOpenFaq] = useState<string | null>(null);
     const [discountCode, setDiscountCode] = useState("");
     const [discountStatus, setDiscountStatus] = useState<"idle" | "applied" | "invalid">("idle");
+    const [appliedDiscountCode, setAppliedDiscountCode] = useState<DiscountCode | null>(null);
     const isCamera = isPhotographyCamera(product);
     const acceptsDiscountCode = isDiscountEligibleProduct(product);
 
@@ -370,7 +377,10 @@ export default function ProductDetail({
 
     const regularBasePriceUsd = activeVariant ? activeVariant.price_usd : product.price_usd ?? null;
     const shouldConsult = regularBasePriceUsd === null || regularBasePriceUsd <= 0;
-    const discountApplied = acceptsDiscountCode && discountStatus === "applied" && !shouldConsult;
+    const discountApplied = acceptsDiscountCode
+        && discountStatus === "applied"
+        && appliedDiscountCode !== null
+        && !shouldConsult;
     const basePriceUsd = discountApplied && regularBasePriceUsd !== null
         ? Math.max(regularBasePriceUsd - DISCOUNT_USD, 0)
         : regularBasePriceUsd;
@@ -383,15 +393,18 @@ export default function ProductDetail({
 
     const handleApplyDiscount = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const isValid = !shouldConsult && discountCode.trim().toUpperCase() === DISCOUNT_CODE;
+        const normalizedCode = discountCode.trim().toUpperCase();
+        const isValid = !shouldConsult && isDiscountCode(normalizedCode);
         setDiscountStatus(isValid ? "applied" : "invalid");
+        setAppliedDiscountCode(isValid ? normalizedCode : null);
     };
 
     const handleBuy = () => {
-        const rocketEmoji = String.fromCodePoint(0x1f680);
-        let message = discountApplied
-            ? `Hola! ¡Tengo mi código de descuento! ${rocketEmoji} Quiero consultar por ${product.name}`
-            : `Hola! Quiero consultar por ${product.name}`;
+        let message = `Hola! Quiero consultar por ${product.name}`;
+        if (discountApplied && appliedDiscountCode) {
+            const discountEmoji = String.fromCodePoint(appliedDiscountCode === "HEYBACO25" ? 0x1f4f7 : 0x1f680);
+            message = `Hola! ¡Tengo mi código de descuento ${appliedDiscountCode}! ${discountEmoji} Quiero consultar por ${product.name}`;
+        }
         if (activeVariant) message += `, ${formatVariantOption(activeVariant)}`;
         if (selectedColor) message += `, color ${selectedColor.name}`;
         message += `. ¿Está disponible?`;
@@ -468,7 +481,10 @@ export default function ProductDetail({
                                             value={discountCode}
                                             onChange={(event) => {
                                                 setDiscountCode(event.target.value);
-                                                if (discountStatus !== "idle") setDiscountStatus("idle");
+                                                if (discountStatus !== "idle") {
+                                                    setDiscountStatus("idle");
+                                                    setAppliedDiscountCode(null);
+                                                }
                                             }}
                                             placeholder="Código de descuento"
                                             className="h-12 min-w-0 flex-1 rounded-[5px] border border-era-gray-niebla bg-white px-4 text-[14px] outline-none transition placeholder:text-era-text-muted focus:border-era-blue"
