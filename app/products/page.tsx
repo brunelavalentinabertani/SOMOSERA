@@ -7,6 +7,7 @@ import EraHeader from "../../components/layout/EraHeader";
 import ProductsClient from "./ProductsClient";
 import { isProductHidden } from "../../lib/catalogVisibility";
 import { absoluteUrl, seoDescription } from "../../lib/seo";
+import { getWarranty } from "../../lib/warranty";
 
 export const dynamic = "force-dynamic";
 
@@ -19,10 +20,10 @@ type ProductsSearchParams = {
 const mediaCategories = ["Fotografia", "Filmadoras", "Drones"];
 const gamingCategories = ["Gaming", "Notebooks", "Consolas"];
 
-const benefits = [
+const getBenefits = (warranty: ReturnType<typeof getWarranty>) => [
   { title: "Original", text: "Productos 100% originales", Icon: ShieldCheck },
   { title: "Sellado", text: "En caja cerrada de fábrica", Icon: Package },
-  { title: "Garantía Apple Oficial", text: "", Icon: Star },
+  { ...warranty, Icon: Star },
   { title: "Atención real", text: "De personas, no bots", Icon: Users },
   { title: "Envíos a todo el país", text: "Rápido y seguro por Correo Andreani", Icon: Truck },
 ];
@@ -275,6 +276,13 @@ export default async function ProductsPage({
     return true;
   });
 
+  const hasApple = contextProducts.some((product) => normalize(product.brand) === "apple");
+  const hasOtherBrands = contextProducts.some((product) => normalize(product.brand) !== "apple");
+  const warranty = hasApple && hasOtherBrands
+    ? { title: "Garantía según la marca", text: "Apple: 12 meses oficiales. Demás marcas: 3 meses con nosotros." }
+    : getWarranty(hasApple ? "Apple" : brand);
+  const benefits = getBenefits(warranty);
+
   const hero = getHero(brand, category);
   const canonical = categoryCanonical(brand, category);
 
@@ -319,7 +327,8 @@ export default async function ProductsPage({
               <div className="flex items-center gap-4">
                 <ShieldCheck size={28} strokeWidth={1.7} />
                 <div>
-                  <p className="text-[14px] font-bold">Garantía Apple Oficial</p>
+                  <p className="text-[14px] font-bold">{warranty.title}</p>
+                  <p className="text-[12px] text-era-text-muted">{warranty.text}</p>
                 </div>
               </div>
             </div>

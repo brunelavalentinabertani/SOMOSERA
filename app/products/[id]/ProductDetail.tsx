@@ -17,6 +17,7 @@ import EraHeader from "../../../components/layout/EraHeader";
 import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
+import { getWarranty } from "../../../lib/warranty";
 
 const DISCOUNT_CODES = ["GABI25", "HEYBACO25"] as const;
 const DISCOUNT_USD = 25;
@@ -34,7 +35,6 @@ type Settings = {
 };
 
 const detailBenefits = [
-    { title: "Garantía Apple Oficial", text: "", Icon: ShieldCheck, appleOnly: true },
     { title: "Retiro en Palermo", text: "", Icon: Store },
     { title: "Envíos a todo el país", text: "Rápido y seguro por Correo Andreani", Icon: Truck },
     { title: "Pagá tranquilo", text: "Transferencia, tarjetas y más", Icon: CreditCard },
@@ -252,8 +252,10 @@ export default function ProductDetail({
     const [discountStatus, setDiscountStatus] = useState<"idle" | "applied" | "invalid">("idle");
     const [appliedDiscountCode, setAppliedDiscountCode] = useState<DiscountCode | null>(null);
     const isCamera = isPhotographyCamera(product);
-    const isApple = product.brand?.trim().toLowerCase() === "apple";
-    const visibleBenefits = detailBenefits.filter((benefit) => !benefit.appleOnly || isApple);
+    const visibleBenefits = [
+        { ...getWarranty(product.brand), Icon: ShieldCheck },
+        ...detailBenefits,
+    ];
     const acceptsDiscountCode = isDiscountEligibleProduct(product);
 
     useEffect(() => {
@@ -688,7 +690,7 @@ export default function ProductDetail({
             </section>
 
             <section className="border-y border-era-line">
-                <div className={`mx-auto grid max-w-[1420px] grid-cols-1 px-5 sm:grid-cols-2 sm:px-8 lg:px-12 ${isApple ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+                <div className="mx-auto grid max-w-[1420px] grid-cols-1 px-5 sm:grid-cols-2 sm:px-8 lg:px-12 lg:grid-cols-4">
                     {visibleBenefits.map(({ title, text, Icon }) => (
                         <div key={title} className="flex min-h-[76px] items-center gap-4 border-b border-era-line last:border-b-0 sm:px-2 lg:h-[92px] lg:border-b-0">
                             <Icon size={25} strokeWidth={1.7} />
