@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import type { Product } from "@/types/product";
 import { ProductTile, type Settings } from "../products/ProductsClient";
+import ProductSort from "../../components/product/ProductSort";
+import { sortProductsByPrice, type ProductSortOrder } from "../../lib/productSort";
 
 export default function DiscountProductsGrid({ products }: { products: Product[] }) {
   const [settings, setSettings] = useState<Settings | null>(null);
+  const [sortOrder, setSortOrder] = useState<ProductSortOrder>("");
 
   useEffect(() => {
     let active = true;
@@ -30,10 +33,15 @@ export default function DiscountProductsGrid({ products }: { products: Product[]
   }, []);
 
   return (
+    <>
+      <div className="mb-6 flex justify-end">
+        <ProductSort value={sortOrder} onChange={setSortOrder} />
+      </div>
     <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-5">
-      {products.map((product) => (
+      {sortProductsByPrice(products, sortOrder).map((product) => (
         <ProductTile key={product.id} product={product} settings={settings} />
       ))}
     </div>
+    </>
   );
 }

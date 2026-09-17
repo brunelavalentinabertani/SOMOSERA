@@ -8,6 +8,8 @@ import { ChevronDown, MessageCircle } from "lucide-react";
 import { Product } from "@/types/product";
 import { calculatePrices } from "../../lib/pricing";
 import { formatPrice } from "../../lib/formatPrices";
+import ProductSort from "../../components/product/ProductSort";
+import { getProductDisplayPrice, sortProductsByPrice, type ProductSortOrder } from "../../lib/productSort";
 
 export type Settings = {
   usd_rate: number;
@@ -60,14 +62,6 @@ function sortCategoryOptions(options: [string, number][], brand: string | null) 
   });
 }
 
-function sortVariants(variants: Product["product_variants"]) {
-  return [...variants].sort((a, b) => {
-    const storageDiff = (a.storage_gb ?? 0) - (b.storage_gb ?? 0);
-    if (storageDiff !== 0) return storageDiff;
-    return (a.ram_gb ?? 0) - (b.ram_gb ?? 0);
-  });
-}
-
 function getProductImage(product: Product) {
   const variantImage = product.product_variants?.find((variant) => variant.image_url)?.image_url;
   const colorImage = product.products_colors?.find((color) => color.image_url)?.image_url;
@@ -82,11 +76,8 @@ export function ProductTile({
   product: Product;
   settings: Settings | null;
 }) {
-  const sortedVariants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
-  const matchingVariant = sortedVariants[0] ?? null;
-
   const image = getProductImage(product);
-  const price = matchingVariant ? matchingVariant.price_usd : product.price_usd ?? null;
+  const price = getProductDisplayPrice(product);
   const shouldConsult = price === null || price <= 0;
   const prices = !shouldConsult && settings?.usd_rate
     ? calculatePrices(price, settings.usd_rate, {
@@ -155,6 +146,7 @@ export default function ProductsClient({
 }) {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState<ProductSortOrder>("");
   const [settings, setSettings] = useState<Settings | null>(null);
   const [categoryFilterOpen, setCategoryFilterOpen] = useState(true);
   const [brandFilterOpen, setBrandFilterOpen] = useState(true);
@@ -247,7 +239,7 @@ export default function ProductsClient({
 
   const totalPages = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
-  const paginatedProducts = filteredProducts.slice(
+  const paginatedProducts = sortProductsByPrice(filteredProducts, sortOrder).slice(
     (safePage - 1) * PRODUCTS_PER_PAGE,
     safePage * PRODUCTS_PER_PAGE,
   );
@@ -346,8 +338,12 @@ export default function ProductsClient({
       </aside>
 
       <div>
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[14px] font-semibold">{filteredProducts.length} productos</p>
+          <ProductSort value={sortOrder} onChange={(value) => {
+            setSortOrder(value);
+            setCurrentPage(1);
+          }} />
         </div>
 
         <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 2xl:gap-5">
