@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     ArrowRight,
     MessageCircle,
     Package,
     ShieldCheck,
     ShoppingBag,
+    Star,
     Truck,
     Users,
 } from "lucide-react";
@@ -23,6 +24,22 @@ const instagramPosts = [
     { image: "/instagram/post-5.jpg", href: "https://www.instagram.com/_somosera/reel/DczNr_8RRXP/" },
     { image: "/instagram/post-6.jpg", href: "https://www.instagram.com/_somosera/reel/DcwrIVXxEJi/" },
 ];
+
+const googleMapsHref = "https://www.google.com/maps/place/?q=place_id%3AChIJ9XK3t-y1vJURCkX9eFYbcGY";
+const googleReviewHref = "https://g.page/r/CQpF_XhWG3BmEBM/review";
+
+type GoogleReviews = {
+    rating: number;
+    total: number;
+    mapsUrl?: string;
+    reviews: Array<{
+        author: string;
+        rating: number;
+        text: string;
+        time: string;
+        url?: string;
+    }>;
+};
 
 const categories = [
     { name: "iPhone", href: "/products?brand=Apple&category=Iphones", image: "/categories/iphone-v4.png" },
@@ -99,6 +116,17 @@ function PhotoTile({
 
 export default function EraHome() {
     const [openFaq, setOpenFaq] = useState<string | null>(null);
+    const [googleReviews, setGoogleReviews] = useState<GoogleReviews>({ rating: 5, total: 4, reviews: [] });
+
+    useEffect(() => {
+        fetch("/api/google-reviews")
+            .then((response) => {
+                if (!response.ok) throw new Error("Google reviews unavailable");
+                return response.json() as Promise<GoogleReviews>;
+            })
+            .then(setGoogleReviews)
+            .catch(() => undefined);
+    }, []);
 
     return (
         <main className="min-h-screen bg-era-white text-era-black">
@@ -211,6 +239,83 @@ export default function EraHome() {
                     <PhotoTile src="/palermo/buenos-aires-3.webp" alt="Jardín Botánico de Buenos Aires" />
                     <PhotoTile src="/palermo/buenos-aires-4.webp" alt="Planetario Galileo Galilei en Palermo" />
                 </div>
+            </section>
+
+            <section className="border-y border-era-line bg-[#f7f4ef]">
+                <div className="mx-auto grid max-w-[1420px] gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12">
+                    <div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.22em] text-era-orange">Opiniones en Google</p>
+                        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                            <span className="text-[42px] font-black leading-none tracking-[-0.04em]">
+                                {googleReviews.rating.toLocaleString("es-AR", { minimumFractionDigits: 1 })}
+                            </span>
+                            <div>
+                                <div className="flex gap-1 text-[#fbbc04]" aria-label="5 de 5 estrellas">
+                                    {Array.from({ length: 5 }).map((_, index) => (
+                                        <Star
+                                            key={index}
+                                            size={19}
+                                            fill={index < Math.round(googleReviews.rating) ? "currentColor" : "none"}
+                                            strokeWidth={1.5}
+                                        />
+                                    ))}
+                                </div>
+                                <p className="mt-1 text-[12px] text-era-text-muted">
+                                    Basado en {googleReviews.total} reseñas verificadas en Google
+                                </p>
+                            </div>
+                        </div>
+                        <h2 className="mt-5 max-w-[620px] text-[28px] font-black leading-tight tracking-[-0.03em] sm:text-[34px]">
+                            La confianza de nuestros clientes habla por nosotros.
+                        </h2>
+                    </div>
+
+                    <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                        <Link
+                            href={googleReviews.mapsUrl ?? googleMapsHref}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex h-12 items-center justify-center gap-3 rounded-[4px] border border-era-gray-niebla bg-white px-6 text-[13px] font-bold text-era-black transition hover:border-era-black"
+                        >
+                            Ver opiniones
+                            <ArrowRight size={17} />
+                        </Link>
+                        <Link
+                            href={googleReviewHref}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex h-12 items-center justify-center rounded-[4px] bg-era-black px-6 text-[13px] font-bold text-white transition hover:bg-era-blue"
+                        >
+                            Dejanos tu opinión
+                        </Link>
+                    </div>
+                </div>
+
+                {googleReviews.reviews.length > 0 && (
+                    <div className="mx-auto grid max-w-[1420px] gap-4 px-5 pb-10 sm:px-8 md:grid-cols-2 lg:grid-cols-3 lg:px-12">
+                        {googleReviews.reviews.map((review) => (
+                            <article key={`${review.author}-${review.time}`} className="flex flex-col rounded-[8px] border border-era-line bg-white p-5">
+                                <div className="flex gap-1 text-[#fbbc04]" aria-label={`${review.rating} de 5 estrellas`}>
+                                    {Array.from({ length: 5 }).map((_, index) => (
+                                        <Star key={index} size={16} fill={index < review.rating ? "currentColor" : "none"} strokeWidth={1.5} />
+                                    ))}
+                                </div>
+                                <p className="mt-4 flex-1 text-[13px] leading-6 text-era-text-muted">“{review.text}”</p>
+                                <div className="mt-5 flex items-end justify-between gap-4 border-t border-era-line pt-4">
+                                    <div>
+                                        <p className="text-[13px] font-bold">{review.author}</p>
+                                        <p className="mt-1 text-[11px] text-era-text-muted">{review.time}</p>
+                                    </div>
+                                    {review.url && (
+                                        <Link href={review.url} target="_blank" rel="noreferrer" className="text-[11px] font-bold text-era-blue">
+                                            Ver en Google
+                                        </Link>
+                                    )}
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                )}
             </section>
 
             <section className="mx-auto max-w-[1420px] border-t border-era-line px-5 py-8 sm:px-8 lg:px-12">
