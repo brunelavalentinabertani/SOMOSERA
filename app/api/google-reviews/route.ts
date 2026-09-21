@@ -1,4 +1,5 @@
 const GOOGLE_PLACE_ID = "ChIJ9XK3t-y1vJURCkX9eFYbcGY";
+const GOOGLE_REVIEWS_REVALIDATE_SECONDS = 60 * 60 * 24;
 
 type GoogleReview = {
     authorAttribution?: { displayName?: string };
@@ -27,7 +28,7 @@ export async function GET() {
             "X-Goog-Api-Key": apiKey,
             "X-Goog-FieldMask": "rating,userRatingCount,reviews,googleMapsUri",
         },
-        next: { revalidate: 3600 },
+        next: { revalidate: GOOGLE_REVIEWS_REVALIDATE_SECONDS },
     });
 
     if (!response.ok) {
@@ -51,6 +52,10 @@ export async function GET() {
                     url: review.googleMapsUri,
                 })),
         },
-        { headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } },
+        {
+            headers: {
+                "Cache-Control": `public, s-maxage=${GOOGLE_REVIEWS_REVALIDATE_SECONDS}, stale-while-revalidate=604800`,
+            },
+        },
     );
 }
