@@ -6,23 +6,21 @@ import { MessageCircle, X } from "lucide-react";
 
 const launchProducts = [
   {
-    name: "Samsung Z Fold 8 Ultra",
-    price: 2095,
-    ram: 12,
-    storage: 512,
-    image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/catalog/aac7c7fa-7a11-4800-854e-23852e09b5dd.avif",
+    name: "DJI Osmo Pocket 4 PRO Vlog Combo",
+    price: 980,
+    description: "Dale vida a tus vlogs, entrevistas y contenidos en movimiento.",
+    image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/FotosERA/dji%20osmo%20pocket%204%20pro%20vlog%20combo.webp",
   },
   {
-    name: "Samsung Z Fold 8",
-    price: 1800,
-    ram: 12,
-    storage: 512,
-    image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/catalog/054af828-5d1e-4dea-ae70-dece342225fb.jpg",
+    name: "DJI Osmo Pocket 4 Creator Combo",
+    price: 780,
+    description: "Llevá tus ideas a cada viaje y convertí tus momentos en contenido.",
+    image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/FotosERA/DJI%20OSMO%20POCKET%204%20CREATOR%20COMBO.webp",
   },
 ];
 
 function whatsappHref(product: (typeof launchProducts)[number]) {
-  const message = `Hola! Quiero consultar por ${product.name}, ${product.ram} GB RAM, ${product.storage} GB. ¿Está disponible?`;
+  const message = `Hola! Quiero consultar por la ${product.name} para crear contenido. ¿Está disponible?`;
   return `https://wa.me/5491171254322?text=${encodeURIComponent(message)}`;
 }
 
@@ -70,12 +68,12 @@ export default function LaunchPopup() {
         </button>
 
         <div className="pr-12">
-          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-era-orange">Nuevo ingreso</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-era-orange">DJI para creadores</p>
           <h2 id="launch-popup-title" className="mt-2 text-[28px] font-black leading-none tracking-[-0.04em] sm:text-[38px]">
-            Llegó la nueva generación Fold<span className="text-era-orange"> *</span>
+            Tu próxima historia empieza con Osmo<span className="text-era-orange"> *</span>
           </h2>
           <p className="mt-3 text-[13px] text-era-text-muted sm:text-[14px]">
-            Elegí tu modelo y consultanos disponibilidad por WhatsApp.
+            Vlogs, viajes y nuevas ideas: elegí tu Osmo Pocket y consultanos por WhatsApp.
           </p>
         </div>
 
@@ -95,7 +93,7 @@ export default function LaunchPopup() {
               <div className="mt-4 flex flex-1 flex-col">
                 <h3 className="text-[18px] font-black leading-tight sm:text-[21px]">{product.name}</h3>
                 <p className="mt-2 text-[12px] font-semibold text-era-text-muted">
-                  {product.ram} GB RAM · {product.storage} GB
+                  {product.description}
                 </p>
                 <p className="mt-3 text-[18px] font-black text-era-orange">
                   USD {new Intl.NumberFormat("es-AR").format(product.price)}
