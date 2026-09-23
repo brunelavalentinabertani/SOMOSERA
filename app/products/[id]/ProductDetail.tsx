@@ -412,8 +412,12 @@ export default function ProductDetail({
     const handleBuy = () => {
         let message = `Hola! Quiero consultar por ${product.name}`;
         if (discountApplied && appliedDiscountCode) {
-            const discountEmoji = String.fromCodePoint(appliedDiscountCode === "HEYBACO25" ? 0x1f4f7 : 0x1f680);
-            message = `Hola! ¡Tengo mi código de descuento ${appliedDiscountCode}! ${discountEmoji} Quiero consultar por ${product.name}`;
+            if (appliedDiscountCode === "SOMOSERA35") {
+                message = `¡Hola! ¡Soy parte de la comunidad de SOMOS ERA! 🚀 Quiero consultar por ${product.name}`;
+            } else {
+                const discountEmoji = String.fromCodePoint(appliedDiscountCode === "HEYBACO25" ? 0x1f4f7 : 0x1f680);
+                message = `Hola! ¡Tengo mi código de descuento ${appliedDiscountCode}! ${discountEmoji} Quiero consultar por ${product.name}`;
+            }
         }
         if (activeVariant) message += `, ${formatVariantOption(activeVariant)}`;
         if (selectedColor) message += `, color ${selectedColor.name}`;
