@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { productPath } from "../../lib/seo";
+import { catalogNavigation } from "../../lib/catalog-navigation";
 import { useEffect, useState } from "react";
 import { Menu, MessageCircle, Search, X } from "lucide-react";
 
@@ -13,44 +14,9 @@ type SearchResult = {
 };
 
 const navItems = [
-    { label: "Apple", href: "/products?brand=Apple" },
-    { label: "Kindle", href: "/products?category=Kindle" },
-    { label: "Samsung", href: "/products?brand=Samsung" },
-    { label: "Xiaomi", href: "/products?brand=Xiaomi" },
-    { label: "Motorola", href: "/products?brand=Motorola&category=Celulares" },
-    { label: "Foto/Video", href: "/products?category=Foto%2FVideo" },
-    { label: "Gaming", href: "/products?category=Gaming" },
+    ...catalogNavigation,
     { label: "Nosotros", href: "/nosotros" },
 ];
-
-const tickerItems = Array.from({ length: 8 }, (_, index) => (
-    <span
-        key={index}
-        className="flex shrink-0 items-center gap-8 px-4 sm:gap-12 sm:px-6"
-    >
-        <span>TENÉS UN CÓDIGO DE DESCUENTO? INGRESÁ ACÁ!</span>
-        <span aria-hidden="true" className="text-white/50">•</span>
-    </span>
-));
-
-function AnnouncementTicker() {
-    return (
-        <Link
-            href="/equipos-con-descuento"
-            className="announcement-ticker block h-8 cursor-pointer overflow-hidden bg-black text-white"
-            aria-label="Ver equipos con código de descuento"
-        >
-            <div className="announcement-ticker-track flex h-full w-max items-center whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.08em] sm:text-[12px]">
-                <div className="flex shrink-0 items-center" aria-hidden="true">
-                    {tickerItems}
-                </div>
-                <div className="flex shrink-0 items-center" aria-hidden="true">
-                    {tickerItems}
-                </div>
-            </div>
-        </Link>
-    );
-}
 
 function HeaderSearch() {
     const [open, setOpen] = useState(false);
@@ -166,9 +132,7 @@ export default function EraHeader() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <>
-            <AnnouncementTicker />
-            <header className="relative z-50 mx-auto flex h-[72px] max-w-[1420px] items-center justify-between px-5 sm:px-8 lg:h-[86px] lg:px-12">
+        <header className="relative z-50 mx-auto flex h-[72px] max-w-[1420px] items-center justify-between px-5 sm:px-8 lg:h-[86px] lg:px-12">
             <Link href="/" aria-label="ERA home" onClick={() => setMobileMenuOpen(false)}>
                 <Image
                     src="/era-logo-transparent.png"
@@ -233,7 +197,6 @@ export default function EraHeader() {
                     </Link>
                 </div>
             )}
-            </header>
-        </>
+        </header>
     );
 }

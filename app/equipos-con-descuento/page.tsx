@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import EraHeader from "../../components/layout/EraHeader";
 import { isProductHidden } from "../../lib/catalogVisibility";
-import { getDiscountProductOrder, isDiscountEligibleProduct } from "../../lib/discountProducts";
+import { isDiscountEligibleProduct } from "../../lib/discountProducts";
 import { supabase } from "../../lib/supabaseClient";
 import type { Product } from "@/types/product";
 import DiscountProductsGrid from "./DiscountProductsGrid";
@@ -46,7 +46,7 @@ export default async function DiscountProductsPage() {
 
   const products = ((data ?? []) as Product[])
     .filter((product) => !isProductHidden(product) && isDiscountEligibleProduct(product))
-    .sort((a, b) => getDiscountProductOrder(a) - getDiscountProductOrder(b));
+    .sort((a, b) => a.brand.localeCompare(b.brand) || a.name.localeCompare(b.name));
 
   return (
     <main className="min-h-screen bg-era-white text-era-black">

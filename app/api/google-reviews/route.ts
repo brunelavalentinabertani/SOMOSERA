@@ -6,7 +6,8 @@ type GoogleReview = {
     googleMapsUri?: string;
     rating?: number;
     relativePublishTimeDescription?: string;
-    text?: { text?: string };
+    originalText?: { languageCode?: string; text?: string };
+    text?: { languageCode?: string; text?: string };
 };
 
 type GooglePlace = {
@@ -23,10 +24,24 @@ export async function GET() {
         return Response.json({ error: "Google Places API is not configured" }, { status: 503 });
     }
 
-    const response = await fetch(`https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}`, {
+    const placeUrl = new URL(`https://places.googleapis.com/v1/places/${GOOGLE_PLACE_ID}`);
+    placeUrl.searchParams.set("languageCode", "es");
+    placeUrl.searchParams.set("regionCode", "AR");
+
+    const response = await fetch(placeUrl, {
         headers: {
             "X-Goog-Api-Key": apiKey,
-            "X-Goog-FieldMask": "rating,userRatingCount,reviews,googleMapsUri",
+            "X-Goog-FieldMask": [
+                "rating",
+                "userRatingCount",
+                "googleMapsUri",
+                "reviews.authorAttribution",
+                "reviews.googleMapsUri",
+                "reviews.rating",
+                "reviews.relativePublishTimeDescription",
+                "reviews.originalText",
+                "reviews.text",
+            ].join(","),
         },
         next: { revalidate: GOOGLE_REVIEWS_REVALIDATE_SECONDS },
     });
@@ -43,11 +58,11 @@ export async function GET() {
             total: place.userRatingCount ?? 0,
             mapsUrl: place.googleMapsUri,
             reviews: (place.reviews ?? [])
-                .filter((review) => review.text?.text)
+                .filter((review) => review.text?.text ?? review.originalText?.text)
                 .map((review) => ({
                     author: review.authorAttribution?.displayName ?? "Cliente de ERA",
                     rating: review.rating ?? 5,
-                    text: review.text?.text ?? "",
+                    text: review.text?.text ?? review.originalText?.text ?? "",
                     time: review.relativePublishTimeDescription ?? "",
                     url: review.googleMapsUri,
                 })),

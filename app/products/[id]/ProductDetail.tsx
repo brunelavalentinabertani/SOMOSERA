@@ -19,10 +19,15 @@ import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 import { getWarranty } from "../../../lib/warranty";
 
-const DISCOUNT_CODES = ["GABI25", "HEYBACO25"] as const;
-const DISCOUNT_USD = 25;
+const DISCOUNTS_USD = {
+    GABI25: 25,
+    HEYBACO25: 25,
+    SOMOSERA35: 35,
+} as const;
 
-type DiscountCode = (typeof DISCOUNT_CODES)[number];
+type DiscountCode = keyof typeof DISCOUNTS_USD;
+
+const DISCOUNT_CODES = Object.keys(DISCOUNTS_USD) as DiscountCode[];
 
 function isDiscountCode(value: string): value is DiscountCode {
     return (DISCOUNT_CODES as readonly string[]).includes(value);
@@ -385,8 +390,9 @@ export default function ProductDetail({
         && discountStatus === "applied"
         && appliedDiscountCode !== null
         && !shouldConsult;
+    const discountUsd = appliedDiscountCode ? DISCOUNTS_USD[appliedDiscountCode] : 0;
     const basePriceUsd = discountApplied && regularBasePriceUsd !== null
-        ? Math.max(regularBasePriceUsd - DISCOUNT_USD, 0)
+        ? Math.max(regularBasePriceUsd - discountUsd, 0)
         : regularBasePriceUsd;
     const prices = !shouldConsult && settings?.usd_rate
         ? calculatePrices(basePriceUsd!, settings.usd_rate, {
@@ -398,7 +404,7 @@ export default function ProductDetail({
     const handleApplyDiscount = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const normalizedCode = discountCode.trim().toUpperCase();
-        const isValid = !shouldConsult && isDiscountCode(normalizedCode);
+        const isValid = acceptsDiscountCode && !shouldConsult && isDiscountCode(normalizedCode);
         setDiscountStatus(isValid ? "applied" : "invalid");
         setAppliedDiscountCode(isValid ? normalizedCode : null);
     };
@@ -502,7 +508,7 @@ export default function ProductDetail({
                                     </form>
                                     <div aria-live="polite" className="mt-2 min-h-5 text-[12px] font-semibold">
                                         {discountStatus === "applied" && (
-                                            <p className="text-era-success">¡Código aplicado! Ahorrás USD {DISCOUNT_USD}.</p>
+                                            <p className="text-era-success">¡Código aplicado! Ahorrás USD {discountUsd}.</p>
                                         )}
                                         {discountStatus === "invalid" && (
                                             <p className="text-era-orange">El código ingresado no es válido.</p>
