@@ -4,28 +4,38 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 
-const launchProducts = [
+const launchCards = [
   {
-    name: "DJI Osmo Pocket 4 PRO Vlog Combo",
-    price: 980,
+    id: "862cddaa-2cee-46e5-acb3-f4430398b881",
     description: "Dale vida a tus vlogs, entrevistas y contenidos en movimiento.",
     image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/FotosERA/dji%20osmo%20pocket%204%20pro%20vlog%20combo.webp",
   },
   {
-    name: "DJI Osmo Pocket 4 Creator Combo",
-    price: 780,
+    id: "b5f44730-049b-49ce-8e84-f54ff5169d52",
     description: "Llevá tus ideas a cada viaje y convertí tus momentos en contenido.",
     image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/FotosERA/DJI%20OSMO%20POCKET%204%20CREATOR%20COMBO.webp",
   },
 ];
 
-function whatsappHref(product: (typeof launchProducts)[number]) {
+export type LaunchProduct = {
+  id: string;
+  name: string;
+  price_usd: number | null;
+};
+
+type PopupProduct = LaunchProduct & (typeof launchCards)[number];
+
+function whatsappHref(product: PopupProduct) {
   const message = `Hola! Quiero consultar por la ${product.name} para crear contenido. ¿Está disponible?`;
   return `https://wa.me/5491171254322?text=${encodeURIComponent(message)}`;
 }
 
-export default function LaunchPopup() {
+export default function LaunchPopup({ products }: { products: LaunchProduct[] }) {
   const [isOpen, setIsOpen] = useState(true);
+  const popupProducts = launchCards.flatMap((card) => {
+    const product = products.find((item) => item.id === card.id);
+    return product ? [{ ...card, ...product }] : [];
+  });
 
   useEffect(() => {
     if (!isOpen) return;
@@ -78,7 +88,7 @@ export default function LaunchPopup() {
         </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {launchProducts.map((product) => (
+          {popupProducts.map((product) => (
             <article key={product.name} className="flex min-h-0 flex-col rounded-[8px] border border-era-line bg-white p-4 sm:p-5">
               <div className="relative h-[155px] sm:h-[210px]">
                 <Image
@@ -96,7 +106,9 @@ export default function LaunchPopup() {
                   {product.description}
                 </p>
                 <p className="mt-3 text-[18px] font-black text-era-orange">
-                  USD {new Intl.NumberFormat("es-AR").format(product.price)}
+                  {product.price_usd
+                    ? `USD ${new Intl.NumberFormat("es-AR").format(product.price_usd)}`
+                    : "Consultar"}
                 </p>
                 <a
                   href={whatsappHref(product)}
