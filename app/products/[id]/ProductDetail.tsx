@@ -18,6 +18,7 @@ import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 import { getWarranty } from "../../../lib/warranty";
+import InstallmentSelect from "../../../components/product/InstallmentSelect";
 
 const DISCOUNTS_USD = {
     GABI25: 25,
@@ -60,7 +61,7 @@ const faqs = [
     },
     {
         question: "¿Cómo puedo pagar?",
-        answer: "Nuestros métodos de pago son USD o ARS. También podés abonar en 6 cuotas fijas.",
+        answer: "Nuestros métodos de pago son USD o ARS. También podés abonar en 3, 6, 9 o 12 cuotas.",
     },
 ];
 
@@ -197,10 +198,16 @@ function isPhotographyCamera(product: Product) {
     return !photographyAccessoryTerms.some((term) => normalizedName.includes(term));
 }
 
-function RelatedCard({ product }: { product: Product }) {
+function RelatedCard({ product, settings }: { product: Product; settings: Settings | null }) {
     const variant = product.product_variants?.[0] ?? null;
     const image = getCardImage(product);
     const price = variant ? variant.price_usd : product.price_usd;
+    const prices = price && settings?.usd_rate
+        ? calculatePrices(price, settings.usd_rate, {
+            transferMultiplier: settings.transfer_multiplier,
+            listMultiplier: settings.list_multiplier,
+        })
+        : null;
 
     return (
         <article className="relative rounded-[8px] border border-era-line bg-white p-5">
@@ -218,8 +225,13 @@ function RelatedCard({ product }: { product: Product }) {
                 <p className="mt-2 text-[16px] font-black">
                     {price ? `USD ${price}` : "CONSULTAR"}
                 </p>
-                <p className="text-[12px] text-era-text-muted">6 cuotas fijas</p>
             </Link>
+            {prices && (
+                <InstallmentSelect
+                    installments={prices.installments}
+                    className="mt-2 max-w-full text-[12px] text-era-text-muted"
+                />
+            )}
         </article>
     );
 }
@@ -466,9 +478,10 @@ export default function ProductDetail({
                                     <p className="text-[36px] font-black">CONSULTAR</p>
                                 ) : prices ? (
                                     <div className="space-y-2">
-                                        <p className="text-[14px] font-semibold">
-                                            6 cuotas fijas de: ${formatPrice(prices.installment6)}
-                                        </p>
+                                        <InstallmentSelect
+                                            installments={prices.installments}
+                                            className="max-w-full text-[14px]"
+                                        />
                                         <p className="text-[28px] font-black leading-tight text-era-orange sm:text-[34px] xl:text-[36px]">
                                             ${formatPrice(prices.transferPrice)} en Transferencia
                                         </p>
@@ -769,7 +782,7 @@ export default function ProductDetail({
                     </div>
                     <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-6">
                         {relatedProducts.map((related) => (
-                            <RelatedCard key={related.id} product={related} />
+                            <RelatedCard key={related.id} product={related} settings={settings} />
                         ))}
                     </div>
                 </section>

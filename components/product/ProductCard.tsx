@@ -7,6 +7,7 @@ import { Product, ProductColor } from "@/types/product";
 import { calculatePrices } from "../../lib/pricing";
 import { formatPrice } from "../../lib/formatPrices";
 import { productPath } from "../../lib/seo";
+import InstallmentSelect from "./InstallmentSelect";
 
 function getDefaultProductOptions(product: Product) {
     const hasVariantColors = product.product_variants.some((variant) => !!variant.color_name);
@@ -233,9 +234,10 @@ export function ProductCard({
                 ) : (
                     prices ? (
                         <div className="mt-4 space-y-1">
-                            <p className="text-xs text-gray-600 font-medium">
-                                6 cuotas fijas de: ${formatPrice(prices.installment6)}
-                            </p>
+                            <InstallmentSelect
+                                installments={prices.installments}
+                                className="max-w-full text-xs text-gray-600"
+                            />
                             <p className="text-lg md:text-xl font-bold text-orange-500">
                                 ${formatPrice(prices.transferPrice)} en Transferencia
                             </p>

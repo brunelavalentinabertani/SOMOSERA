@@ -8,6 +8,7 @@ import { ChevronDown, MessageCircle } from "lucide-react";
 import { Product } from "@/types/product";
 import { calculatePrices } from "../../lib/pricing";
 import { formatPrice } from "../../lib/formatPrices";
+import InstallmentSelect from "../../components/product/InstallmentSelect";
 import ProductSort from "../../components/product/ProductSort";
 import { getProductDisplayPrice, sortProductsByPrice, type ProductSortOrder } from "../../lib/productSort";
 
@@ -106,9 +107,10 @@ export function ProductTile({
             <p className="text-[16px] font-black">CONSULTAR</p>
           ) : prices ? (
             <div className="space-y-3">
-              <p className="text-[12px] font-semibold text-era-text-muted">
-                6 cuotas fijas de: ${formatPrice(prices.installment6)}
-              </p>
+              <InstallmentSelect
+                installments={prices.installments}
+                className="max-w-full text-[12px] text-era-text-muted"
+              />
               <p className="text-[16px] font-black text-era-orange">
                 ${formatPrice(prices.transferPrice)} en Transferencia
               </p>

@@ -4,7 +4,27 @@ export type PricingMultipliers = {
 };
 
 const INSTALLMENT_TRANSFER_MULTIPLIER = 1.05;
-const INSTALLMENT_FINANCING_MULTIPLIER = 1.59;
+
+export const INSTALLMENT_OPTIONS = [
+    { count: 3, financingMultiplier: 1.19 },
+    { count: 6, financingMultiplier: 1.26 },
+    { count: 9, financingMultiplier: 1.36 },
+    { count: 12, financingMultiplier: 1.46 },
+] as const;
+
+export type InstallmentCount = (typeof INSTALLMENT_OPTIONS)[number]["count"];
+
+export function calculateInstallmentAmount(
+    priceUsd: number,
+    usdRate: number,
+    count: InstallmentCount,
+) {
+    const option = INSTALLMENT_OPTIONS.find((item) => item.count === count);
+
+    if (!option) return 0;
+
+    return priceUsd * usdRate * INSTALLMENT_TRANSFER_MULTIPLIER * option.financingMultiplier / count;
+}
 
 export function calculatePrices(
     priceUsd: number,
@@ -14,12 +34,13 @@ export function calculatePrices(
     const base = priceUsd * usdRate;
     const transferPrice = base * (multipliers?.transferMultiplier ?? 1.05);
     const listPrice = transferPrice * (multipliers?.listMultiplier ?? 1.55);
-    const installmentTotal = base * INSTALLMENT_TRANSFER_MULTIPLIER * INSTALLMENT_FINANCING_MULTIPLIER;
 
     return {
         transferPrice,
         listPrice,
-        installment6: installmentTotal / 6,
-        installment12: installmentTotal / 12,
+        installments: INSTALLMENT_OPTIONS.map(({ count }) => ({
+            count,
+            amount: calculateInstallmentAmount(priceUsd, usdRate, count),
+        })),
     };
 }

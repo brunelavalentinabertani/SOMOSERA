@@ -89,7 +89,7 @@ const faqs = [
     },
     {
         question: "¿Cómo puedo pagar?",
-        answer: "Nuestros métodos de pago son USD o ARS. También podés abonar en 6 cuotas fijas.",
+        answer: "Nuestros métodos de pago son USD o ARS. También podés abonar en 3, 6, 9 o 12 cuotas.",
     },
 ];
 
