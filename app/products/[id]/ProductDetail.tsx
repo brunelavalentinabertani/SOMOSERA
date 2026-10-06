@@ -478,16 +478,16 @@ export default function ProductDetail({
                                     <p className="text-[36px] font-black">CONSULTAR</p>
                                 ) : prices ? (
                                     <div className="space-y-2">
-                                        <InstallmentSelect
-                                            installments={prices.installments}
-                                            className="max-w-full text-[14px]"
-                                        />
                                         <p className="text-[28px] font-black leading-tight text-era-orange sm:text-[34px] xl:text-[36px]">
                                             ${formatPrice(prices.transferPrice)} en Transferencia
                                         </p>
                                         <p className="text-[16px] font-bold text-era-black">
                                             USD {basePriceUsd} en un pago
                                         </p>
+                                        <InstallmentSelect
+                                            installments={prices.installments}
+                                            className="max-w-full text-[14px]"
+                                        />
                                     </div>
                                 ) : (
                                     <p className="text-[36px] font-black">USD {basePriceUsd}</p>

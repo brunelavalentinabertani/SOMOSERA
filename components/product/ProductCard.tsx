@@ -234,16 +234,16 @@ export function ProductCard({
                 ) : (
                     prices ? (
                         <div className="mt-4 space-y-1">
-                            <InstallmentSelect
-                                installments={prices.installments}
-                                className="max-w-full text-xs text-gray-600"
-                            />
                             <p className="text-lg md:text-xl font-bold text-orange-500">
                                 ${formatPrice(prices.transferPrice)} en Transferencia
                             </p>
                             <p className="text-lg md:text-xl font-bold text-500">
                                 ${basePriceUsd} en un pago en USD
                             </p>
+                            <InstallmentSelect
+                                installments={prices.installments}
+                                className="max-w-full text-xs text-gray-600"
+                            />
                         </div>
                     ) : (
                         <p className="mt-4 text-lg md:text-xl font-bold text-gray-900">

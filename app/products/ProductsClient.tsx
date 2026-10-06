@@ -107,16 +107,16 @@ export function ProductTile({
             <p className="text-[16px] font-black">CONSULTAR</p>
           ) : prices ? (
             <div className="space-y-3">
-              <InstallmentSelect
-                installments={prices.installments}
-                className="max-w-full text-[12px] text-era-text-muted"
-              />
               <p className="text-[16px] font-black text-era-orange">
                 ${formatPrice(prices.transferPrice)} en Transferencia
               </p>
               <p className="text-[13px] font-bold text-era-black">
                 USD {price} en un pago
               </p>
+              <InstallmentSelect
+                installments={prices.installments}
+                className="max-w-full text-[12px] text-era-text-muted"
+              />
             </div>
           ) : (
             <p className="text-[16px] font-black">USD {price}</p>
