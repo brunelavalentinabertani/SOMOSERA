@@ -408,8 +408,7 @@ export default function ProductDetail({
     const shouldConsult = regularBasePriceUsd === null || regularBasePriceUsd <= 0;
     const discountApplied = acceptsDiscountCode
         && discountStatus === "applied"
-        && appliedDiscountCode !== null
-        && !shouldConsult;
+        && appliedDiscountCode !== null;
     const discountUsd = appliedDiscountCode ? DISCOUNTS_USD[appliedDiscountCode] : 0;
     const basePriceUsd = discountApplied && regularBasePriceUsd !== null
         ? Math.max(regularBasePriceUsd - discountUsd, 0)
@@ -427,7 +426,7 @@ export default function ProductDetail({
         const isEligibleCode = normalizedCode === MOTHER_DAY_DISCOUNT_CODE
             ? acceptsMotherDayDiscountCode
             : acceptsRegularDiscountCode;
-        const isValid = isEligibleCode && !shouldConsult && isDiscountCode(normalizedCode);
+        const isValid = isEligibleCode && isDiscountCode(normalizedCode);
         setDiscountStatus(isValid ? "applied" : "invalid");
         setAppliedDiscountCode(isValid ? normalizedCode : null);
     };
