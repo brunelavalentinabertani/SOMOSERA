@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import { getProductDisplayPrice } from "./productSort";
 
 export type MotherDayProductGroup = "Apple Watch" | "iPad" | "Celulares" | "AirPods";
 
@@ -32,6 +33,11 @@ export function getMotherDayProductGroup(
 
 export function isMotherDayProduct(product: Pick<Product, "brand" | "category" | "name">) {
   return getMotherDayProductGroup(product) !== null;
+}
+
+export function isMotherDayDiscountEligibleProduct(product: Product) {
+  const price = getProductDisplayPrice(product);
+  return isMotherDayProduct(product) && price !== null && Number.isFinite(price) && price > 0;
 }
 
 export function hasProductImage(

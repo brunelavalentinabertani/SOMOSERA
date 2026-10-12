@@ -18,7 +18,7 @@ import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 import {
-    isMotherDayProduct,
+    isMotherDayDiscountEligibleProduct,
     MOTHER_DAY_DISCOUNT_CODE,
     MOTHER_DAY_DISCOUNT_USD,
 } from "../../../lib/motherDayProducts";
@@ -280,7 +280,7 @@ export default function ProductDetail({
         ...detailBenefits,
     ];
     const acceptsRegularDiscountCode = isDiscountEligibleProduct(product);
-    const acceptsMotherDayDiscountCode = isMotherDayProduct(product);
+    const acceptsMotherDayDiscountCode = isMotherDayDiscountEligibleProduct(product);
     const acceptsDiscountCode = acceptsRegularDiscountCode || acceptsMotherDayDiscountCode;
 
     useEffect(() => {
@@ -408,7 +408,8 @@ export default function ProductDetail({
     const shouldConsult = regularBasePriceUsd === null || regularBasePriceUsd <= 0;
     const discountApplied = acceptsDiscountCode
         && discountStatus === "applied"
-        && appliedDiscountCode !== null;
+        && appliedDiscountCode !== null
+        && !shouldConsult;
     const discountUsd = appliedDiscountCode ? DISCOUNTS_USD[appliedDiscountCode] : 0;
     const basePriceUsd = discountApplied && regularBasePriceUsd !== null
         ? Math.max(regularBasePriceUsd - discountUsd, 0)
@@ -426,7 +427,7 @@ export default function ProductDetail({
         const isEligibleCode = normalizedCode === MOTHER_DAY_DISCOUNT_CODE
             ? acceptsMotherDayDiscountCode
             : acceptsRegularDiscountCode;
-        const isValid = isEligibleCode && isDiscountCode(normalizedCode);
+        const isValid = isEligibleCode && !shouldConsult && isDiscountCode(normalizedCode);
         setDiscountStatus(isValid ? "applied" : "invalid");
         setAppliedDiscountCode(isValid ? normalizedCode : null);
     };

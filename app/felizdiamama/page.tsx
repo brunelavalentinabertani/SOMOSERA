@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import EraHeader from "../../components/layout/EraHeader";
 import { isProductHidden } from "../../lib/catalogVisibility";
-import { MOTHER_DAY_DISCOUNT_CODE, MOTHER_DAY_DISCOUNT_USD, isMotherDayProduct } from "../../lib/motherDayProducts";
+import {
+  MOTHER_DAY_DISCOUNT_CODE,
+  MOTHER_DAY_DISCOUNT_USD,
+  isMotherDayDiscountEligibleProduct,
+} from "../../lib/motherDayProducts";
 import { supabase } from "../../lib/supabaseClient";
 import type { Product } from "@/types/product";
 import MotherDayProductsGrid from "./MotherDayProductsGrid";
@@ -45,7 +49,7 @@ export default async function MotherDayGiftsPage() {
     `);
 
   const products = ((data ?? []) as Product[])
-    .filter((product) => !isProductHidden(product) && isMotherDayProduct(product))
+    .filter((product) => !isProductHidden(product) && isMotherDayDiscountEligibleProduct(product))
     .sort((a, b) => a.brand.localeCompare(b.brand) || a.name.localeCompare(b.name));
 
   return (

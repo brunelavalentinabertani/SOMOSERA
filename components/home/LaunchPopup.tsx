@@ -118,7 +118,7 @@ export default function LaunchPopup({ products }: { products: LaunchProduct[] })
                       USD {new Intl.NumberFormat("es-AR").format(product.price_usd)}
                     </p>
                     <p className="text-[18px] font-black text-era-orange">
-                      USD {new Intl.NumberFormat("es-AR").format(Math.max(product.price_usd - MOTHER_DAY_DISCOUNT_USD, 0))} con código
+                      USD {new Intl.NumberFormat("es-AR").format(Math.max(product.price_usd - MOTHER_DAY_DISCOUNT_USD, 0))} con el descuento
                     </p>
                   </div>
                 ) : (
