@@ -28,19 +28,13 @@
 }
 
 .announcement-ticker-track {
-  animation: announcementTicker 28s linear infinite;
+  animation: announcementTicker 20s linear infinite;
+  animation-play-state: running;
   will-change: transform;
 }
 
-.announcement-ticker:hover .announcement-ticker-track,
-.announcement-ticker:focus-visible .announcement-ticker-track {
+.announcement-ticker:hover .announcement-ticker-track {
   animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .announcement-ticker-track {
-    animation: none;
-  }
 }
 
 @theme inline {
