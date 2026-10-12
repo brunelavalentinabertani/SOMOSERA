@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import EraHeader from "../../components/layout/EraHeader";
 import { isProductHidden } from "../../lib/catalogVisibility";
-import { isMotherDayProduct } from "../../lib/motherDayProducts";
+import { MOTHER_DAY_DISCOUNT_CODE, MOTHER_DAY_DISCOUNT_USD, isMotherDayProduct } from "../../lib/motherDayProducts";
 import { supabase } from "../../lib/supabaseClient";
 import type { Product } from "@/types/product";
 import MotherDayProductsGrid from "./MotherDayProductsGrid";
@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Regalos para mamá",
   description: "Encontrá Apple Watch, iPad, AirPods y celulares seleccionados para regalarle a mamá.",
-  alternates: { canonical: "/regalos-para-mama" },
+  alternates: { canonical: "/felizdiamama" },
 };
 
 export default async function MotherDayGiftsPage() {
@@ -62,6 +62,9 @@ export default async function MotherDayGiftsPage() {
           </h1>
           <p className="mt-6 max-w-[720px] text-[19px] leading-7 text-era-text-muted sm:text-[23px]">
             ¡Feliz día Mamá! Elegí entre Apple Watch, iPad, AirPods y celulares Samsung, Motorola y Xiaomi.
+          </p>
+          <p className="mt-5 inline-flex rounded-[5px] bg-era-orange px-4 py-3 text-[14px] font-black text-white sm:text-[16px]">
+            Usá {MOTHER_DAY_DISCOUNT_CODE} y ahorrá USD {MOTHER_DAY_DISCOUNT_USD}
           </p>
         </div>
       </section>

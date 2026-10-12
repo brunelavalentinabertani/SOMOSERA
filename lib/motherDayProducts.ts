@@ -2,6 +2,9 @@ import type { Product } from "@/types/product";
 
 export type MotherDayProductGroup = "Apple Watch" | "iPad" | "Celulares" | "AirPods";
 
+export const MOTHER_DAY_DISCOUNT_CODE = "FELIZDIAMAMA";
+export const MOTHER_DAY_DISCOUNT_USD = 35;
+
 function normalize(value?: string | null) {
   return (value ?? "").trim().toLocaleLowerCase("es");
 }

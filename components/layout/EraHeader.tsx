@@ -31,7 +31,7 @@ const motherDayTickerItems = Array.from({ length: 6 }, (_, index) => (
 function MotherDayTicker() {
     return (
         <Link
-            href="/regalos-para-mama"
+            href="/felizdiamama"
             target="_blank"
             rel="noopener noreferrer"
             className="announcement-ticker block h-9 cursor-pointer overflow-hidden bg-era-orange text-white"

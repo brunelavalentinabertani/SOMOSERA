@@ -9,14 +9,14 @@ export const metadata: Metadata = {
 };
 
 const launchProductIds = [
-  "862cddaa-2cee-46e5-acb3-f4430398b881",
-  "b5f44730-049b-49ce-8e84-f54ff5169d52",
+  "465d166e-e94b-4367-80e2-37a56326aa2f",
+  "57311d13-6db5-41b1-9790-abf82d979ed4",
 ];
 
 export default async function Home() {
   const { data } = await supabase
     .from("products")
-    .select("id,name,price_usd")
+    .select("id,name,price_usd,image_url")
     .in("id", launchProductIds);
 
   return (
