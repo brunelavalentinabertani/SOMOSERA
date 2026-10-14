@@ -6,10 +6,10 @@ export type PricingMultipliers = {
 const INSTALLMENT_TRANSFER_MULTIPLIER = 1.05;
 
 export const INSTALLMENT_OPTIONS = [
-    { count: 3, financingMultiplier: 1.19 },
-    { count: 6, financingMultiplier: 1.26 },
-    { count: 9, financingMultiplier: 1.36 },
-    { count: 12, financingMultiplier: 1.46 },
+    { count: 3, financingMultiplier: 1.26 },
+    { count: 6, financingMultiplier: 1.34 },
+    { count: 9, financingMultiplier: 1.45 },
+    { count: 12, financingMultiplier: 1.55 },
 ] as const;
 
 export type InstallmentCount = (typeof INSTALLMENT_OPTIONS)[number]["count"];
