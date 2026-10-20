@@ -1,19 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight, MessageCircle, X } from "lucide-react";
-import { MOTHER_DAY_DISCOUNT_CODE, MOTHER_DAY_DISCOUNT_USD } from "../../lib/motherDayProducts";
+import { MessageCircle, X } from "lucide-react";
 
 const launchCards = [
   {
-    id: "465d166e-e94b-4367-80e2-37a56326aa2f",
-    description: "Un regalo para acompañar cada momento, entrenamiento y plan del día.",
+    id: "862cddaa-2cee-46e5-acb3-f4430398b881",
+    description: "Dale vida a tus vlogs, entrevistas y contenidos en movimiento.",
+    image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/FotosERA/dji%20osmo%20pocket%204%20pro%20vlog%20combo.webp",
   },
   {
-    id: "57311d13-6db5-41b1-9790-abf82d979ed4",
-    description: "Pantalla increíble, gran cámara y espacio de sobra para todos sus recuerdos.",
+    id: "b5f44730-049b-49ce-8e84-f54ff5169d52",
+    description: "Llevá tus ideas a cada viaje y convertí tus momentos en contenido.",
+    image: "https://zomiozxppjolsmjvaxbv.supabase.co/storage/v1/object/public/products/FotosERA/DJI%20OSMO%20POCKET%204%20CREATOR%20COMBO.webp",
   },
 ];
 
@@ -21,13 +21,12 @@ export type LaunchProduct = {
   id: string;
   name: string;
   price_usd: number | null;
-  image_url: string | null;
 };
 
 type PopupProduct = LaunchProduct & (typeof launchCards)[number];
 
 function whatsappHref(product: PopupProduct) {
-  const message = `¡Hola! Estoy buscando un regalo para mamá y quiero consultar por ${product.name} con el código ${MOTHER_DAY_DISCOUNT_CODE}. ¿Está disponible?`;
+  const message = `Hola! Quiero consultar por la ${product.name} para crear contenido. ¿Está disponible?`;
   return `https://wa.me/5491171254322?text=${encodeURIComponent(message)}`;
 }
 
@@ -79,12 +78,12 @@ export default function LaunchPopup({ products }: { products: LaunchProduct[] })
         </button>
 
         <div className="pr-12">
-          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-era-orange">Especial Día de la Madre</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-era-orange">DJI para creadores</p>
           <h2 id="launch-popup-title" className="mt-2 text-[28px] font-black leading-none tracking-[-0.04em] sm:text-[38px]">
-            ¡Descuentos exclusivos para mamá!<span className="text-era-orange"> *</span>
+            Tu próxima historia empieza con Osmo<span className="text-era-orange"> *</span>
           </h2>
           <p className="mt-3 text-[13px] text-era-text-muted sm:text-[14px]">
-            Elegí su regalo, usá el código <strong className="text-era-black">{MOTHER_DAY_DISCOUNT_CODE}</strong> y ahorrá USD {MOTHER_DAY_DISCOUNT_USD}.
+            Vlogs, viajes y nuevas ideas: elegí tu Osmo Pocket y consultanos por WhatsApp.
           </p>
         </div>
 
@@ -92,38 +91,25 @@ export default function LaunchPopup({ products }: { products: LaunchProduct[] })
           {popupProducts.map((product) => (
             <article key={product.name} className="flex min-h-0 flex-col rounded-[8px] border border-era-line bg-white p-4 sm:p-5">
               <div className="relative h-[155px] sm:h-[210px]">
-                {product.image_url ? (
-                  <Image
-                    src={product.image_url}
-                    alt={product.name}
-                    fill
-                    priority
-                    className="object-contain"
-                    sizes="(max-width: 640px) 80vw, 380px"
-                  />
-                ) : (
-                  <span className="flex h-full items-center justify-center text-[13px] font-semibold text-era-text-muted">
-                    Imagen no disponible
-                  </span>
-                )}
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  priority
+                  className="object-contain"
+                  sizes="(max-width: 640px) 80vw, 380px"
+                />
               </div>
               <div className="mt-4 flex flex-1 flex-col">
                 <h3 className="text-[18px] font-black leading-tight sm:text-[21px]">{product.name}</h3>
                 <p className="mt-2 text-[12px] font-semibold text-era-text-muted">
                   {product.description}
                 </p>
-                {product.price_usd ? (
-                  <div className="mt-3">
-                    <p className="text-[12px] font-bold text-era-text-muted line-through">
-                      USD {new Intl.NumberFormat("es-AR").format(product.price_usd)}
-                    </p>
-                    <p className="text-[18px] font-black text-era-orange">
-                      USD {new Intl.NumberFormat("es-AR").format(Math.max(product.price_usd - MOTHER_DAY_DISCOUNT_USD, 0))} con el descuento
-                    </p>
-                  </div>
-                ) : (
-                  <p className="mt-3 text-[18px] font-black text-era-orange">Consultar</p>
-                )}
+                <p className="mt-3 text-[18px] font-black text-era-orange">
+                  {product.price_usd
+                    ? `USD ${new Intl.NumberFormat("es-AR").format(product.price_usd)}`
+                    : "Consultar"}
+                </p>
                 <a
                   href={whatsappHref(product)}
                   target="_blank"
@@ -138,14 +124,6 @@ export default function LaunchPopup({ products }: { products: LaunchProduct[] })
           ))}
         </div>
 
-        <Link
-          href="/felizdiamama"
-          onClick={() => setIsOpen(false)}
-          className="mt-5 flex h-12 w-full items-center justify-center gap-3 rounded-[4px] border border-era-black text-[13px] font-black text-era-black transition hover:bg-era-black hover:text-white"
-        >
-          Ver más descuentos
-          <ArrowRight size={17} />
-        </Link>
       </section>
     </div>
   );

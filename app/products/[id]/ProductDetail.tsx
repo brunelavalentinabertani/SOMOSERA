@@ -17,11 +17,6 @@ import EraHeader from "../../../components/layout/EraHeader";
 import { calculatePrices } from "../../../lib/pricing";
 import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
-import {
-    isMotherDayDiscountEligibleProduct,
-    MOTHER_DAY_DISCOUNT_CODE,
-    MOTHER_DAY_DISCOUNT_USD,
-} from "../../../lib/motherDayProducts";
 import { getWarranty } from "../../../lib/warranty";
 import InstallmentSelect from "../../../components/product/InstallmentSelect";
 
@@ -29,7 +24,6 @@ const DISCOUNTS_USD = {
     GABI25: 25,
     HEYBACO25: 25,
     SOMOSERA35: 35,
-    [MOTHER_DAY_DISCOUNT_CODE]: MOTHER_DAY_DISCOUNT_USD,
 } as const;
 
 type DiscountCode = keyof typeof DISCOUNTS_USD;
@@ -279,9 +273,7 @@ export default function ProductDetail({
         { ...getWarranty(product.brand), Icon: ShieldCheck },
         ...detailBenefits,
     ];
-    const acceptsRegularDiscountCode = isDiscountEligibleProduct(product);
-    const acceptsMotherDayDiscountCode = isMotherDayDiscountEligibleProduct(product);
-    const acceptsDiscountCode = acceptsRegularDiscountCode || acceptsMotherDayDiscountCode;
+    const acceptsDiscountCode = isDiscountEligibleProduct(product);
 
     useEffect(() => {
         let active = true;
@@ -424,10 +416,7 @@ export default function ProductDetail({
     const handleApplyDiscount = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const normalizedCode = discountCode.trim().toUpperCase();
-        const isEligibleCode = normalizedCode === MOTHER_DAY_DISCOUNT_CODE
-            ? acceptsMotherDayDiscountCode
-            : acceptsRegularDiscountCode;
-        const isValid = isEligibleCode && !shouldConsult && isDiscountCode(normalizedCode);
+        const isValid = acceptsDiscountCode && !shouldConsult && isDiscountCode(normalizedCode);
         setDiscountStatus(isValid ? "applied" : "invalid");
         setAppliedDiscountCode(isValid ? normalizedCode : null);
     };
@@ -435,9 +424,7 @@ export default function ProductDetail({
     const handleBuy = () => {
         let message = `Hola! Quiero consultar por ${product.name}`;
         if (discountApplied && appliedDiscountCode) {
-            if (appliedDiscountCode === MOTHER_DAY_DISCOUNT_CODE) {
-                message = `¡Hola! Estoy buscando un regalo para mamá y quiero usar el código ${MOTHER_DAY_DISCOUNT_CODE} en ${product.name} 💐`;
-            } else if (appliedDiscountCode === "SOMOSERA35") {
+            if (appliedDiscountCode === "SOMOSERA35") {
                 message = `¡Hola! ¡Soy parte de la comunidad de SOMOS ERA! 🚀 Quiero consultar por ${product.name}`;
             } else {
                 const discountEmoji = String.fromCodePoint(appliedDiscountCode === "HEYBACO25" ? 0x1f4f7 : 0x1f680);

@@ -30,7 +30,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/"), priority: 1, changeFrequency: "daily" },
     { url: absoluteUrl("/nosotros"), priority: 0.6, changeFrequency: "monthly" },
     { url: absoluteUrl("/info"), priority: 0.6, changeFrequency: "monthly" },
-    { url: absoluteUrl("/felizdiamama"), priority: 0.9, changeFrequency: "daily" },
     ...categoryUrls.map((url) => ({
       url: xmlSafeUrl(url),
       priority: 0.8,
