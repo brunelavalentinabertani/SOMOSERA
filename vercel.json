@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/update-usd-rate",
-      "schedule": "0 14,18,21 * * *"
+      "schedule": "0 14 * * *"
     }
   ]
 }
