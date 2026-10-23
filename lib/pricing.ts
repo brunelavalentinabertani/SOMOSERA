@@ -36,6 +36,7 @@ export function calculatePrices(
     const listPrice = transferPrice * (multipliers?.listMultiplier ?? 1.55);
 
     return {
+        cashPrice: base,
         transferPrice,
         listPrice,
         installments: INSTALLMENT_OPTIONS.map(({ count }) => ({

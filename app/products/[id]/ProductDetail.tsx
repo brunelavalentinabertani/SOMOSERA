@@ -19,6 +19,7 @@ import { formatPrice } from "../../../lib/formatPrices";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 import { getWarranty } from "../../../lib/warranty";
 import InstallmentSelect from "../../../components/product/InstallmentSelect";
+import { useCurrencyPreference } from "../../../components/pricing/CurrencyPreference";
 
 const DISCOUNTS_USD = {
     GABI25: 25,
@@ -199,6 +200,7 @@ function isPhotographyCamera(product: Product) {
 }
 
 function RelatedCard({ product, settings }: { product: Product; settings: Settings | null }) {
+    const { currency } = useCurrencyPreference();
     const variant = product.product_variants?.[0] ?? null;
     const image = getCardImage(product);
     const price = variant ? variant.price_usd : product.price_usd;
@@ -222,14 +224,30 @@ function RelatedCard({ product, settings }: { product: Product; settings: Settin
                     )}
                 </div>
                 <h3 className="mt-4 text-[14px] font-semibold">{product.name}</h3>
-                <p className="mt-2 text-[16px] font-black">
-                    {price ? `USD ${price}` : "CONSULTAR"}
-                </p>
+                {price ? (
+                    currency === "USD" ? (
+                        <p className="mt-2 text-[16px] font-black">USD {formatPrice(price)}</p>
+                    ) : prices ? (
+                        <div className="mt-2 space-y-2">
+                            <p className="text-[16px] font-black text-era-orange">
+                                ${formatPrice(prices.cashPrice)} en Efectivo
+                            </p>
+                            <p className="text-[13px] font-bold">
+                                ${formatPrice(prices.transferPrice)} por Transferencia
+                            </p>
+                        </div>
+                    ) : (
+                        <p className="mt-2 text-[14px] font-bold text-era-text-muted">Calculando precios...</p>
+                    )
+                ) : (
+                    <p className="mt-2 text-[16px] font-black">CONSULTAR</p>
+                )}
             </Link>
-            {prices && (
+            {currency === "ARS" && prices && (
                 <InstallmentSelect
                     installments={prices.installments}
-                    className="mt-2 max-w-full text-[12px] text-era-text-muted"
+                    containerClassName="mt-2"
+                    className="max-w-full text-[12px] text-era-text-muted"
                 />
             )}
         </article>
@@ -243,6 +261,7 @@ export default function ProductDetail({
     product: Product;
     relatedProducts: Product[];
 }) {
+    const { currency } = useCurrencyPreference();
     const [settings, setSettings] = useState<Settings | null>(null);
     const variants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
     const variantOptions = useMemo(() => getUniqueVariantOptions(product.product_variants ?? []), [product.product_variants]);
@@ -476,21 +495,26 @@ export default function ProductDetail({
                             <div className="mt-8 border-b border-era-line pb-7">
                                 {shouldConsult ? (
                                     <p className="text-[36px] font-black">CONSULTAR</p>
+                                ) : currency === "USD" ? (
+                                    <p className="text-[36px] font-black text-era-orange">
+                                        USD {formatPrice(basePriceUsd!)}
+                                    </p>
                                 ) : prices ? (
                                     <div className="space-y-2">
                                         <p className="text-[28px] font-black leading-tight text-era-orange sm:text-[34px] xl:text-[36px]">
-                                            ${formatPrice(prices.transferPrice)} en Transferencia
+                                            ${formatPrice(prices.cashPrice)} en Efectivo
                                         </p>
                                         <p className="text-[16px] font-bold text-era-black">
-                                            USD {basePriceUsd} en un pago
+                                            ${formatPrice(prices.transferPrice)} por Transferencia
                                         </p>
                                         <InstallmentSelect
                                             installments={prices.installments}
+                                            containerClassName="max-w-[250px]"
                                             className="max-w-full text-[14px]"
                                         />
                                     </div>
                                 ) : (
-                                    <p className="text-[36px] font-black">USD {basePriceUsd}</p>
+                                    <p className="text-[20px] font-black text-era-text-muted">Calculando precios...</p>
                                 )}
                             </div>
 

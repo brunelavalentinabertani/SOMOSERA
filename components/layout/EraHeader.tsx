@@ -6,6 +6,7 @@ import { productPath } from "../../lib/seo";
 import { catalogNavigation } from "../../lib/catalog-navigation";
 import { useEffect, useState } from "react";
 import { Menu, MessageCircle, Search, X } from "lucide-react";
+import { useCurrencyPreference } from "../pricing/CurrencyPreference";
 
 type SearchResult = {
     id: string;
@@ -130,6 +131,7 @@ function HeaderSearch() {
 
 export default function EraHeader() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { currency, openCurrencySelector } = useCurrencyPreference();
 
     return (
         <>
@@ -154,6 +156,14 @@ export default function EraHeader() {
             </nav>
 
             <div className="flex items-center gap-4 lg:gap-7">
+                <button
+                    type="button"
+                    onClick={openCurrencySelector}
+                    aria-label="Cambiar moneda de los precios"
+                    className="h-9 cursor-pointer rounded-[4px] border border-era-line bg-white px-3 text-[11px] font-black transition hover:border-era-black sm:text-[12px]"
+                >
+                    Precios {currency}
+                </button>
                 <HeaderSearch />
                 <Link
                     href="https://wa.me/5491171254322"

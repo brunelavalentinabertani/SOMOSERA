@@ -11,6 +11,7 @@ import { formatPrice } from "../../lib/formatPrices";
 import InstallmentSelect from "../../components/product/InstallmentSelect";
 import ProductSort from "../../components/product/ProductSort";
 import { getProductDisplayPrice, sortProductsByPrice, type ProductSortOrder } from "../../lib/productSort";
+import { useCurrencyPreference } from "../../components/pricing/CurrencyPreference";
 
 export type Settings = {
   usd_rate: number;
@@ -77,6 +78,7 @@ export function ProductTile({
   product: Product;
   settings: Settings | null;
 }) {
+  const { currency } = useCurrencyPreference();
   const image = getProductImage(product);
   const price = getProductDisplayPrice(product);
   const shouldConsult = price === null || price <= 0;
@@ -105,13 +107,17 @@ export function ProductTile({
 
           {shouldConsult ? (
             <p className="text-[16px] font-black">CONSULTAR</p>
+          ) : currency === "USD" ? (
+            <p className="text-[16px] font-black text-era-orange">
+              USD {formatPrice(price)}
+            </p>
           ) : prices ? (
             <div className="space-y-3">
               <p className="text-[16px] font-black text-era-orange">
-                ${formatPrice(prices.transferPrice)} en Transferencia
+                ${formatPrice(prices.cashPrice)} en Efectivo
               </p>
               <p className="text-[13px] font-bold text-era-black">
-                USD {price} en un pago
+                ${formatPrice(prices.transferPrice)} por Transferencia
               </p>
               <InstallmentSelect
                 installments={prices.installments}
@@ -119,7 +125,7 @@ export function ProductTile({
               />
             </div>
           ) : (
-            <p className="text-[16px] font-black">USD {price}</p>
+            <p className="text-[16px] font-black text-era-text-muted">Calculando precios...</p>
           )}
         </div>
         <Link
