@@ -316,22 +316,6 @@ export default async function ProductsPage({
               {hero.description}
             </p>
 
-            <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-10 xl:mt-12">
-              <div className="flex items-center gap-4">
-                <Truck size={28} strokeWidth={1.7} />
-                <div>
-                  <p className="text-[14px] font-bold">Envíos a todo el país</p>
-                  <p className="text-[12px] text-era-text-muted">Rápido y seguro por Correo Andreani</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <ShieldCheck size={28} strokeWidth={1.7} />
-                <div>
-                  <p className="text-[14px] font-bold">{warranty.title}</p>
-                  <p className="text-[12px] text-era-text-muted">{warranty.text}</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="relative min-h-[260px] sm:min-h-[360px] xl:min-h-[420px]">
