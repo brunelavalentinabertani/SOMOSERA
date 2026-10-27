@@ -114,6 +114,11 @@ export default function LaunchPopup({ products }: { products: LaunchProduct[] })
                   href={whatsappHref(product)}
                   target="_blank"
                   rel="noreferrer"
+                  data-whatsapp-track
+                  data-whatsapp-source="home_popup"
+                  data-whatsapp-product-id={product.id}
+                  data-whatsapp-product-name={product.name}
+                  data-whatsapp-value={product.price_usd ?? undefined}
                   className="mt-4 flex h-11 items-center justify-center gap-2 rounded-[4px] bg-era-black px-4 text-[12px] font-bold text-white transition hover:bg-era-blue"
                 >
                   <MessageCircle size={17} />

@@ -719,6 +719,15 @@ export default function ProductDetail({
                             <button
                                 type="button"
                                 onClick={handleBuy}
+                                data-whatsapp-track
+                                data-whatsapp-source="product_detail"
+                                data-whatsapp-product-id={product.id}
+                                data-whatsapp-product-name={product.name}
+                                data-whatsapp-brand={product.brand}
+                                data-whatsapp-category={product.category}
+                                data-whatsapp-value={basePriceUsd ?? undefined}
+                                data-whatsapp-variant-id={activeVariant?.id}
+                                data-whatsapp-variant-name={activeVariant ? formatVariantOption(activeVariant) : undefined}
                                 className="mt-7 flex h-16 w-full cursor-pointer items-center justify-center gap-3 rounded-[4px] bg-era-black text-[18px] font-bold text-white"
                             >
                                 <MessageCircle size={26} />

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Footer from "../components/layout/Footer";
+import MetaPixelWhatsAppTracker from "../components/analytics/MetaPixelWhatsAppTracker";
 import { CurrencyPreferenceProvider } from "../components/pricing/CurrencyPreference";
 import { SITE_NAME, SITE_URL } from "../lib/seo";
 
@@ -64,6 +65,7 @@ export default function RootLayout({
             fbq('track', 'PageView');
           `}
         </Script>
+        <MetaPixelWhatsAppTracker />
         <noscript>
           {/* Meta requires a direct image request for tracking without JavaScript. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
