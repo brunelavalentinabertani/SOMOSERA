@@ -11,10 +11,13 @@ import { getWarranty } from "../../lib/warranty";
 
 export const dynamic = "force-dynamic";
 
+type SearchParamValue = string | string[] | undefined;
+
 type ProductsSearchParams = {
-  brand?: string;
-  category?: string;
-  model?: string;
+  brand?: SearchParamValue;
+  category?: SearchParamValue;
+  model?: SearchParamValue;
+  filterBrand?: SearchParamValue;
 };
 
 const mediaCategories = ["Fotografia", "Filmadoras", "Drones"];
@@ -167,14 +170,24 @@ function categoryCanonical(brand: string | null, category: string | null) {
   return `/products?${params.toString()}`;
 }
 
+function firstSearchParam(value: SearchParamValue) {
+  const firstValue = Array.isArray(value) ? value[0] : value;
+  return firstValue?.trim() || null;
+}
+
+function allSearchParams(value: SearchParamValue) {
+  const values = Array.isArray(value) ? value : value ? [value] : [];
+  return Array.from(new Set(values.map((item) => item.trim()).filter(Boolean)));
+}
+
 export async function generateMetadata({
   searchParams,
 }: {
   searchParams: Promise<ProductsSearchParams>;
 }): Promise<Metadata> {
   const params = await searchParams;
-  const brand = params.brand?.trim() || null;
-  const category = params.category?.trim() || null;
+  const brand = firstSearchParam(params.brand);
+  const category = firstSearchParam(params.category);
 
   if (!brand && !category) {
     return { robots: { index: false, follow: true } };
@@ -211,9 +224,10 @@ export default async function ProductsPage({
   searchParams: Promise<ProductsSearchParams>;
 }) {
   const params = await searchParams;
-  const brand = params.brand?.trim() || null;
-  const category = params.category?.trim() || null;
-  const model = params.model?.trim() || null;
+  const brand = firstSearchParam(params.brand);
+  const category = firstSearchParam(params.category);
+  const model = firstSearchParam(params.model);
+  const selectedBrands = allSearchParams(params.filterBrand);
 
   if (!brand && !category) {
     notFound();
@@ -350,6 +364,7 @@ export default async function ProductsPage({
         brand={brand}
         category={category}
         activeModel={model}
+        initialSelectedBrands={selectedBrands}
       />
     </main>
   );

@@ -33,10 +33,15 @@ const categoryLabels: Record<string, string> = {
   Macbooks: "MacBooks",
 };
 
-function buildProductsHref(brand: string | null, category: string | null) {
+function buildProductsHref(
+  brand: string | null,
+  category: string | null,
+  selectedBrands: string[] = [],
+) {
   const params = new URLSearchParams();
   if (brand) params.set("brand", brand);
   if (category) params.set("category", category);
+  selectedBrands.forEach((selectedBrand) => params.append("filterBrand", selectedBrand));
   return `/products?${params.toString()}`;
 }
 
@@ -145,14 +150,16 @@ export default function ProductsClient({
   brand,
   category,
   activeModel,
+  initialSelectedBrands,
 }: {
   products: Product[];
   baseProducts: Product[];
   brand: string | null;
   category: string | null;
   activeModel: string | null;
+  initialSelectedBrands: string[];
 }) {
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(initialSelectedBrands);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<ProductSortOrder>("");
   const [settings, setSettings] = useState<Settings | null>(null);
@@ -253,11 +260,18 @@ export default function ProductsClient({
   );
 
   const toggleBrand = (productBrand: string) => {
-    setSelectedBrands((current) =>
-      current.includes(productBrand)
-        ? current.filter((item) => item !== productBrand)
-        : [...current, productBrand],
-    );
+    const nextBrands = selectedBrands.includes(productBrand)
+      ? selectedBrands.filter((item) => item !== productBrand)
+      : [...selectedBrands, productBrand];
+
+    setSelectedBrands(nextBrands);
+
+    const params = new URLSearchParams(window.location.search);
+    params.delete("filterBrand");
+    nextBrands.forEach((selectedBrand) => params.append("filterBrand", selectedBrand));
+    const query = params.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}`);
+
     setCurrentPage(1);
   };
 
@@ -280,7 +294,11 @@ export default function ProductsClient({
                   {categoryOptions.map(([productCategory, count]) => (
                     <Link
                       key={productCategory}
-                      href={buildProductsHref(isMediaCategory || isGamingCategory ? null : brand, productCategory)}
+                      href={buildProductsHref(
+                        isMediaCategory || isGamingCategory ? null : brand,
+                        productCategory,
+                        selectedBrands,
+                      )}
                       className={`flex items-center justify-between text-[13px] hover:text-era-blue ${
                         productCategory.toLowerCase() === category?.toLowerCase() ? "font-bold text-era-blue" : ""
                       }`}
