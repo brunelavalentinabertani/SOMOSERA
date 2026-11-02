@@ -14,19 +14,29 @@ export default function InstallmentSelect({
     installments,
     className = "",
     containerClassName = "",
+    selectedCount,
+    onSelectedCountChange,
 }: {
     installments: Installment[];
     className?: string;
     containerClassName?: string;
+    selectedCount?: InstallmentCount;
+    onSelectedCountChange?: (count: InstallmentCount) => void;
 }) {
-    const [selectedCount, setSelectedCount] = useState<InstallmentCount>(12);
+    const [internalSelectedCount, setInternalSelectedCount] = useState<InstallmentCount>(12);
+    const activeSelectedCount = selectedCount ?? internalSelectedCount;
+
+    const handleChange = (count: InstallmentCount) => {
+        if (selectedCount === undefined) setInternalSelectedCount(count);
+        onSelectedCountChange?.(count);
+    };
 
     return (
         <div className={`relative w-full ${containerClassName}`}>
             <select
                 aria-label="Elegir cantidad de cuotas"
-                value={selectedCount}
-                onChange={(event) => setSelectedCount(Number(event.target.value) as InstallmentCount)}
+                value={activeSelectedCount}
+                onChange={(event) => handleChange(Number(event.target.value) as InstallmentCount)}
                 className={`h-11 w-full cursor-pointer appearance-none rounded-[4px] border border-era-line bg-white px-4 pr-11 font-bold text-era-black shadow-[0_1px_2px_rgba(0,0,0,0.04)] outline-none transition-colors hover:border-era-black focus:border-era-blue focus:ring-2 focus:ring-era-blue/15 ${className}`}
             >
                 {installments.map(({ count, amount }) => (

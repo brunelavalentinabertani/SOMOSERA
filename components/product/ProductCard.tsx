@@ -5,10 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { Product, ProductColor } from "@/types/product";
 import { calculatePrices } from "../../lib/pricing";
-import { formatPrice } from "../../lib/formatPrices";
 import { productPath } from "../../lib/seo";
-import InstallmentSelect from "./InstallmentSelect";
-import { useCurrencyPreference } from "../pricing/CurrencyPreference";
+import ProductPrice from "./ProductPrice";
 
 function getDefaultProductOptions(product: Product) {
     const hasVariantColors = product.product_variants.some((variant) => !!variant.color_name);
@@ -50,7 +48,6 @@ export function ProductCard({
     usdRate: number;
     multipliers: { transferMultiplier: number; listMultiplier: number };
 }) {
-    const { currency } = useCurrencyPreference();
     const hasVariantColors = product.product_variants.some((variant) => !!variant.color_name);
     const { defaultVariant, defaultColor } = getDefaultProductOptions(product);
 
@@ -234,22 +231,9 @@ export function ProductCard({
                         No disponible
                     </p>
                 ) : (
-                    currency === "USD" && basePriceUsd ? (
-                        <p className="mt-4 text-lg font-bold text-orange-500 md:text-xl">
-                            USD {formatPrice(basePriceUsd)}
-                        </p>
-                    ) : prices ? (
-                        <div className="mt-4 space-y-1">
-                            <p className="text-lg md:text-xl font-bold text-orange-500">
-                                ${formatPrice(prices.cashPrice)} en Efectivo
-                            </p>
-                            <p className="text-lg md:text-xl font-bold text-500">
-                                ${formatPrice(prices.transferPrice)} por Transferencia
-                            </p>
-                            <InstallmentSelect
-                                installments={prices.installments}
-                                className="max-w-full text-xs text-gray-600"
-                            />
+                    prices && basePriceUsd ? (
+                        <div className="mt-4">
+                            <ProductPrice priceUsd={basePriceUsd} prices={prices} />
                         </div>
                     ) : (
                         <p className="mt-4 text-lg md:text-xl font-bold text-gray-500">
