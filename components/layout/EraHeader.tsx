@@ -132,83 +132,87 @@ function HeaderSearch() {
 export default function EraHeader() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { currency, openCurrencySelector } = useCurrencyPreference();
+    const nextCurrency = currency === "ARS" ? "USD" : "ARS";
 
     return (
         <>
-        <header className="relative z-50 mx-auto flex h-[72px] max-w-[1420px] items-center justify-between px-5 sm:px-8 lg:h-[86px] lg:px-12">
-            <Link href="/" aria-label="ERA home" onClick={() => setMobileMenuOpen(false)}>
-                <Image
-                    src="/era-logo-transparent.png"
-                    alt="ERA"
-                    width={1219}
-                    height={367}
-                    priority
-                    className="h-auto w-[96px] object-contain lg:w-[116px]"
-                />
-            </Link>
-
-            <nav className="hidden items-center gap-5 text-[12px] font-semibold xl:flex 2xl:gap-9 2xl:text-[13px]">
-                {navItems.map((item) => (
-                    <Link key={item.label} href={item.href} className="hover:text-era-blue">
-                        {item.label}
+            <div aria-hidden="true" className="h-[72px] lg:h-[86px]" />
+            <header className="fixed inset-x-0 top-0 z-50 border-b border-era-line bg-era-white/95 backdrop-blur-md">
+                <div className="relative mx-auto flex h-[72px] max-w-[1420px] items-center justify-between px-5 sm:px-8 lg:h-[86px] lg:px-12">
+                    <Link href="/" aria-label="ERA home" onClick={() => setMobileMenuOpen(false)}>
+                        <Image
+                            src="/era-logo-transparent.png"
+                            alt="ERA"
+                            width={1219}
+                            height={367}
+                            priority
+                            className="h-auto w-[96px] object-contain lg:w-[116px]"
+                        />
                     </Link>
-                ))}
-            </nav>
 
-            <div className="flex items-center gap-4 lg:gap-7">
-                <button
-                    type="button"
-                    onClick={openCurrencySelector}
-                    aria-label="Cambiar moneda de los precios"
-                    className="h-9 cursor-pointer rounded-[4px] border border-era-line bg-white px-3 text-[11px] font-black transition hover:border-era-black sm:text-[12px]"
-                >
-                    Precios {currency}
-                </button>
-                <HeaderSearch />
-                <Link
-                    href="https://wa.me/5491171254322"
-                    target="_blank"
-                    className="hidden h-11 items-center gap-2 rounded-[4px] bg-era-black px-5 text-[13px] font-bold text-white sm:flex"
-                >
-                    <MessageCircle size={18} />
-                    Escribinos
-                </Link>
-                <button
-                    type="button"
-                    aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
-                    aria-expanded={mobileMenuOpen}
-                    onClick={() => setMobileMenuOpen((value) => !value)}
-                    className="flex h-10 w-10 items-center justify-center xl:hidden"
-                >
-                    {mobileMenuOpen ? <X size={25} /> : <Menu size={25} />}
-                </button>
-            </div>
-
-            {mobileMenuOpen && (
-                <div className="absolute inset-x-0 top-full border-y border-era-line bg-white px-5 py-5 shadow-lg sm:px-8 xl:hidden">
-                    <nav className="grid grid-cols-2 gap-x-6 gap-y-1 text-[14px] font-semibold sm:grid-cols-4">
+                    <nav className="hidden items-center gap-5 text-[12px] font-semibold xl:flex 2xl:gap-9 2xl:text-[13px]">
                         {navItems.map((item) => (
-                            <Link
-                                key={item.label}
-                                href={item.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="border-b border-era-line py-3 hover:text-era-blue"
-                            >
+                            <Link key={item.label} href={item.href} className="hover:text-era-blue">
                                 {item.label}
                             </Link>
                         ))}
                     </nav>
-                    <Link
-                        href="https://wa.me/5491171254322"
-                        target="_blank"
-                        className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-era-black text-[13px] font-bold text-white sm:hidden"
-                    >
-                        <MessageCircle size={18} />
-                        Escribinos
-                    </Link>
+
+                    <div className="flex items-center gap-4 lg:gap-7">
+                        <button
+                            type="button"
+                            onClick={openCurrencySelector}
+                            aria-label={`Ver precios en ${nextCurrency}`}
+                            className="h-9 cursor-pointer rounded-[4px] border border-era-line bg-white px-3 text-[11px] font-black transition hover:border-era-black sm:text-[12px]"
+                        >
+                            Ver en {nextCurrency}
+                        </button>
+                        <HeaderSearch />
+                        <Link
+                            href="https://wa.me/5491171254322"
+                            target="_blank"
+                            className="hidden h-11 items-center gap-2 rounded-[4px] bg-era-black px-5 text-[13px] font-bold text-white sm:flex"
+                        >
+                            <MessageCircle size={18} />
+                            Escribinos
+                        </Link>
+                        <button
+                            type="button"
+                            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                            aria-expanded={mobileMenuOpen}
+                            onClick={() => setMobileMenuOpen((value) => !value)}
+                            className="flex h-10 w-10 items-center justify-center xl:hidden"
+                        >
+                            {mobileMenuOpen ? <X size={25} /> : <Menu size={25} />}
+                        </button>
+                    </div>
+
+                    {mobileMenuOpen && (
+                        <div className="absolute inset-x-0 top-full border-y border-era-line bg-white px-5 py-5 shadow-lg sm:px-8 xl:hidden">
+                            <nav className="grid grid-cols-2 gap-x-6 gap-y-1 text-[14px] font-semibold sm:grid-cols-4">
+                                {navItems.map((item) => (
+                                    <Link
+                                        key={item.label}
+                                        href={item.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="border-b border-era-line py-3 hover:text-era-blue"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </nav>
+                            <Link
+                                href="https://wa.me/5491171254322"
+                                target="_blank"
+                                className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-era-black text-[13px] font-bold text-white sm:hidden"
+                            >
+                                <MessageCircle size={18} />
+                                Escribinos
+                            </Link>
+                        </div>
+                    )}
                 </div>
-            )}
-        </header>
+            </header>
         </>
     );
 }
