@@ -84,7 +84,9 @@ export function ProductTile({
   const image = getProductImage(product);
   const price = getProductDisplayPrice(product);
   const shouldConsult = price === null || price <= 0;
-  const prices = !shouldConsult && settings?.usd_rate
+  if (shouldConsult) return null;
+
+  const prices = settings?.usd_rate
     ? calculatePrices(price, settings.usd_rate, {
       transferMultiplier: settings.transfer_multiplier,
       listMultiplier: settings.list_multiplier,
@@ -107,9 +109,7 @@ export function ProductTile({
         <div className="flex min-h-[200px] flex-col justify-start gap-3 select-text sm:min-h-[230px]">
           <h3 className="min-h-[78px] text-[14px] font-black leading-tight sm:min-h-[92px] sm:text-[16px]">{product.name}</h3>
 
-          {shouldConsult ? (
-            <p className="text-[16px] font-black">CONSULTAR</p>
-          ) : prices ? (
+          {prices ? (
             <ProductPrice priceUsd={price} prices={prices} />
           ) : (
             <p className="text-[16px] font-black text-era-text-muted">Calculando precios...</p>

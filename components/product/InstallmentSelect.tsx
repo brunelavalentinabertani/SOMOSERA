@@ -41,7 +41,7 @@ export default function InstallmentSelect({
             >
                 {installments.map(({ count, amount }) => (
                     <option key={count} value={count}>
-                        {count} cuotas de: ${formatPrice(amount)}
+                        {count} cuotas sin interés de ${formatPrice(amount)}
                     </option>
                 ))}
             </select>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { supabase } from "../lib/supabaseClient";
 import { isProductHidden } from "../lib/catalogVisibility";
+import { hasActiveProductPrice } from "../lib/productSort";
 import { absoluteUrl, productPath } from "../lib/seo";
 
 const categoryUrls = [
@@ -23,8 +24,12 @@ function xmlSafeUrl(path: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { data } = await supabase.from("products").select("id, name");
-  const products = (data ?? []).filter((product) => !isProductHidden(product));
+  const { data } = await supabase
+    .from("products")
+    .select("id, name, price_usd, product_variants(price_usd)");
+  const products = (data ?? []).filter(
+    (product) => !isProductHidden(product) && hasActiveProductPrice(product),
+  );
 
   return [
     { url: absoluteUrl("/"), priority: 1, changeFrequency: "daily" },

@@ -17,6 +17,7 @@ import EraHeader from "../../../components/layout/EraHeader";
 import { calculatePrices } from "../../../lib/pricing";
 import { isDiscountEligibleProduct } from "../../../lib/discountProducts";
 import { getWarranty } from "../../../lib/warranty";
+import { getProductDisplayPrice } from "../../../lib/productSort";
 import ProductPrice from "../../../components/product/ProductPrice";
 
 const DISCOUNTS_USD = {
@@ -198,9 +199,8 @@ function isPhotographyCamera(product: Product) {
 }
 
 function RelatedCard({ product, settings }: { product: Product; settings: Settings | null }) {
-    const variant = product.product_variants?.[0] ?? null;
     const image = getCardImage(product);
-    const price = variant ? variant.price_usd : product.price_usd;
+    const price = getProductDisplayPrice(product);
     const prices = price && settings?.usd_rate
         ? calculatePrices(price, settings.usd_rate, {
             transferMultiplier: settings.transfer_multiplier,
@@ -245,8 +245,13 @@ export default function ProductDetail({
     relatedProducts: Product[];
 }) {
     const [settings, setSettings] = useState<Settings | null>(null);
-    const variants = useMemo(() => sortVariants(product.product_variants ?? []), [product.product_variants]);
-    const variantOptions = useMemo(() => getUniqueVariantOptions(product.product_variants ?? []), [product.product_variants]);
+    const variants = useMemo(
+        () => sortVariants((product.product_variants ?? []).filter(
+            (variant) => typeof variant.price_usd === "number" && variant.price_usd > 0,
+        )),
+        [product.product_variants],
+    );
+    const variantOptions = useMemo(() => getUniqueVariantOptions(variants), [variants]);
     const editionOptions = useMemo(
         () => Array.from(new Set(variants.map(getVariantEdition).filter((edition): edition is string => Boolean(edition)))),
         [variants],

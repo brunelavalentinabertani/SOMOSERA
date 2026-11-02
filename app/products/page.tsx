@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabaseClient";
 import EraHeader from "../../components/layout/EraHeader";
 import ProductsClient from "./ProductsClient";
 import { isProductHidden } from "../../lib/catalogVisibility";
+import { hasActiveProductPrice } from "../../lib/productSort";
 import { absoluteUrl, seoDescription } from "../../lib/seo";
 import { getWarranty } from "../../lib/warranty";
 
@@ -263,7 +264,9 @@ export default async function ProductsPage({
     `)
     .order("created_at", { ascending: false });
 
-  const allProducts = (products ?? []).filter((product) => !isProductHidden(product));
+  const allProducts = (products ?? []).filter(
+    (product) => !isProductHidden(product) && hasActiveProductPrice(product),
+  );
   const isMediaLanding = normalize(category) === "foto/video";
   const isGamingLanding = normalize(category) === "gaming";
   const contextProducts = allProducts.filter((product) => {

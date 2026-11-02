@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase } from "../../../../lib/supabaseClient";
 import { isProductHidden } from "../../../../lib/catalogVisibility";
+import { hasActiveProductPrice } from "../../../../lib/productSort";
 
 const SEARCH_LIMIT = 6;
 
@@ -38,7 +39,7 @@ export async function GET(request: Request) {
   try {
     const { data, error } = await supabase
       .from("products")
-      .select("id, name, category")
+      .select("id, name, category, price_usd, product_variants(price_usd)")
       .limit(1000);
 
     if (error) {
@@ -47,7 +48,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
       (data ?? [])
-        .filter((product) => !isProductHidden(product))
+        .filter((product) => !isProductHidden(product) && hasActiveProductPrice(product))
         .map((product) => ({
           product,
           score: getSearchScore(
@@ -58,7 +59,11 @@ export async function GET(request: Request) {
         .filter(({ score }) => score > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, SEARCH_LIMIT)
-        .map(({ product }) => product),
+        .map(({ product }) => ({
+          id: product.id,
+          name: product.name,
+          category: product.category,
+        })),
     );
   } catch {
     return NextResponse.json([]);

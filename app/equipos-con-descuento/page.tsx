@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import EraHeader from "../../components/layout/EraHeader";
 import { isProductHidden } from "../../lib/catalogVisibility";
 import { isDiscountEligibleProduct } from "../../lib/discountProducts";
+import { hasActiveProductPrice } from "../../lib/productSort";
 import { supabase } from "../../lib/supabaseClient";
 import type { Product } from "@/types/product";
 import DiscountProductsGrid from "./DiscountProductsGrid";
@@ -45,7 +46,11 @@ export default async function DiscountProductsPage() {
     `);
 
   const products = ((data ?? []) as Product[])
-    .filter((product) => !isProductHidden(product) && isDiscountEligibleProduct(product))
+    .filter((product) =>
+      !isProductHidden(product) &&
+      hasActiveProductPrice(product) &&
+      isDiscountEligibleProduct(product),
+    )
     .sort((a, b) => a.brand.localeCompare(b.brand) || a.name.localeCompare(b.name));
 
   return (

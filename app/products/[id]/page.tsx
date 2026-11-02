@@ -5,6 +5,7 @@ import { cache } from "react"
 import ProductDetail from "./ProductDetail"
 import { Product } from "@/types/product"
 import { isProductHidden } from "../../../lib/catalogVisibility"
+import { hasActiveProductPrice } from "../../../lib/productSort"
 import { absoluteUrl, extractProductId, productPath, seoDescription } from "../../../lib/seo"
 
 export const dynamic = "force-dynamic"
@@ -46,18 +47,20 @@ const getProduct = cache(async (routeId: string) => {
     .eq("id", id)
     .single<Product>();
 
-  if (error || !data || isProductHidden(data)) return null;
+  if (error || !data || isProductHidden(data) || !hasActiveProductPrice(data)) return null;
   return data;
 });
 
 export async function generateStaticParams() {
   const { data } = await supabase
     .from("products")
-    .select("id, name")
+    .select("id, name, price_usd, product_variants(price_usd)")
 
-  return (data ?? []).filter((product) => !isProductHidden(product)).map((product) => ({
+  return (data ?? [])
+    .filter((product) => !isProductHidden(product) && hasActiveProductPrice(product))
+    .map((product) => ({
     id: productPath(product).split("/").pop()!,
-  }))
+    }))
 }
 
 export async function generateMetadata({
@@ -151,7 +154,7 @@ export default async function ProductPage({
     .neq("id", data.id)
 
   const relatedWithImages = (relatedProducts ?? [])
-    .filter((product) => !isProductHidden(product))
+    .filter((product) => !isProductHidden(product) && hasActiveProductPrice(product))
     .filter((product) =>
       Boolean(
         product.image_url ||

@@ -7,6 +7,7 @@ export type Currency = "USD" | "ARS";
 
 type CurrencyPreferenceValue = {
   currency: Currency;
+  currencyRevision: number;
   openCurrencySelector: () => void;
 };
 
@@ -21,6 +22,7 @@ function isCurrency(value: string | null): value is Currency {
 export function CurrencyPreferenceProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [currency, setCurrency] = useState<Currency>("ARS");
+  const [currencyRevision, setCurrencyRevision] = useState(0);
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const isPrivatePage = pathname.startsWith("/admin") || pathname.startsWith("/login");
@@ -55,12 +57,13 @@ export function CurrencyPreferenceProvider({ children }: { children: React.React
   }, [shouldShowSelector]);
 
   const value = useMemo(
-    () => ({ currency, openCurrencySelector: () => setSelectorOpen(true) }),
-    [currency],
+    () => ({ currency, currencyRevision, openCurrencySelector: () => setSelectorOpen(true) }),
+    [currency, currencyRevision],
   );
 
   const selectCurrency = (nextCurrency: Currency) => {
     setCurrency(nextCurrency);
+    setCurrencyRevision((revision) => revision + 1);
     window.localStorage.setItem(STORAGE_KEY, nextCurrency);
     setSelectorOpen(false);
   };
