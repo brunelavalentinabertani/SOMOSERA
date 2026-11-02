@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { formatPrice } from "../../lib/formatPrices";
-import type { calculatePrices, InstallmentCount } from "../../lib/pricing";
+import type { calculatePrices } from "../../lib/pricing";
 import { type Currency, useCurrencyPreference } from "../pricing/CurrencyPreference";
-import InstallmentSelect from "./InstallmentSelect";
 
 type CalculatedPrices = ReturnType<typeof calculatePrices>;
 
@@ -22,16 +21,15 @@ export default function ProductPrice({
         currency: Currency;
         globalRevision: number;
     } | null>(null);
-    const [selectedCount, setSelectedCount] = useState<InstallmentCount>(12);
     const isDetail = variant === "detail";
     const displayCurrency =
         isDetail && localCurrency?.globalRevision === currencyRevision
             ? localCurrency.currency
             : currency;
-    const selectedPlan =
-        prices.installments.find((installment) => installment.count === selectedCount) ??
-        prices.installments[prices.installments.length - 1];
-    const financedPrice = Math.round(selectedPlan.amount) * selectedPlan.count;
+    const installmentPlan =
+        prices.installments.find((installment) => installment.count === 6) ??
+        prices.installments[0];
+    const financedPrice = Math.round(installmentPlan.amount) * installmentPlan.count;
 
     if (displayCurrency === "USD") {
         return (
@@ -78,13 +76,9 @@ export default function ProductPrice({
                 )}
             </div>
 
-            <InstallmentSelect
-                installments={prices.installments}
-                selectedCount={selectedCount}
-                onSelectedCountChange={setSelectedCount}
-                containerClassName={isDetail ? "max-w-[320px]" : "max-w-full"}
-                className={isDetail ? "text-[14px]" : "text-[12px]"}
-            />
+            <p className={`${isDetail ? "text-[15px]" : "text-[12px]"} font-bold text-era-text-muted`}>
+                6 cuotas sin interés de ${formatPrice(installmentPlan.amount)}
+            </p>
 
             <p className={`${isDetail ? "text-[16px]" : "text-[13px]"} font-bold text-era-orange`}>
                 Transferencia bancaria: ${formatPrice(prices.transferPrice)}
