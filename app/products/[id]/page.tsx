@@ -45,6 +45,7 @@ const getProduct = cache(async (routeId: string) => {
     .from("products")
     .select(productSelect)
     .eq("id", id)
+    .eq("is_active", true)
     .single<Product>();
 
   if (error || !data || isProductHidden(data) || !hasActiveProductPrice(data)) return null;
@@ -55,6 +56,7 @@ export async function generateStaticParams() {
   const { data } = await supabase
     .from("products")
     .select("id, name, price_usd, product_variants(price_usd)")
+    .eq("is_active", true)
 
   return (data ?? [])
     .filter((product) => !isProductHidden(product) && hasActiveProductPrice(product))
@@ -150,6 +152,7 @@ export default async function ProductPage({
         image_url
       )
     `)
+    .eq("is_active", true)
     .eq("category", data.category)
     .neq("id", data.id)
 

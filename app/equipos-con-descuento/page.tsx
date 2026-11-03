@@ -43,7 +43,8 @@ export default async function DiscountProductsPage() {
         hex,
         image_url
       )
-    `);
+    `)
+    .eq("is_active", true);
 
   const products = ((data ?? []) as Product[])
     .filter((product) =>

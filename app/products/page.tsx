@@ -262,6 +262,7 @@ export default async function ProductsPage({
         image_url
       )
     `)
+    .eq("is_active", true)
     .order("created_at", { ascending: false });
 
   const allProducts = (products ?? []).filter(

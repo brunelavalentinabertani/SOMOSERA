@@ -26,7 +26,8 @@ function xmlSafeUrl(path: string) {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await supabase
     .from("products")
-    .select("id, name, price_usd, product_variants(price_usd)");
+    .select("id, name, price_usd, product_variants(price_usd)")
+    .eq("is_active", true);
   const products = (data ?? []).filter(
     (product) => !isProductHidden(product) && hasActiveProductPrice(product),
   );

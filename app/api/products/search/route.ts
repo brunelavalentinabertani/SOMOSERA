@@ -40,6 +40,7 @@ export async function GET(request: Request) {
     const { data, error } = await supabase
       .from("products")
       .select("id, name, category, price_usd, product_variants(price_usd)")
+      .eq("is_active", true)
       .limit(1000);
 
     if (error) {
